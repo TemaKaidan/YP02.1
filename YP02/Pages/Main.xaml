@@ -4,11 +4,180 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:YP02.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
       Title="Main">
 
     <Grid>
-        
+        <DockPanel>
+            <StackPanel x:Name="MenuPanel" DockPanel.Dock="Left" Width="200">
+                <StackPanel.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#0060AC" Offset="0"/>
+                        <GradientStop Color="#E41613" Offset="1.2"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <Button Content="☰" Click="ToggleMenu" Foreground="White" HorizontalAlignment="Left" BorderBrush="Transparent" Width="50" Height="30" Background="Transparent">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                    <!-- Затемнение фона при наведении -->
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Label Background="White" Height="1"/>
+                <Button Content="Студенты" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Student" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Группы" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Groups" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Дисциплины" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Disciplines" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Программа дисциплин" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_DisciplinePrograms" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Препод. нагрузка" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_TeachersLoad" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Консультации" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Consultations" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Пропуски занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Absences" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Преподаватели" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Teachers" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Оценки" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Marks" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Label Background="White" Height="1"/>
+                <Button Content="Результаты консультаций" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_ConsultationResults" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Тип занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_LessonTypes" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Label Background="White" Height="1"/>
+                <Button Content="Роли" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Roles" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Пользователи" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Users" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+            <Grid Background="#f0f2f0">
+                <TextBlock Text="Выберите таблицу" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
+            </Grid>
+        </DockPanel>
     </Grid>
 </Page>
