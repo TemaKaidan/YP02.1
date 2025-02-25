@@ -14,15 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace YP02.Pages
+namespace YP02.Pages.listPages
 {
     /// <summary>
-    /// Логика взаимодействия для Main.xaml
+    /// Логика взаимодействия для LessonType.xaml
     /// </summary>
-    public partial class Main : Page
+    public partial class LessonType : Page
     {
         private bool isMenuCollapsed = false;
-        public Main()
+        public LessonType()
         {
             InitializeComponent();
         }
@@ -112,11 +112,6 @@ namespace YP02.Pages
             MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
         }
 
-        private void Click_LessonTypes(object sender, RoutedEventArgs e)
-        {
-            MainWindow.init.OpenPages(MainWindow.pages.lessonType);
-        }
-
         private void Click_Roles(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.role);
@@ -125,6 +120,11 @@ namespace YP02.Pages
         private void Click_Users(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.user);
+        }
+
+        private void Click_Add(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

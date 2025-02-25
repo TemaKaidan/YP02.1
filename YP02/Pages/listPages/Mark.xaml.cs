@@ -14,15 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace YP02.Pages
+namespace YP02.Pages.listPages
 {
     /// <summary>
-    /// Логика взаимодействия для Main.xaml
+    /// Логика взаимодействия для Mark.xaml
     /// </summary>
-    public partial class Main : Page
+    public partial class Mark : Page
     {
         private bool isMenuCollapsed = false;
-        public Main()
+        public Mark()
         {
             InitializeComponent();
         }
@@ -102,11 +102,6 @@ namespace YP02.Pages
             MainWindow.init.OpenPages(MainWindow.pages.teacher);
         }
 
-        private void Click_Marks(object sender, RoutedEventArgs e)
-        {
-            MainWindow.init.OpenPages(MainWindow.pages.marks);
-        }
-
         private void Click_ConsultationResults(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
@@ -125,6 +120,11 @@ namespace YP02.Pages
         private void Click_Users(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.user);
+        }
+
+        private void Click_Add(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

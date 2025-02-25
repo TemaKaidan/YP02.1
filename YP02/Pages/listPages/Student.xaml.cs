@@ -14,15 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace YP02.Pages
+namespace YP02.Pages.listPages
 {
     /// <summary>
-    /// Логика взаимодействия для Main.xaml
+    /// Логика взаимодействия для Student.xaml
     /// </summary>
-    public partial class Main : Page
+    public partial class Student : Page
     {
         private bool isMenuCollapsed = false;
-        public Main()
+        public Student()
         {
             InitializeComponent();
         }
@@ -60,11 +60,6 @@ namespace YP02.Pages
             widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
             MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
             isMenuCollapsed = !isMenuCollapsed;
-        }
-
-        private void Click_Student(object sender, RoutedEventArgs e)
-        {
-            MainWindow.init.OpenPages(MainWindow.pages.student);
         }
 
         private void Click_Groups(object sender, RoutedEventArgs e)
@@ -125,6 +120,11 @@ namespace YP02.Pages
         private void Click_Users(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.user);
+        }
+
+        private void Click_Add(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

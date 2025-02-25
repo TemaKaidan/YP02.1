@@ -11,6 +11,8 @@
   <ItemGroup>
     <Folder Include="Elements\" />
     <Folder Include="Classes\" />
+    <Folder Include="Pages\AddPages\" />
+    <Folder Include="Pages\EditPages\" />
   </ItemGroup>
 
 </Project>

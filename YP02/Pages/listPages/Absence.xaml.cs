@@ -14,15 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace YP02.Pages
+namespace YP02.Pages.listPages
 {
     /// <summary>
-    /// Логика взаимодействия для Main.xaml
+    /// Логика взаимодействия для Absence.xaml
     /// </summary>
-    public partial class Main : Page
+    public partial class Absence : Page
     {
         private bool isMenuCollapsed = false;
-        public Main()
+        public Absence()
         {
             InitializeComponent();
         }
@@ -92,11 +92,6 @@ namespace YP02.Pages
             MainWindow.init.OpenPages(MainWindow.pages.consultation);
         }
 
-        private void Click_Absences(object sender, RoutedEventArgs e)
-        {
-            MainWindow.init.OpenPages(MainWindow.pages.absence);
-        }
-
         private void Click_Teachers(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.teacher);
@@ -125,6 +120,11 @@ namespace YP02.Pages
         private void Click_Users(object sender, RoutedEventArgs e)
         {
             MainWindow.init.OpenPages(MainWindow.pages.user);
+        }
+
+        private void Click_Add(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
