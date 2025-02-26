@@ -18,7 +18,6 @@ namespace YP02.Models
         public DateTime dateOfRemand { get; set; }
         public int userId { get; set; }
 
-
-        /*public StudGroups StudGroup { get; set; }*/  // Навигационное свойство
+        public StudGroups StudGroup { get; set; }  // Навигационное свойство
     }
 }

@@ -13,6 +13,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Context;
+using YP02.Pages.Item;
 
 namespace YP02.Pages.listPages
 {
@@ -22,10 +24,22 @@ namespace YP02.Pages.listPages
     public partial class User : Page
     {
         private bool isMenuCollapsed = false;
+        private UsersContext _usersContext = new UsersContext();
+
         public User()
         {
             InitializeComponent();
+            CreateUI();
         }
+        private void CreateUI()
+        {
+            parrent.Children.Clear();
+            foreach (var x in _usersContext.Users.ToList())
+            {
+                parrent.Children.Add(new UserItem(x));
+            }
+        }
+
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {

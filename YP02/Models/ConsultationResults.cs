@@ -14,7 +14,7 @@ namespace YP02.Models
         public int consultationId { get; set; }
         public int studentId { get; set; }
         //ХЗ какой тип данных
-        public bool presence { get; set; }
-        public int submittedPractice { get; set; }
+        public string presence { get; set; }
+        public string submittedPractice { get; set; }
     }
 }

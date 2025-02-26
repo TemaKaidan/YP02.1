@@ -13,6 +13,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
+using YP02.Context;
+using YP02.Models;
 
 namespace YP02.Pages.listPages
 {
@@ -22,9 +25,24 @@ namespace YP02.Pages.listPages
     public partial class Student : Page
     {
         private bool isMenuCollapsed = false;
+
+        private StudGroupsContext _studGroupsContext = new StudGroupsContext();
+        private StudentsContext _studentsContext = new StudentsContext();
         public Student()
         {
             InitializeComponent();
+            CreateUI();
+        }
+
+        private void CreateUI()
+        {
+            parrent.Children.Clear();
+
+            var groups = _studGroupsContext.StudGroups.ToList();
+            foreach (var x in _studentsContext.Students.ToList())
+            {
+                parrent.Children.Add(new Pages.Item.StudentItem(x));
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

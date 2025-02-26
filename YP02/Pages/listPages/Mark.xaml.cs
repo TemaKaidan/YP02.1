@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Context;
 
 namespace YP02.Pages.listPages
 {
@@ -22,9 +23,27 @@ namespace YP02.Pages.listPages
     public partial class Mark : Page
     {
         private bool isMenuCollapsed = false;
+
+        private MarksContext _marksContext = new MarksContext();
+
+        private DisciplineProgramsContext _disciplineProgramsContext = new DisciplineProgramsContext();
+        private StudentsContext _studentsContext = new StudentsContext();
         public Mark()
         {
             InitializeComponent();
+            CreateUI();
+        }
+
+        private void CreateUI()
+        {
+            parrent.Children.Clear();
+            var disciplinePrograms = _disciplineProgramsContext.DisciplinePrograms.ToList();
+            var students = _studentsContext.Students.ToList();
+            
+            foreach (var x in _marksContext.Marks.ToList())
+            {
+                parrent.Children.Add(new Pages.Item.MarkItem(x));
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
