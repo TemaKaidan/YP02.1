@@ -18,6 +18,9 @@ namespace YP02
     {
         public static MainWindow init;
 
+        public Pages.listPages.Group MainGroup = new Pages.listPages.Group();
+        public Models.StudGroups studGroups = new Models.StudGroups();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,10 +33,11 @@ namespace YP02
             authorization,
             main,
             student, group, discipline, disciplineProgram, teachersLoad, consultation, absence, teacher, marks, 
-            consultationResult, lessonType, role, user
+            consultationResult, lessonType, role, user,
+            groupeAdd, groupeEdit
         }
 
-        public void OpenPages(pages _pages)
+        public void OpenPages(pages _pages, Models.StudGroups sgm = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -100,6 +104,14 @@ namespace YP02
 
                 case pages.user:
                     frame.Navigate(new Pages.listPages.User());
+                    break;
+
+                case pages.groupeAdd:
+                    frame.Navigate(new Pages.Add.GroupeAdd(MainGroup));
+                    break;
+
+                case pages.groupeEdit:
+                    frame.Navigate(new Pages.Edit.GroupeEdit(MainGroup, sgm));
                     break;
             }
         }
