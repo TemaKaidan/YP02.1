@@ -24,7 +24,8 @@ namespace YP02.Pages.listPages
     public partial class Absence : Page
     {
         private bool isMenuCollapsed = false;
-        private AbsencesContext _absencesContext = new AbsencesContext();
+        public AbsencesContext _absencesContext = new AbsencesContext();
+
         public Absence()
         {
             InitializeComponent();
@@ -36,7 +37,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _absencesContext.Absences.ToList())
             {
-                parrent.Children.Add(new AbsenceItem(x));
+                parrent.Children.Add(new AbsenceItem(x, this));
             }
         }
         private void ToggleMenu(object sender, RoutedEventArgs e)

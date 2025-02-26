@@ -26,7 +26,7 @@ namespace YP02.Pages.listPages
     public partial class Group : Page
     {
         private bool isMenuCollapsed = false;
-        private StudGroupsContext _studgroupsContext = new StudGroupsContext();
+        public StudGroupsContext _studgroupsContext = new StudGroupsContext();
 
         public Group()
         {
@@ -39,7 +39,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _studgroupsContext.StudGroups.ToList())
             {
-                parrent.Children.Add(new GroupeItem(x));
+                parrent.Children.Add(new Pages.Item.GroupeItem(x, this));
             }
         }
 

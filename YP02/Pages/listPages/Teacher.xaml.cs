@@ -26,7 +26,7 @@ namespace YP02.Pages.listPages
     {
        
         private bool isMenuCollapsed = false;
-        private TeachersContext _teachersContext = new TeachersContext();
+        public TeachersContext _teachersContext = new TeachersContext();
 
         public Teacher()
         {
@@ -39,7 +39,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _teachersContext.Teachers.ToList())
             {
-                parrent.Children.Add(new TeacherItem(x));
+                parrent.Children.Add(new TeacherItem(x, this));
             }
         }
 

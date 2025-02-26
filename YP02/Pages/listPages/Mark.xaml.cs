@@ -24,7 +24,7 @@ namespace YP02.Pages.listPages
     {
         private bool isMenuCollapsed = false;
 
-        private MarksContext _marksContext = new MarksContext();
+        public MarksContext _marksContext = new MarksContext();
 
         private DisciplineProgramsContext _disciplineProgramsContext = new DisciplineProgramsContext();
         private StudentsContext _studentsContext = new StudentsContext();
@@ -42,7 +42,7 @@ namespace YP02.Pages.listPages
             
             foreach (var x in _marksContext.Marks.ToList())
             {
-                parrent.Children.Add(new Pages.Item.MarkItem(x));
+                parrent.Children.Add(new Pages.Item.MarkItem(x, this));
             }
         }
 

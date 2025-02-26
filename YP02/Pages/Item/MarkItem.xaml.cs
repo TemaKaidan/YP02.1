@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Item
 {
@@ -21,14 +23,14 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class MarkItem : UserControl
     {
-        private Models.Marks _marks;
-        private readonly DisciplineProgramsContext _disciplineProgramsContext;
-        private readonly StudentsContext _studentsContext;
+        Pages.listPages.Mark MainMark;
+        Models.Marks marks;
 
-        public MarkItem(Models.Marks marks)
+        public MarkItem(Models.Marks marks, Mark MainMark)
         {
             InitializeComponent();
-            _marks = marks;
+            this.marks = marks;
+            this.MainMark = MainMark;
 
             lb_date.Content = "Дата: " + marks.date;
             lb_mark.Content = "Оценка: " + marks.mark;
@@ -51,7 +53,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainMark._marksContext.Marks.Remove(marks);
+                MainMark._marksContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

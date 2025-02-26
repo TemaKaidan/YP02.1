@@ -23,17 +23,21 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class UserItem : UserControl
     {
-        private Users _users;
+        Pages.listPages.User MainUser;
+        Models.Users users;
+
         private readonly UsersContext _usersContext;
         private readonly RolesContext _rolesContext = new RolesContext();
 
-        public UserItem(Users users)
+        public UserItem(Users users, User MainUser)
         {
             InitializeComponent();
-            _users = users;
+            this.users = users;
+            this.MainUser = MainUser;
+
             lb_Login.Content = "Логин: " + users.login;
             lb_Password.Content = "Пароль: " + users.password;
-            lb_Role.Content = "Роль: " + _rolesContext.Roles.FirstOrDefault(x => x.id == _users.role).roleName;
+            lb_Role.Content = "Роль: " + _rolesContext.Roles.FirstOrDefault(x => x.id == users.role).roleName;
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
@@ -43,7 +47,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainUser._usersContext.Users.Remove(users);
+                MainUser._usersContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
 using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Item
 {
@@ -22,13 +23,18 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class AbsenceItem : UserControl
     {
-        private Absences _absences;
+        Pages.listPages.Absence MainAbsence;
+        Models.Absences absences;
+
         private readonly DisciplinesContext _disciplinesContext = new DisciplinesContext();
         private readonly StudentsContext _studentsContext = new StudentsContext();
-        public AbsenceItem(Absences absences)
+        public AbsenceItem(Absences absences, Absence MainAbsence)
         {
             InitializeComponent();
-            _absences = absences;
+            this.absences = absences;
+            this.MainAbsence = MainAbsence;
+
+
             Students students = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);
             lb_Student.Content = $"Студент: {students.surname} {students.name} {students.lastname}";
             lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == absences.disciplineId).name;
@@ -44,7 +50,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainAbsence._absencesContext.Absences.Remove(absences);
+                MainAbsence._absencesContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

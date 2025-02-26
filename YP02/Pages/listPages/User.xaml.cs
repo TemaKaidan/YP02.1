@@ -24,7 +24,7 @@ namespace YP02.Pages.listPages
     public partial class User : Page
     {
         private bool isMenuCollapsed = false;
-        private UsersContext _usersContext = new UsersContext();
+        public UsersContext _usersContext = new UsersContext();
 
         public User()
         {
@@ -36,7 +36,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _usersContext.Users.ToList())
             {
-                parrent.Children.Add(new UserItem(x));
+                parrent.Children.Add(new UserItem(x, this));
             }
         }
 

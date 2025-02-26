@@ -24,7 +24,7 @@ namespace YP02.Pages.listPages
     public partial class Role : Page
     {
         private bool isMenuCollapsed = false;
-        private RolesContext _rolesContext = new RolesContext();
+        public RolesContext _rolesContext = new RolesContext();
 
         public Role()
         {
@@ -36,7 +36,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _rolesContext.Roles.ToList())
             {
-                parrent.Children.Add(new RoleItem(x));
+                parrent.Children.Add(new RoleItem(x, this));
             }
         }
 

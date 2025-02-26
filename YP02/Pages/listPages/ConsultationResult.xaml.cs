@@ -24,10 +24,12 @@ namespace YP02.Pages.listPages
     public partial class ConsultationResult : Page
     {
         private bool isMenuCollapsed = false;
+        public ConsultationResultsContext _consultationResultsContext = new ConsultationResultsContext();
+
 
         private ConsultationsContext _consultationContext=new ConsultationsContext();
         private StudentsContext _studentsContext = new StudentsContext();
-        private readonly ConsultationResultsContext _consultationResultsContext=new ConsultationResultsContext();
+
         public ConsultationResult()
         {
             InitializeComponent();
@@ -40,7 +42,7 @@ namespace YP02.Pages.listPages
             var students = _studentsContext.Students.ToList();
             foreach (var x in _consultationResultsContext.ConsultationResults.ToList())
             {
-                parrent.Children.Add(new Pages.Item.ConsultationResultItem(x));
+                parrent.Children.Add(new Pages.Item.ConsultationResultItem(x, this));
             }
         }
 

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
 using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Item
 {
@@ -22,13 +23,15 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class RoleItem : UserControl
     {
-        private Roles _roles;
-        private readonly RolesContext _rolesContext;
+        Pages.listPages.Role MainRole;
+        Models.Roles roles;
 
-        public RoleItem(Roles roles)
+        public RoleItem(Roles roles, Role MainRole)
         {
             InitializeComponent();
-            _roles = roles;
+            this.roles = roles;
+            this.MainRole = MainRole;
+
             lb_RoleName.Content = "Роль: " + roles.roleName;
         }
 
@@ -39,7 +42,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainRole._rolesContext.Roles.Remove(roles);
+                MainRole._rolesContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

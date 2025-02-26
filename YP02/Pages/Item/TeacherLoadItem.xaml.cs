@@ -23,16 +23,17 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class TeacherLoadItem : UserControl
     {
-        private Models.TeachersLoad _teachersLoad;
+        Pages.listPages.TeachersLoad MainTeachersLoad;
+        Models.TeachersLoad teachersLoad;
 
-        private readonly TeachersContext _teachersContext;
-        private readonly DisciplinesContext _disciplinesContext;
-        private readonly StudGroupsContext _studGroupsContext;
+        Pages.listPages.Group MainGrope;
+        Models.StudGroups studGroups;
 
-        public TeacherLoadItem(Models.TeachersLoad teachersLoad)
+        public TeacherLoadItem(Models.TeachersLoad teachersLoad, Pages.listPages.TeachersLoad MainTeachersLoad)
         {
             InitializeComponent();
-            _teachersLoad = teachersLoad;
+            this.teachersLoad = teachersLoad;
+            this.MainTeachersLoad = MainTeachersLoad;
 
             TeachersContext _teachersContext = new TeachersContext();
             var teacher = _teachersContext.Teachers.FirstOrDefault(g => g.id == teachersLoad.teacherId);
@@ -58,7 +59,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainTeachersLoad._teachersLoadContext.TeachersLoad.Remove(teachersLoad);
+                MainTeachersLoad._teachersLoadContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

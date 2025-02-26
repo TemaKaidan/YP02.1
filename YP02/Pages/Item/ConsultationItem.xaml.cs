@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
 using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Item
 {
@@ -22,16 +23,18 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class ConsultationItem : UserControl
     {
-        private Consultations _consultations;
-        private readonly ConsultationsContext _consultationsContext;
+        Pages.listPages.Consultation MainConsultation;
+        Models.Consultations consultations;
+
         private readonly DisciplinesContext _disciplinesContext = new DisciplinesContext();
-        public ConsultationItem(Consultations consultations)
+
+        public ConsultationItem(Consultations consultations, Consultation MainConsultation)
         {
             InitializeComponent();
-            _consultations = consultations;
+            this.consultations = consultations;
+            this.MainConsultation = MainConsultation;
 
-
-            lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == _consultations.disciplineId).name;
+            lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == consultations.disciplineId).name;
             lb_Date.Content = "Дата: " + consultations.date;
 
         }
@@ -43,7 +46,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainConsultation._consultationsContext.Consultations.Remove(consultations);
+                MainConsultation._consultationsContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

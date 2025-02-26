@@ -24,8 +24,7 @@ namespace YP02.Pages.listPages
     public partial class TeachersLoad : Page
     {
         private bool isMenuCollapsed = false;
-
-        private TeachersLoadContext _teachersLoadContext = new TeachersLoadContext();
+        public TeachersLoadContext _teachersLoadContext = new TeachersLoadContext();
 
         private TeachersContext _teachersContext = new TeachersContext();
         private DisciplinesContext _disciplinesContext = new DisciplinesContext();
@@ -46,7 +45,7 @@ namespace YP02.Pages.listPages
             var studGroup = _studGroupsContext.StudGroups.ToList();
             foreach (var x in _teachersLoadContext.TeachersLoad.ToList())
             {
-                parrent.Children.Add(new Pages.Item.TeacherLoadItem(x));
+                parrent.Children.Add(new Pages.Item.TeacherLoadItem(x, this));
             }
         }
 

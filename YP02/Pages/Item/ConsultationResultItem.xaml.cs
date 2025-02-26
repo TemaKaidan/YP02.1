@@ -23,21 +23,21 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class ConsultationResultItem : UserControl
     {
+        Pages.listPages.ConsultationResult MainConsultationResult;
+        Models.ConsultationResults consultationResults;
 
-        private ConsultationResults _consultationResults ;
-        private readonly StudentsContext _studentsContext;
-        private readonly ConsultationResultsContext _consultationResultsContext;
-        public ConsultationResultItem(ConsultationResults consultationResults)
+        public ConsultationResultItem(ConsultationResults consultationResults, ConsultationResult MainConsultationResult)
         {
             InitializeComponent();
-            _consultationResults = consultationResults;
+            this.consultationResults = consultationResults;
+            this.MainConsultationResult = MainConsultationResult;
 
             DisciplinesContext _disciplinesContext = new DisciplinesContext();
             var disciplinesContext = _disciplinesContext.Disciplines.FirstOrDefault(g => g.id == consultationResults.consultationId);
             lb_consultationId.Content = "Дисциплина: " + (disciplinesContext != null ? disciplinesContext.name : "Неизвестно");
 
             StudentsContext _studentsContext = new StudentsContext();
-            var studentsContext = _studentsContext.Students.FirstOrDefault(g => g.id == _consultationResults.studentId);
+            var studentsContext = _studentsContext.Students.FirstOrDefault(g => g.id == consultationResults.studentId);
             lb_studentId.Content = "Студент: " + (studentsContext != null ? studentsContext.surname : "Неизвестно") + " " + (studentsContext != null ? studentsContext.name : "Неизвестно") + " " + (studentsContext != null ? studentsContext.lastname : "Неизвестно");
             
             lb_presence.Content="Присутсвтие (Да/Нет): " + consultationResults.presence;
@@ -45,14 +45,20 @@ namespace YP02.Pages.Item
 
         }
 
-        private void Click_Delete(object sender, RoutedEventArgs e)
+        private void Click_Edit(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Click_Edit(object sender, RoutedEventArgs e)
+        private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainConsultationResult._consultationResultsContext.ConsultationResults.Remove(consultationResults);
+                MainConsultationResult._consultationResultsContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

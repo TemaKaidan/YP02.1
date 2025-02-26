@@ -23,12 +23,14 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class GroupeItem : UserControl
     {
-        private StudGroups _studGroups;
-        private readonly StudGroupsContext _studgroupsContext;
-        public GroupeItem(StudGroups studGroups)
+        Pages.listPages.Group MainGrope;
+        Models.StudGroups studGroups;
+
+        public GroupeItem(StudGroups studGroups, Group MainGrope)
         {
             InitializeComponent();
-            _studGroups = studGroups;
+            this.studGroups = studGroups;
+            this.MainGrope = MainGrope;
 
             lb_Name.Content = "Наименование группы: " + studGroups.name;
         }
@@ -40,7 +42,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainGrope._studgroupsContext.StudGroups.Remove(studGroups);
+                MainGrope._studgroupsContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

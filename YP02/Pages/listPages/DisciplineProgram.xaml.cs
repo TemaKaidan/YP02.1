@@ -24,10 +24,10 @@ namespace YP02.Pages.listPages
     public partial class DisciplineProgram : Page
     {
         private bool isMenuCollapsed = false;
+        public DisciplineProgramsContext _disciplinePrograms = new DisciplineProgramsContext();
 
         private DisciplinesContext _disciplinesContext = new DisciplinesContext();
         private LessonTypesContext _lessonTypesContext = new LessonTypesContext();
-        private DisciplineProgramsContext _disciplinePrograms = new DisciplineProgramsContext();
 
         public DisciplineProgram()
         {
@@ -42,7 +42,7 @@ namespace YP02.Pages.listPages
             var lessonTypes = _lessonTypesContext.LessonTypes.ToList();
             foreach (var x in _disciplinePrograms.DisciplinePrograms.ToList())
             {
-                parrent.Children.Add(new Pages.Item.DisciplineProgramItem(x));
+                parrent.Children.Add(new Pages.Item.DisciplineProgramItem(x, this));
             }
         }
 

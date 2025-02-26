@@ -24,7 +24,8 @@ namespace YP02.Pages.listPages
     public partial class Consultation : UserControl
     {
         private bool isMenuCollapsed = false;
-        private ConsultationsContext _consultationsContext = new ConsultationsContext();
+        public ConsultationsContext _consultationsContext = new ConsultationsContext();
+
         public Consultation()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _consultationsContext.Consultations.ToList())
             {
-                parrent.Children.Add(new ConsultationItem(x));
+                parrent.Children.Add(new ConsultationItem(x, this));
             }
         }
 

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
 using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Item
 {
@@ -22,18 +23,18 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class TeacherItem : UserControl
     {
-        private Teachers _teachers;
-        private readonly TeachersContext _teachersContext;
+        Pages.listPages.Teacher MainTeacher;
+        Models.Teachers teachers;
 
-        public TeacherItem(Teachers teachers)
+        public TeacherItem(Teachers teachers, Teacher MainTeacher)
         {
             InitializeComponent();
-            _teachers = teachers;
+            this.teachers = teachers;
+            this.MainTeacher = MainTeacher;
 
             lb_LastName.Content = "Фамилия: " + teachers.surname;
             lb_FirstName.Content = "Имя: " + teachers.name;
             lb_MiddleName.Content = "Отчество: " + teachers.lastname;
-
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
@@ -43,7 +44,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainTeacher._teachersContext.Teachers.Remove(teachers);
+                MainTeacher._teachersContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

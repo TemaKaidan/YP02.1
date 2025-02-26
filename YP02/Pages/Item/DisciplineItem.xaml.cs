@@ -23,12 +23,14 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class DisciplineItem : UserControl
     {
-        private Disciplines _disciplines;
-        private readonly TeachersContext _teachersContext;
-        public DisciplineItem(Disciplines disciplines)
+        Pages.listPages.Discipline MainDiscipline;
+        Models.Disciplines disciplines;
+
+        public DisciplineItem(Disciplines disciplines, Discipline MainDiscipline)
         {
             InitializeComponent();
-            _disciplines = disciplines;
+            this.disciplines = disciplines;
+            this.MainDiscipline = MainDiscipline;
 
             lb_Name.Content = "Дисциплина: " + disciplines.name;
             TeachersContext _teacher = new TeachersContext();
@@ -44,7 +46,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainDiscipline._disciplinesContext.Disciplines.Remove(disciplines);
+                MainDiscipline._disciplinesContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

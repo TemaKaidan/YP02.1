@@ -24,9 +24,9 @@ namespace YP02.Pages.listPages
     public partial class Discipline : Page
     {
         private bool isMenuCollapsed = false;
+        public DisciplinesContext _disciplinesContext = new DisciplinesContext();
 
-        private TeachersContext _teachersContext = new TeachersContext();
-        private DisciplinesContext _disciplinesContext = new DisciplinesContext();
+        public TeachersContext _teachersContext = new TeachersContext();
 
         public Discipline()
         {
@@ -39,7 +39,7 @@ namespace YP02.Pages.listPages
             var teachers = _teachersContext.Teachers.ToList();
             foreach (var x in _disciplinesContext.Disciplines.ToList())
             {
-                parrent.Children.Add(new Pages.Item.DisciplineItem(x));
+                parrent.Children.Add(new Pages.Item.DisciplineItem(x, this));
             }
         }
 

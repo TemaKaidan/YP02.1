@@ -27,7 +27,7 @@ namespace YP02.Pages.listPages
         private bool isMenuCollapsed = false;
 
         private StudGroupsContext _studGroupsContext = new StudGroupsContext();
-        private StudentsContext _studentsContext = new StudentsContext();
+        public StudentsContext _studentsContext = new StudentsContext();
         public Student()
         {
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace YP02.Pages.listPages
             var groups = _studGroupsContext.StudGroups.ToList();
             foreach (var x in _studentsContext.Students.ToList())
             {
-                parrent.Children.Add(new Pages.Item.StudentItem(x));
+                parrent.Children.Add(new Pages.Item.StudentItem(x, this));
             }
         }
 

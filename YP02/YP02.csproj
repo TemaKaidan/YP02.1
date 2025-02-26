@@ -9,10 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Elements\" />
-    <Folder Include="Classes\" />
-    <Folder Include="Pages\AddPages\" />
-    <Folder Include="Pages\EditPages\" />
+    <Compile Remove="Classes\**" />
+    <Compile Remove="Elements\**" />
+    <Compile Remove="Pages\AddPages\**" />
+    <Compile Remove="Pages\EditPages\**" />
+    <EmbeddedResource Remove="Classes\**" />
+    <EmbeddedResource Remove="Elements\**" />
+    <EmbeddedResource Remove="Pages\AddPages\**" />
+    <EmbeddedResource Remove="Pages\EditPages\**" />
+    <None Remove="Classes\**" />
+    <None Remove="Elements\**" />
+    <None Remove="Pages\AddPages\**" />
+    <None Remove="Pages\EditPages\**" />
+    <Page Remove="Classes\**" />
+    <Page Remove="Elements\**" />
+    <Page Remove="Pages\AddPages\**" />
+    <Page Remove="Pages\EditPages\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -23,12 +23,14 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class StudentItem : UserControl
     {
-        private Students _students;
-        private readonly StudentsContext _studentsContext;
-        public StudentItem(Students students)
+        Pages.listPages.Student MainStudent;
+        Models.Students students;
+
+        public StudentItem(Students students, Student MainStudent)
         {
             InitializeComponent();
-            _students = students;
+            this.students = students;
+            this.MainStudent = MainStudent;
 
             lb_surname.Content = "Фамилия: " + students.surname;
             lb_name.Content = "Имя: " + students.name;
@@ -48,7 +50,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainStudent._studentsContext.Students.Remove(students);
+                MainStudent._studentsContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }

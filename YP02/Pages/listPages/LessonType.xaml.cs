@@ -24,7 +24,7 @@ namespace YP02.Pages.listPages
     public partial class LessonType : Page
     {
         private bool isMenuCollapsed = false;
-        private LessonTypesContext _lessonTypesContext = new LessonTypesContext();
+        public LessonTypesContext _lessonTypesContext = new LessonTypesContext();
 
         public LessonType()
         {
@@ -37,7 +37,7 @@ namespace YP02.Pages.listPages
             parrent.Children.Clear();
             foreach (var x in _lessonTypesContext.LessonTypes.ToList())
             {
-                parrent.Children.Add(new LessonTypeItem(x));
+                parrent.Children.Add(new LessonTypeItem(x, this));
             }
         }
 

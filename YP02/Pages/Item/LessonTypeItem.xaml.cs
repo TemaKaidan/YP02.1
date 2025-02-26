@@ -23,14 +23,16 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class LessonTypeItem : UserControl
     {
-        private LessonTypes _lessontype;
-        private readonly LessonTypesContext _lessonTypesContext;
+        Pages.listPages.LessonType MainLessonType;
+        Models.LessonTypes lessonTypes;
 
-        public LessonTypeItem(LessonTypes lessontypes)
+        public LessonTypeItem(LessonTypes lessonTypes, LessonType MainLessonType)
         {
             InitializeComponent();
-            _lessontype = lessontypes;
-            lb_LessonType.Content = "Тип занятия: " + lessontypes.typeName;
+            this.lessonTypes = lessonTypes;
+            this.MainLessonType = MainLessonType;
+
+            lb_LessonType.Content = "Тип занятия: " + lessonTypes.typeName;
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
@@ -40,7 +42,13 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                MainLessonType._lessonTypesContext.LessonTypes.Remove(lessonTypes);
+                MainLessonType._lessonTypesContext.SaveChanges();
+                (this.Parent as Panel).Children.Remove(this);
+            }
         }
     }
 }
