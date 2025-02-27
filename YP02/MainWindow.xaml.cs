@@ -42,10 +42,10 @@ namespace YP02
             consultationResult, lessonType, role, user,
             groupeAdd, groupeEdit,
             studentAdd,
-            disciplineProgramAdd
+            disciplineProgramAdd, disciplineProgramEdit
         }
 
-        public void OpenPages(pages _pages, Models.StudGroups sgm = null, Models.Students ms = null)
+        public void OpenPages(pages _pages, Models.StudGroups sgm = null, Models.Students ms = null, Models.DisciplinePrograms mdp = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -128,6 +128,10 @@ namespace YP02
 
                 case pages.disciplineProgramAdd:
                     frame.Navigate(new Pages.Add.DisciplineProgramAdd(MainDisciplineProgram));
+                    break;
+
+                case pages.disciplineProgramEdit:
+                    frame.Navigate(new Pages.Edit.DisciplineProgramEdit(MainDisciplineProgram, mdp));
                     break;
             }
         }

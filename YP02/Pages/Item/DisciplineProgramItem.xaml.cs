@@ -47,7 +47,7 @@ namespace YP02.Pages.Item
 
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.disciplineProgramEdit, null, null, disciplineProgram);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)
