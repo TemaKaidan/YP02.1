@@ -34,7 +34,8 @@ namespace YP02
             main,
             student, group, discipline, disciplineProgram, teachersLoad, consultation, absence, teacher, marks, 
             consultationResult, lessonType, role, user,
-            groupeAdd, groupeEdit
+            groupeAdd, groupeEdit,
+            studentAdd
         }
 
         public void OpenPages(pages _pages, Models.StudGroups sgm = null)
@@ -112,6 +113,10 @@ namespace YP02
 
                 case pages.groupeEdit:
                     frame.Navigate(new Pages.Edit.GroupeEdit(MainGroup, sgm));
+                    break;
+
+                case pages.studentAdd:
+                    frame.Navigate(new Pages.Add.StudentAdd());
                     break;
             }
         }
