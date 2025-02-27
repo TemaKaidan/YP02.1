@@ -110,23 +110,22 @@ namespace YP02.Pages.Edit
 
         private void Edit_DisciplineProgram(object sender, RoutedEventArgs e)
         {
-            DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.First(x => x.id == programs.id);
+                DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.FirstOrDefault(x => x.id == programs.id);
 
-            if (editPrograms != null)
-            {
-                editPrograms.theme = tb_theme.Text;
-                editPrograms.hoursCount = Convert.ToInt32(tb_hoursCount.Text);
-                editPrograms.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
-                editPrograms.lessonTypeId = (int)(cb_lessonTypeId.SelectedItem as ComboBoxItem).Tag;
-            }
-            else
-            {
-                MessageBox.Show("Произошла какая-то хуйня, сорян!");
-                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
-            }
-
-            MainDisciplineProgram._disciplinePrograms.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                if (editPrograms != null)
+                {
+                    editPrograms.theme = tb_theme.Text;
+                    editPrograms.hoursCount = Convert.ToInt32(tb_hoursCount.Text);
+                    editPrograms.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
+                    editPrograms.lessonTypeId = (int)(cb_lessonTypeId.SelectedItem as ComboBoxItem).Tag;
+                    MainDisciplineProgram._disciplinePrograms.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
         }
     }
 }
