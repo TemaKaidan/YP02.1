@@ -14,14 +14,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
-using YP02.Models;
 
-namespace YP02.Pages.Add
+namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для StudentAdd.xaml
+    /// Логика взаимодействия для StudentEdit.xaml
     /// </summary>
-    public partial class StudentAdd : Page
+    public partial class StudentEdit : Page
     {
         private bool isMenuCollapsed = false;
 
@@ -29,46 +28,16 @@ namespace YP02.Pages.Add
         public Models.Students students;
         Context.StudGroupsContext studGroupsContext = new StudGroupsContext();
 
-        public StudentAdd(Pages.listPages.Student MainStudent, Models.Students students = null)
+        public StudentEdit(Pages.listPages.Student MainStudent, Models.Students students = null)
         {
             InitializeComponent();
             this.MainStudent = MainStudent;
             this.students = students;
-
-            cb_groupe.Items.Clear();
-            cb_groupe.ItemsSource = studGroupsContext.StudGroups.ToList();
-            cb_groupe.DisplayMemberPath = "name";
-            cb_groupe.SelectedValuePath = "id";
         }
 
-        private void Add_Student(object sender, RoutedEventArgs e)
+        private void Edit_Student(object sender, RoutedEventArgs e)
         {
-            //ToDo: проверка выбрана ли группа 
-            if(cb_groupe.SelectedIndex == -1)
-            {
-                return;
-            }
 
-            if (students == null)
-            {
-                students = new Models.Students
-                {
-                    surname = tb_surname.Text,
-                    name = tb_name.Text,
-                    lastname = tb_lastname.Text,
-                    studGroupId = (cb_groupe.SelectedItem as StudGroups).id,
-                    dateOfRemand = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
-                    userId = 1
-                };
-                MainStudent._studentsContext.Students.Add(students);
-            }
-            MainStudent._studentsContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.student);
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
@@ -104,6 +73,11 @@ namespace YP02.Pages.Add
             widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
             MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
             isMenuCollapsed = !isMenuCollapsed;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }

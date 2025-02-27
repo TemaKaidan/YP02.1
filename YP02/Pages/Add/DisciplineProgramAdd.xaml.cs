@@ -15,55 +15,55 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
 using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Add
 {
     /// <summary>
-    /// Логика взаимодействия для StudentAdd.xaml
+    /// Логика взаимодействия для DisciplineProgramAdd.xaml
     /// </summary>
-    public partial class StudentAdd : Page
+    public partial class DisciplineProgramAdd : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.Student MainStudent;
-        public Models.Students students;
-        Context.StudGroupsContext studGroupsContext = new StudGroupsContext();
+        public Pages.listPages.DisciplineProgram MainDisciplineProgram;
+        public Models.DisciplinePrograms programs;
 
-        public StudentAdd(Pages.listPages.Student MainStudent, Models.Students students = null)
+        Context.DisciplinesContext disciplinesContext = new DisciplinesContext();
+        Context.LessonTypesContext lessonTypesContext = new LessonTypesContext();
+
+        public DisciplineProgramAdd(Pages.listPages.DisciplineProgram MainDisciplineProgram, Models.DisciplinePrograms programs = null)
         {
             InitializeComponent();
-            this.MainStudent = MainStudent;
-            this.students = students;
+            this.MainDisciplineProgram = MainDisciplineProgram;
+            this.programs = programs;
 
-            cb_groupe.Items.Clear();
-            cb_groupe.ItemsSource = studGroupsContext.StudGroups.ToList();
-            cb_groupe.DisplayMemberPath = "name";
-            cb_groupe.SelectedValuePath = "id";
+            cb_disciplineId.Items.Clear();
+            cb_disciplineId.ItemsSource = disciplinesContext.Disciplines.ToList();
+            cb_disciplineId.DisplayMemberPath = "name";
+            cb_disciplineId.SelectedValuePath = "id";
+
+            cb_lessonTypeId.Items.Clear();
+            cb_lessonTypeId.ItemsSource = lessonTypesContext.LessonTypes.ToList();
+            cb_lessonTypeId.DisplayMemberPath = "typeName";
+            cb_lessonTypeId.SelectedValuePath = "id";
         }
 
-        private void Add_Student(object sender, RoutedEventArgs e)
+        private void Add_DisciplineProgram(object sender, RoutedEventArgs e)
         {
-            //ToDo: проверка выбрана ли группа 
-            if(cb_groupe.SelectedIndex == -1)
+            if (programs == null)
             {
-                return;
-            }
-
-            if (students == null)
-            {
-                students = new Models.Students
+                programs = new Models.DisciplinePrograms 
                 {
-                    surname = tb_surname.Text,
-                    name = tb_name.Text,
-                    lastname = tb_lastname.Text,
-                    studGroupId = (cb_groupe.SelectedItem as StudGroups).id,
-                    dateOfRemand = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
-                    userId = 1
+                    disciplineId = (cb_disciplineId.SelectedItem as Disciplines).id,
+                    theme = tb_theme.Text,
+                    lessonTypeId = (cb_lessonTypeId.SelectedItem as LessonTypes).id,
+                    hoursCount = Convert.ToInt32(tb_hoursCount.Text)
                 };
-                MainStudent._studentsContext.Students.Add(students);
+                MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.Add(programs);
             }
-            MainStudent._studentsContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.student);
+            MainDisciplineProgram._disciplinePrograms.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

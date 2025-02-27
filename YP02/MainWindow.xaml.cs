@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Pages.listPages;
 
 namespace YP02
 {
@@ -18,8 +19,13 @@ namespace YP02
     {
         public static MainWindow init;
 
+        public Pages.listPages.Student MainStudent = new Student();
+        public Models.Students students = new Models.Students();
+
         public Pages.listPages.Group MainGroup = new Pages.listPages.Group();
         public Models.StudGroups studGroups = new Models.StudGroups();
+
+        public Pages.listPages.DisciplineProgram MainDisciplineProgram = new Pages.listPages.DisciplineProgram();
 
         public MainWindow()
         {
@@ -35,10 +41,11 @@ namespace YP02
             student, group, discipline, disciplineProgram, teachersLoad, consultation, absence, teacher, marks, 
             consultationResult, lessonType, role, user,
             groupeAdd, groupeEdit,
-            studentAdd
+            studentAdd,
+            disciplineProgramAdd
         }
 
-        public void OpenPages(pages _pages, Models.StudGroups sgm = null)
+        public void OpenPages(pages _pages, Models.StudGroups sgm = null, Models.Students ms = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -116,7 +123,11 @@ namespace YP02
                     break;
 
                 case pages.studentAdd:
-                    frame.Navigate(new Pages.Add.StudentAdd());
+                    frame.Navigate(new Pages.Add.StudentAdd(MainStudent, ms));
+                    break;
+
+                case pages.disciplineProgramAdd:
+                    frame.Navigate(new Pages.Add.DisciplineProgramAdd(MainDisciplineProgram));
                     break;
             }
         }

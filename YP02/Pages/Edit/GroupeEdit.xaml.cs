@@ -41,7 +41,6 @@ namespace YP02.Pages.Edit
             sgc.name = tb_name.Text;
 
             MainGrope._studgroupsContext.SaveChanges();
-
             MainWindow.init.OpenPages(MainWindow.pages.group);
         }
 

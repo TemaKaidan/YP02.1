@@ -1,12 +1,12 @@
-﻿<Page x:Class="YP02.Pages.Add.StudentAdd"
+﻿<Page x:Class="YP02.Pages.Edit.StudentEdit"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:YP02.Pages.Add"
+      xmlns:local="clr-namespace:YP02.Pages.Edit"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="StudentAdd">
+      Title="StudentEdit">
 
     <Grid>
         <DockPanel>
@@ -33,8 +33,8 @@
                 </Button>
                 <Label Background="White" Height="1"/>
                 <Button Content="Назад" Click="CancelButton_Click"
-                        Foreground="White" FontWeight="Bold" FontSize="14" Background="Transparent" BorderBrush="Transparent"
-                        Margin="5" Height="30"/>
+                    Foreground="White" FontWeight="Bold" FontSize="14" Background="Transparent" BorderBrush="Transparent"
+                    Margin="5" Height="30"/>
             </StackPanel>
 
             <!-- Основное содержимое -->
@@ -49,7 +49,7 @@
                             <SolidColorBrush Color="#0060AC" Opacity="1.0"/>
                         </Border.Background>
                     </Border>
-                    <Label Content="Добавление информации о студентах" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="20"/>
+                    <Label Content="Изменение информации о студентах" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="20"/>
                 </Grid>
 
                 <Grid Margin="0,60,0,0">
@@ -68,9 +68,9 @@
                     <Label Content="Дата отчисления" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,300,0,0" Width="180"/>
                     <DatePicker x:Name="db_dateOfRemand" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,340,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
                 </Grid>
-                
+
                 <Grid VerticalAlignment="Bottom" MinHeight="50">
-                    <Button Style="{StaticResource BtnRedac}" Background="#FFD24B4B" x:Name="text2" Click="Add_Student" Content="Добавить" Width="120" Height="40" HorizontalAlignment="Right" Margin="0,10,15,15"/>
+                    <Button Style="{StaticResource BtnRedac}" Background="#FFD24B4B" x:Name="text2" Click="Edit_Student" Content="Изменить" Width="120" Height="40" HorizontalAlignment="Right" Margin="0,10,15,15"/>
                 </Grid>
             </Grid>
         </DockPanel>
