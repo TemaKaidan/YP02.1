@@ -137,7 +137,7 @@ namespace YP02.Pages.listPages
 
         private void Click_Add(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.consultationAdd);
         }
     }
 }

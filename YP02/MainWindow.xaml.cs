@@ -25,7 +25,22 @@ namespace YP02
         public Pages.listPages.Group MainGroup = new Pages.listPages.Group();
         public Models.StudGroups studGroups = new Models.StudGroups();
 
+        public Pages.listPages.ConsultationResult MainConsultationResult = new Pages.listPages.ConsultationResult();
+
         public Pages.listPages.DisciplineProgram MainDisciplineProgram = new Pages.listPages.DisciplineProgram();
+
+        public Pages.listPages.LessonType MainLessonType = new Pages.listPages.LessonType();
+
+        public Pages.listPages.Role MainRole = new Pages.listPages.Role();
+
+        public Pages.listPages.User MainUser = new Pages.listPages.User();
+
+        public Pages.listPages.Mark MainMark = new Pages.listPages.Mark();
+
+        public Pages.listPages.Teacher MainTeacher = new Pages.listPages.Teacher();
+
+        public Pages.listPages.Consultation MainConsultation = new Pages.listPages.Consultation();
+
 
         public MainWindow()
         {
@@ -42,7 +57,15 @@ namespace YP02
             consultationResult, lessonType, role, user,
             groupeAdd, groupeEdit,
             studentAdd,
-            disciplineProgramAdd, disciplineProgramEdit
+            disciplineProgramAdd, disciplineProgramEdit,
+            teacherAdd,
+            markAdd,
+            consultationResultAdd,
+            lessonTypeAdd,
+            roleAdd,
+            userAdd,
+            consultationAdd
+
         }
 
         public void OpenPages(pages _pages, Models.StudGroups sgm = null, Models.Students ms = null, Models.DisciplinePrograms mdp = null)
@@ -123,7 +146,7 @@ namespace YP02
                     break;
 
                 case pages.studentAdd:
-                    frame.Navigate(new Pages.Add.StudentAdd(MainStudent, ms));
+                    frame.Navigate(new Pages.Add.StudentAdd(MainStudent));
                     break;
 
                 case pages.disciplineProgramAdd:
@@ -132,6 +155,35 @@ namespace YP02
 
                 case pages.disciplineProgramEdit:
                     frame.Navigate(new Pages.Edit.DisciplineProgramEdit(MainDisciplineProgram, mdp));
+                    break;
+
+
+                case pages.consultationResultAdd:
+                    frame.Navigate(new Pages.Add.ConsultationResultAdd(MainConsultationResult));
+                    break;
+
+                case pages.lessonTypeAdd:
+                    frame.Navigate(new Pages.Add.LessonTypeAdd(MainLessonType));
+                    break;
+
+                case pages.roleAdd:
+                    frame.Navigate(new Pages.Add.RoleAdd(MainRole));
+                    break;
+
+                case pages.userAdd:
+                    frame.Navigate(new Pages.Add.UserAdd(MainUser));
+                    break;
+
+                case pages.markAdd:
+                    frame.Navigate(new Pages.Add.MarkAdd(MainMark));
+                    break;
+
+                case pages.teacherAdd:
+                    frame.Navigate(new Pages.Add.TeacherAdd(MainTeacher));
+                    break;
+
+                case pages.consultationAdd:
+                    frame.Navigate(new Pages.Add.ConsultationAdd(MainConsultation));
                     break;
             }
         }
