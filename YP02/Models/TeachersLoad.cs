@@ -16,6 +16,8 @@ namespace YP02.Models
         public int studGroupId { get; set; }
         public int lectureHours { get; set; }
         public int practiceHours { get; set; }
+        public int сonsultationHours { get; set; }
+        public int courseprojectHours { get; set; }
         public int examHours { get; set; }
     }
 }

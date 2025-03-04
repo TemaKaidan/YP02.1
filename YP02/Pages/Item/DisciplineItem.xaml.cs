@@ -33,10 +33,6 @@ namespace YP02.Pages.Item
             this.MainDiscipline = MainDiscipline;
 
             lb_Name.Content = "Дисциплина: " + disciplines.name;
-            TeachersContext _teacher = new TeachersContext();
-            var teacher = _teacher.Teachers.FirstOrDefault(g => g.id == disciplines.teacherId);
-            lb_teacherId.Content = "Преподователь: " + (teacher != null ? teacher.surname : "Неизвестно ") + " " + (teacher != null ? teacher.name : "Неизвестно ") + " " + (teacher != null ? teacher.lastname : "Неизвестно ");
-
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)

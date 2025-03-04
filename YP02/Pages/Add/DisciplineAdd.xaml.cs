@@ -13,58 +13,41 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Models;
+using YP02.Pages.listPages;
 
 namespace YP02.Pages.Add
 {
     /// <summary>
-    /// Логика взаимодействия для MarkAdd.xaml
+    /// Логика взаимодействия для DisciplineAdd.xaml
     /// </summary>
-    public partial class MarkAdd : Page
+    public partial class DisciplineAdd : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.Mark MainMark;
-        public Models.Marks marks;
+        public Pages.listPages.Discipline MainDiscipline;
+        public Models.Disciplines disciplines;
 
-        Context.StudentsContext studentsContext = new Context.StudentsContext();
-        Context.DisciplinesContext disciplinesContext = new Context.DisciplinesContext();
-
-        public MarkAdd(Pages.listPages.Mark MainMark, Models.Marks marks = null)
+        public DisciplineAdd(Pages.listPages.Discipline MainDiscipline, Models.Disciplines disciplines = null)
         {
             InitializeComponent();
-            this.MainMark = MainMark;
-            this.marks = marks;
-
-            cb_disciplineProgramId.Items.Clear();
-            cb_disciplineProgramId.ItemsSource = disciplinesContext.Disciplines.ToList();
-            cb_disciplineProgramId.DisplayMemberPath = "name";
-            cb_disciplineProgramId.SelectedValuePath = "id";
-
-            cb_studentId.Items.Clear();
-            cb_studentId.ItemsSource = studentsContext.Students.ToList();
-            cb_studentId.DisplayMemberPath = "surname";
-            cb_studentId.SelectedValuePath = "id";
+            this.MainDiscipline = MainDiscipline;
+            this.disciplines = disciplines;
         }
-        private void Add_Marks(object sender, RoutedEventArgs e)
+
+        private void Add_Discipline(object sender, RoutedEventArgs e)
         {
-            if (marks == null)
+            if (disciplines == null)
             {
-                marks = new Models.Marks
+                disciplines = new Models.Disciplines
                 {
-                    date = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
-                    mark = tb_mark.Text,
-                    disciplineProgramId = (cb_disciplineProgramId.SelectedItem as Models.Disciplines).id,
-                    studentId = (cb_studentId.SelectedItem as Models.Students).id,
-                    description = tb_discription.Text
+                    name = tb_nameDiscipline.Text,
+                    teacherId = 1
                 };
-                MainMark._marksContext.Marks.Add(marks);
+                MainDiscipline._disciplinesContext.Disciplines.Add(disciplines);
             }
-            MainMark._marksContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.marks);
-        }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
+            MainDiscipline._disciplinesContext.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.discipline);
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
@@ -102,7 +85,9 @@ namespace YP02.Pages.Add
             isMenuCollapsed = !isMenuCollapsed;
         }
 
-        
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
     }
 }
-

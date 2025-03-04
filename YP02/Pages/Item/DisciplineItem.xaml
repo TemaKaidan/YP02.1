@@ -18,7 +18,6 @@
 
             <StackPanel VerticalAlignment="Center">
                 <Label x:Name="lb_Name" Content="Дисциплина: " Height="30" FontSize="15"/>
-                <Label x:Name="lb_teacherId" Content="Преподователь: " Height="30" FontSize="15"/>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                 <Button Style="{StaticResource BtnRedac}" Click="Click_Edit" Content="Изменить" Height="30" Width="100" FontSize="13" Margin="10,10,10,5" Background="#0060AC" Foreground="White"/>

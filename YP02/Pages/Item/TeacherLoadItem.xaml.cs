@@ -49,6 +49,8 @@ namespace YP02.Pages.Item
 
             lb_lectureHours.Content = "Часы лекций: " + teachersLoad.lectureHours;
             lb_practiceHours.Content = "Часы практик: " + teachersLoad.practiceHours;
+            lb_сonsultationHours.Content = "Часы консультаций: " + teachersLoad.сonsultationHours;
+            lb_courseprojectHours.Content = "Часы курсового проекта: " + teachersLoad.courseprojectHours;
             lb_examHours.Content = "Часы экзамена: " + teachersLoad.examHours;
         }
 

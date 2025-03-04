@@ -21,6 +21,8 @@
                 <Label x:Name="lb_studGroupId" Content="Группа: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_lectureHours" Content="Часы лекций: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_practiceHours" Content="Часы практик: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_сonsultationHours" Content="Часы консультаций: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_courseprojectHours" Content="Часы курсового проекта: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_examHours" Content="Часы экзамена: " Height="30" FontSize="15"/>
             </StackPanel>
 

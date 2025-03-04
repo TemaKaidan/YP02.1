@@ -26,20 +26,16 @@ namespace YP02
         public Models.StudGroups studGroups = new Models.StudGroups();
 
         public Pages.listPages.ConsultationResult MainConsultationResult = new Pages.listPages.ConsultationResult();
-
         public Pages.listPages.DisciplineProgram MainDisciplineProgram = new Pages.listPages.DisciplineProgram();
-
         public Pages.listPages.LessonType MainLessonType = new Pages.listPages.LessonType();
-
         public Pages.listPages.Role MainRole = new Pages.listPages.Role();
-
         public Pages.listPages.User MainUser = new Pages.listPages.User();
-
         public Pages.listPages.Mark MainMark = new Pages.listPages.Mark();
-
         public Pages.listPages.Teacher MainTeacher = new Pages.listPages.Teacher();
-
         public Pages.listPages.Consultation MainConsultation = new Pages.listPages.Consultation();
+        public Pages.listPages.Discipline MainDiscipline = new Pages.listPages.Discipline();
+        public Pages.listPages.TeachersLoad MainTeachersLoad = new Pages.listPages.TeachersLoad();
+        public Pages.listPages.Absence MainAbsence = new Pages.listPages.Absence();
 
 
         public MainWindow()
@@ -56,16 +52,19 @@ namespace YP02
             student, group, discipline, disciplineProgram, teachersLoad, consultation, absence, teacher, marks, 
             consultationResult, lessonType, role, user,
             groupeAdd, groupeEdit,
+
+            absenceAdd,
             studentAdd,
+            disciplineAdd,
             disciplineProgramAdd, disciplineProgramEdit,
             teacherAdd,
+            teachersLoadAdd,
             markAdd,
             consultationResultAdd,
             lessonTypeAdd,
             roleAdd,
             userAdd,
             consultationAdd
-
         }
 
         public void OpenPages(pages _pages, Models.StudGroups sgm = null, Models.Students ms = null, Models.DisciplinePrograms mdp = null)
@@ -184,6 +183,18 @@ namespace YP02
 
                 case pages.consultationAdd:
                     frame.Navigate(new Pages.Add.ConsultationAdd(MainConsultation));
+                    break;
+
+                case pages.disciplineAdd:
+                    frame.Navigate(new Pages.Add.DisciplineAdd(MainDiscipline));
+                    break;
+
+                case pages.teachersLoadAdd:
+                    frame.Navigate(new Pages.Add.TeacherLoadAdd(MainTeachersLoad));
+                    break;
+
+                case pages.absenceAdd:
+                    frame.Navigate(new Pages.Add.AbsenceAdd(MainAbsence));
                     break;
             }
         }

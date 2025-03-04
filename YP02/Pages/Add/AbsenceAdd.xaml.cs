@@ -13,58 +13,57 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Context;
+using YP02.Models;
 
 namespace YP02.Pages.Add
 {
     /// <summary>
-    /// Логика взаимодействия для MarkAdd.xaml
+    /// Логика взаимодействия для AbsenceAdd.xaml
     /// </summary>
-    public partial class MarkAdd : Page
+    public partial class AbsenceAdd : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.Mark MainMark;
-        public Models.Marks marks;
+        public Pages.listPages.Absence MainAbsence;
+        public Models.Absences absences;
 
-        Context.StudentsContext studentsContext = new Context.StudentsContext();
-        Context.DisciplinesContext disciplinesContext = new Context.DisciplinesContext();
+        Context.StudentsContext studentsContext = new StudentsContext();
+        Context.DisciplinesContext disciplinesContext = new DisciplinesContext();
 
-        public MarkAdd(Pages.listPages.Mark MainMark, Models.Marks marks = null)
+        public AbsenceAdd(Pages.listPages.Absence MainAbsence, Models.Absences absences = null)
         {
             InitializeComponent();
-            this.MainMark = MainMark;
-            this.marks = marks;
-
-            cb_disciplineProgramId.Items.Clear();
-            cb_disciplineProgramId.ItemsSource = disciplinesContext.Disciplines.ToList();
-            cb_disciplineProgramId.DisplayMemberPath = "name";
-            cb_disciplineProgramId.SelectedValuePath = "id";
+            this.MainAbsence = MainAbsence;
+            this.absences = absences;
 
             cb_studentId.Items.Clear();
             cb_studentId.ItemsSource = studentsContext.Students.ToList();
             cb_studentId.DisplayMemberPath = "surname";
             cb_studentId.SelectedValuePath = "id";
+
+            cb_disciplineId.Items.Clear();
+            cb_disciplineId.ItemsSource = disciplinesContext.Disciplines.ToList();
+            cb_disciplineId.DisplayMemberPath = "name";
+            cb_disciplineId.SelectedValuePath = "id";
         }
-        private void Add_Marks(object sender, RoutedEventArgs e)
+
+        private void Add_Absence(object sender, RoutedEventArgs e)
         {
-            if (marks == null)
+            if (absences == null)
             {
-                marks = new Models.Marks
+                absences = new Models.Absences
                 {
-                    date = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
-                    mark = tb_mark.Text,
-                    disciplineProgramId = (cb_disciplineProgramId.SelectedItem as Models.Disciplines).id,
                     studentId = (cb_studentId.SelectedItem as Models.Students).id,
-                    description = tb_discription.Text
+                    disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id,
+                    date = db_date.SelectedDate ?? DateTime.MinValue,
+                    delayMinutes = Convert.ToInt32(tb_delayMinutes.Text),
+                    explanatoryNote = cb_explanatoryNote.Text
                 };
-                MainMark._marksContext.Marks.Add(marks);
+                MainAbsence._absencesContext.Absences.Add(absences);
             }
-            MainMark._marksContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.marks);
-        }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
+            MainAbsence._absencesContext.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.absence);
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
@@ -102,7 +101,9 @@ namespace YP02.Pages.Add
             isMenuCollapsed = !isMenuCollapsed;
         }
 
-        
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
     }
 }
-
