@@ -54,16 +54,16 @@
 
                 <Grid Margin="0,60,0,0">
                     <Label Content="Фамилия" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,20,0,0" Width="100"/>
-                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_surname" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,60,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <TextBox Style="{StaticResource BaseBox}" x:Name="tb_surname" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,60,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
                     <Label Content="Имя" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,90,0,0" Width="55"/>
-                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_name" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,130,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <TextBox Style="{StaticResource BaseBox}" x:Name="tb_name" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,130,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
                     <Label Content="Отчество" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,160,0,0" Width="100"/>
-                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_lastname" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,200,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <TextBox Style="{StaticResource BaseBox}" x:Name="tb_lastname" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,200,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
                     <Label Content="Группа" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,230,0,0" Width="80"/>
-                    <ComboBox x:Name="cb_groupe" Height="30" Width="250" FontSize="20" VerticalAlignment="Top" Margin="180,270,170,0" Background="White" BorderBrush="#0060AC"/>
+                    <ComboBox x:Name="cb_groupe" Height="30" Width="250" VerticalAlignment="Top" Margin="180,270,170,0" Background="White" BorderBrush="#0060AC"/>
 
                     <Label Content="Дата отчисления" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,300,0,0" Width="180"/>
                     <DatePicker x:Name="db_dateOfRemand" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,340,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>

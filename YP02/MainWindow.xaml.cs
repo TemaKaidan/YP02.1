@@ -50,7 +50,7 @@ namespace YP02
             groupeAdd, groupeEdit,
 
             absenceAdd,
-            studentAdd,
+            studentAdd, studentEdit,
             disciplineAdd, disciplineEdit,
             disciplineProgramAdd, disciplineProgramEdit,
             teacherAdd,
@@ -198,6 +198,10 @@ namespace YP02
 
                 case pages.disciplineEdit:
                     frame.Navigate(new Pages.Edit.DisciplineEdit(MainDiscipline, md));
+                    break;
+
+                case pages.studentEdit:
+                    frame.Navigate(new Pages.Edit.StudentEdit(MainStudent, ms));
                     break;
             }
         }

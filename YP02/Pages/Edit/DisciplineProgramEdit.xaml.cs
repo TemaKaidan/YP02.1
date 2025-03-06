@@ -69,10 +69,31 @@ namespace YP02.Pages.Edit
             tb_hoursCount.Text = programs.hoursCount.ToString();
         }
 
+        private void Edit_DisciplineProgram(object sender, RoutedEventArgs e)
+        {
+            DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.FirstOrDefault(x => x.id == programs.id);
+
+            if (editPrograms != null)
+            {
+                editPrograms.theme = tb_theme.Text;
+                editPrograms.hoursCount = Convert.ToInt32(tb_hoursCount.Text);
+                editPrograms.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
+                editPrograms.lessonTypeId = (int)(cb_lessonTypeId.SelectedItem as ComboBoxItem).Tag;
+                MainDisciplineProgram._disciplinePrograms.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+            }
+            else
+            {
+                MessageBox.Show("Произошла ошибка!");
+                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+            }
+        }
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
+
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();
@@ -106,26 +127,6 @@ namespace YP02.Pages.Edit
             widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
             MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
             isMenuCollapsed = !isMenuCollapsed;
-        }
-
-        private void Edit_DisciplineProgram(object sender, RoutedEventArgs e)
-        {
-                DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.FirstOrDefault(x => x.id == programs.id);
-
-                if (editPrograms != null)
-                {
-                    editPrograms.theme = tb_theme.Text;
-                    editPrograms.hoursCount = Convert.ToInt32(tb_hoursCount.Text);
-                    editPrograms.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
-                    editPrograms.lessonTypeId = (int)(cb_lessonTypeId.SelectedItem as ComboBoxItem).Tag;
-                    MainDisciplineProgram._disciplinePrograms.SaveChanges();
-                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
-                }
-                else
-                {
-                    MessageBox.Show("Произошла ошибка!");
-                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
-                }
         }
     }
 }

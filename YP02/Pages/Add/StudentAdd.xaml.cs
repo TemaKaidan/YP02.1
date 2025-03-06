@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,9 +44,29 @@ namespace YP02.Pages.Add
 
         private void Add_Student(object sender, RoutedEventArgs e)
         {
-            //ToDo: проверка выбрана ли группа 
-            if(cb_groupe.SelectedIndex == -1)
+            if (string.IsNullOrEmpty(tb_surname.Text) || !Regex.IsMatch(tb_surname.Text, "[а-яА-Я]"))
             {
+                MessageBox.Show("Введите фамилию студента\n(буквенные значения русского алфавита)");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_name.Text) || !Regex.IsMatch(tb_name.Text, "[а-яА-Я]"))
+            {
+                MessageBox.Show("Введите имя студента\n(буквенные значения русского алфавита)");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_lastname.Text) || !Regex.IsMatch(tb_lastname.Text, "[а-яА-Я]"))
+            {
+                MessageBox.Show("Введите отчество студента\n(буквенные значения русского алфавита)");
+                return;
+            }
+            if (string.IsNullOrEmpty(cb_groupe.Text))
+            {
+                MessageBox.Show("Введите группу студента");
+                return;
+            }
+            if (string.IsNullOrEmpty(db_dateOfRemand.Text))
+            {
+                MessageBox.Show("Введите дату отчисления\n(dd.mm.yyyy)");
                 return;
             }
 
