@@ -13,47 +13,42 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Models;
 
-namespace YP02.Pages.Add
+namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для UserAdd.xaml
+    /// Логика взаимодействия для LessonTypeEdit.xaml
     /// </summary>
-    public partial class UserAdd : Page
+    public partial class LessonTypeEdit : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.User MainUser;
-        public Models.Users users;
+        public Pages.listPages.LessonType MainLessonType;
+        public Models.LessonTypes lessonTypes;
 
-        Context.RolesContext rolesContext = new Context.RolesContext();
-
-        public UserAdd(Pages.listPages.User MainUser, Models.Users users = null)
+        public LessonTypeEdit(Pages.listPages.LessonType MainLessonType, Models.LessonTypes lessonTypes = null)
         {
             InitializeComponent();
-            this.MainUser = MainUser;
-            this.users = users;
+            this.MainLessonType = MainLessonType;
+            this.lessonTypes = lessonTypes;
 
-            cb_role.Items.Clear();
-            cb_role.ItemsSource = rolesContext.Roles.ToList();
-            cb_role.DisplayMemberPath = "roleName";
-            cb_role.SelectedValuePath = "id";
+            tb_typeName.Text = lessonTypes.typeName;
         }
 
-        private void Add_Groupe(object sender, RoutedEventArgs e)
+        private void Edit_LessonType(object sender, RoutedEventArgs e)
         {
-            if (users == null)
+            if (string.IsNullOrEmpty(tb_typeName.Text))
             {
-                users = new Models.Users
-                {
-                    login = tb_login.Text,
-                    password = tb_password.Text,
-                    role = (cb_role.SelectedItem as Models.Roles).id
-                };
-                MainUser._usersContext.Users.Add(users);
+                MessageBox.Show("Введите наименование тип занятия");
+                return;
             }
-            MainUser._usersContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.user);
+
+            Models.LessonTypes mlt = MainLessonType._lessonTypesContext.LessonTypes.FirstOrDefault(x => x.id == lessonTypes.id);
+            mlt.typeName = tb_typeName.Text;
+
+            MainLessonType._lessonTypesContext.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.lessonType);
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

@@ -57,9 +57,9 @@ namespace YP02
             teachersLoadAdd, teachersLoadEdit,
             markAdd,
             consultationResultAdd,
-            lessonTypeAdd,
-            roleAdd,
-            userAdd,
+            lessonTypeAdd, lessonTypeEdit,
+            roleAdd, roleEdit,
+            userAdd, userEdit,
             consultationAdd, consultationEdit
         }
 
@@ -69,7 +69,10 @@ namespace YP02
             Models.DisciplinePrograms mdp = null,
             Models.Disciplines md = null,
             Models.TeachersLoad mtl = null,
-            Models.Consultations mc = null)
+            Models.Consultations mc = null,
+            Models.Users mu = null,
+            Models.Roles mr = null,
+            Models.LessonTypes mlt = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -212,6 +215,18 @@ namespace YP02
 
                 case pages.consultationEdit:
                     frame.Navigate(new Pages.Edit.ConsultationEdit(MainConsultation, mc));
+                    break;
+
+                case pages.userEdit:
+                    frame.Navigate(new Pages.Edit.UserEdit(MainUser, mu));
+                    break;
+
+                case pages.roleEdit:
+                    frame.Navigate(new Pages.Edit.RoleEdit(MainRole, mr));
+                    break;
+
+                case pages.lessonTypeEdit:
+                    frame.Navigate(new Pages.Edit.LessonTypeEdit(MainLessonType, mlt));
                     break;
             }
         }

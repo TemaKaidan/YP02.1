@@ -13,47 +13,36 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Models;
 
-namespace YP02.Pages.Add
+namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для UserAdd.xaml
+    /// Логика взаимодействия для RoleEdit.xaml
     /// </summary>
-    public partial class UserAdd : Page
+    public partial class RoleEdit : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.User MainUser;
-        public Models.Users users;
+        public Pages.listPages.Role MainRole;
+        public Models.Roles roles;
 
-        Context.RolesContext rolesContext = new Context.RolesContext();
-
-        public UserAdd(Pages.listPages.User MainUser, Models.Users users = null)
+        public RoleEdit(Pages.listPages.Role MainRole, Models.Roles roles = null)
         {
             InitializeComponent();
-            this.MainUser = MainUser;
-            this.users = users;
+            this.MainRole = MainRole;
+            this.roles = roles;
 
-            cb_role.Items.Clear();
-            cb_role.ItemsSource = rolesContext.Roles.ToList();
-            cb_role.DisplayMemberPath = "roleName";
-            cb_role.SelectedValuePath = "id";
+            tb_roleName.Text = roles.roleName;
         }
 
-        private void Add_Groupe(object sender, RoutedEventArgs e)
+        private void Edit_Role(object sender, RoutedEventArgs e)
         {
-            if (users == null)
-            {
-                users = new Models.Users
-                {
-                    login = tb_login.Text,
-                    password = tb_password.Text,
-                    role = (cb_role.SelectedItem as Models.Roles).id
-                };
-                MainUser._usersContext.Users.Add(users);
-            }
-            MainUser._usersContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.user);
+            Models.Roles mr = MainRole._rolesContext.Roles.FirstOrDefault(x => x.id == roles.id);
+            mr.roleName = tb_roleName.Text;
+
+            MainRole._rolesContext.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.role);
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

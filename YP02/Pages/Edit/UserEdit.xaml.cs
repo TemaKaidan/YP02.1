@@ -13,13 +13,16 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Context;
+using YP02.Models;
+using YP02.Pages.listPages;
 
-namespace YP02.Pages.Add
+namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для UserAdd.xaml
+    /// Логика взаимодействия для UserEdit.xaml
     /// </summary>
-    public partial class UserAdd : Page
+    public partial class UserEdit : Page
     {
         private bool isMenuCollapsed = false;
 
@@ -27,33 +30,45 @@ namespace YP02.Pages.Add
         public Models.Users users;
 
         Context.RolesContext rolesContext = new Context.RolesContext();
-
-        public UserAdd(Pages.listPages.User MainUser, Models.Users users = null)
+        
+        public UserEdit(Pages.listPages.User MainUser, Models.Users users = null)
         {
             InitializeComponent();
             this.MainUser = MainUser;
             this.users = users;
 
-            cb_role.Items.Clear();
-            cb_role.ItemsSource = rolesContext.Roles.ToList();
-            cb_role.DisplayMemberPath = "roleName";
-            cb_role.SelectedValuePath = "id";
+            tb_login.Text = users.login;
+            tb_password.Text = users.password;
+
+            foreach (Models.Roles roles in rolesContext.Roles)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = roles.roleName;
+                item.Tag = roles.id;
+                if (roles.id == users.role)
+                {
+                    item.IsSelected = true;
+                }
+                cb_role.Items.Add(item);
+            }
         }
 
-        private void Add_Groupe(object sender, RoutedEventArgs e)
+        private void Edit_User(object sender, RoutedEventArgs e)
         {
-            if (users == null)
+            Models.Users editUsers = MainUser._usersContext.Users.FirstOrDefault(x => x.id == users.id);
+            if (editUsers != null)
             {
-                users = new Models.Users
-                {
-                    login = tb_login.Text,
-                    password = tb_password.Text,
-                    role = (cb_role.SelectedItem as Models.Roles).id
-                };
-                MainUser._usersContext.Users.Add(users);
+                editUsers.login = tb_login.Text;
+                editUsers.password = tb_password.Text;
+                editUsers.role = (int)(cb_role.SelectedItem as ComboBoxItem).Tag;
+                MainUser._usersContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.user);
             }
-            MainUser._usersContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.user);
+            else
+            {
+                MessageBox.Show("Произошла ошибка!");
+                MainWindow.init.OpenPages(MainWindow.pages.user);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
