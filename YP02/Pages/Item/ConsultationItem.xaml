@@ -19,6 +19,7 @@
             <StackPanel VerticalAlignment="Center">
                 <Label x:Name="lb_Discipline" Content="Дисциплина: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_Date" Content="Дата: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_submittedWorks" Content="Сданные ПР: " Height="30" FontSize="15"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">

@@ -36,12 +36,13 @@ namespace YP02.Pages.Item
 
             lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == consultations.disciplineId).name;
             lb_Date.Content = "Дата: " + consultations.date;
+            lb_submittedWorks.Content = "Сданные работы: " + consultations.submittedWorks;
 
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.consultationEdit, null, null, null, null, null, consultations);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)

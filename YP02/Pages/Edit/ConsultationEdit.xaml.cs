@@ -14,13 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Models;
+using YP02.Pages.listPages;
 
-namespace YP02.Pages.Add
+namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для ConsultationAdd.xaml
+    /// Логика взаимодействия для ConsultationEdit.xaml
     /// </summary>
-    public partial class ConsultationAdd : Page
+    public partial class ConsultationEdit : Page
     {
         private bool isMenuCollapsed = false;
 
@@ -29,32 +31,46 @@ namespace YP02.Pages.Add
 
         Context.DisciplinesContext disciplinesContext = new DisciplinesContext();
 
-        public ConsultationAdd(Pages.listPages.Consultation MainConsultation, Models.Consultations consultations = null)
+        public ConsultationEdit(Pages.listPages.Consultation MainConsultation, Models.Consultations consultations= null)
         {
             InitializeComponent();
             this.MainConsultation = MainConsultation;
             this.consultations = consultations;
 
-            cb_disciplineId.Items.Clear();
-            cb_disciplineId.ItemsSource = disciplinesContext.Disciplines.ToList();
-            cb_disciplineId.DisplayMemberPath = "name";
-            cb_disciplineId.SelectedValuePath = "id";
+
+            foreach (Models.Disciplines disciplines in disciplinesContext.Disciplines)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = disciplines.name;
+                item.Tag = disciplines.id;
+                if (disciplines.id == consultations.disciplineId)
+                {
+                    item.IsSelected = true;
+                }
+                cb_disciplineId.Items.Add(item);
+            }
+            db_date.Text = consultations.date.ToString();
+            tb_submittedWorks.Text = consultations.submittedWorks;
         }
 
-        private void Add_Consultation(object sender, RoutedEventArgs e)
+        private void Edit_Consultation(object sender, RoutedEventArgs e)
         {
-            if (consultations == null)
+            Models.Consultations editConsultations = MainConsultation._consultationsContext.Consultations.
+                FirstOrDefault(x => x.id == consultations.id);
+            if (editConsultations != null)
             {
-                consultations = new Models.Consultations
-                {
-                    disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id,
-                    date = db_date.SelectedDate ?? DateTime.MinValue,
-                    submittedWorks = tb_submittedWorks.Text
-                };
-                MainConsultation._consultationsContext.Consultations.Add(consultations);
+                editConsultations.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
+                editConsultations.date = DateTime.Parse(db_date.Text);
+                editConsultations.submittedWorks = tb_submittedWorks.Text;
+
+                MainConsultation._consultationsContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.consultation);
             }
-            MainConsultation._consultationsContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.consultation);
+            else
+            {
+                MessageBox.Show("Произошла ошибка!");
+                MainWindow.init.OpenPages(MainWindow.pages.consultation);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

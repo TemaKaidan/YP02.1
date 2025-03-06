@@ -12,6 +12,7 @@ namespace YP02.Models
         [Key]
         public int id { get; set; }
         public int disciplineId { get; set; }
+        public string submittedWorks { get; set; }
         public DateTime date { get; set; }
     }
 }

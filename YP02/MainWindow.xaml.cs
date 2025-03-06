@@ -60,7 +60,7 @@ namespace YP02
             lessonTypeAdd,
             roleAdd,
             userAdd,
-            consultationAdd
+            consultationAdd, consultationEdit
         }
 
         public void OpenPages(pages _pages, 
@@ -68,7 +68,8 @@ namespace YP02
             Models.Students ms = null, 
             Models.DisciplinePrograms mdp = null,
             Models.Disciplines md = null,
-            Models.TeachersLoad mtl = null)
+            Models.TeachersLoad mtl = null,
+            Models.Consultations mc = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -207,6 +208,10 @@ namespace YP02
 
                 case pages.teachersLoadEdit:
                     frame.Navigate(new Pages.Edit.TeacherLoadEdit(MainTeachersLoad, mtl));
+                    break;
+
+                case pages.consultationEdit:
+                    frame.Navigate(new Pages.Edit.ConsultationEdit(MainConsultation, mc));
                     break;
             }
         }
