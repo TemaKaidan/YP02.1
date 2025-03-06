@@ -46,6 +46,18 @@ namespace YP02.Pages.listPages
             }
         }
 
+        private void KeyDown_Search(object sender, KeyEventArgs e)  ///Поиск по теме
+        {
+            string searchText = search.Text.ToLower();
+            var result = _disciplinePrograms.DisciplinePrograms.Where(x => x.theme.ToLower().Contains(searchText)
+            );
+            parrent.Children.Clear();
+            foreach (var item in result)
+            {
+                parrent.Children.Add(new Pages.Item.DisciplineProgramItem(item, this));
+            }
+        }
+
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();

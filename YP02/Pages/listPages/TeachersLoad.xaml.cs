@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,31 @@ namespace YP02.Pages.listPages
             foreach (var x in _teachersLoadContext.TeachersLoad.ToList())
             {
                 parrent.Children.Add(new Pages.Item.TeacherLoadItem(x, this));
+            }
+        }
+
+        private async void KeyDown_Search(object sender, KeyEventArgs e) /// Поиск по ФИО
+        {
+            string searchText = search.Text.ToLower();
+
+            var foundTeachers = await _teachersContext.Teachers
+                .Where(t => t.surname.ToLower().Contains(searchText) ||
+                             t.name.ToLower().Contains(searchText) ||
+                             t.lastname.ToLower().Contains(searchText))
+                .ToListAsync();
+
+            parrent.Children.Clear();
+            foreach (var teacher in foundTeachers)
+            {
+                var teacherLoads = await _teachersLoadContext.TeachersLoad
+                    .Include(t => t.Teacher)
+                    .Where(t => t.teacherId == teacher.id) 
+                    .ToListAsync();
+
+                foreach (var teacherLoad in teacherLoads)
+                {
+                    parrent.Children.Add(new Pages.Item.TeacherLoadItem(teacherLoad, this));
+                }
             }
         }
 

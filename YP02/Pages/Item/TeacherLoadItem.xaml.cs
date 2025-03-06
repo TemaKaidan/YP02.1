@@ -52,11 +52,23 @@ namespace YP02.Pages.Item
             lb_сonsultationHours.Content = "Часы консультаций: " + teachersLoad.сonsultationHours;
             lb_courseprojectHours.Content = "Часы курсового проекта: " + teachersLoad.courseprojectHours;
             lb_examHours.Content = "Часы экзамена: " + teachersLoad.examHours;
+
+            int totalHours = CalculateTotalHours(teachersLoad);
+            lb_totalHours.Content = "Общее количество часов на дисциплину: " + totalHours;
+        }
+
+        private int CalculateTotalHours(Models.TeachersLoad teachersLoad)
+        {
+            return teachersLoad.lectureHours +
+                   teachersLoad.practiceHours +
+                   teachersLoad.сonsultationHours +
+                   teachersLoad.courseprojectHours +
+                   teachersLoad.examHours;
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.teachersLoadEdit, null, null, null, null, teachersLoad);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)

@@ -71,6 +71,27 @@ namespace YP02.Pages.Edit
 
         private void Edit_DisciplineProgram(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(cb_disciplineId.Text))
+            {
+                MessageBox.Show("Введите дисциплину");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_theme.Text))
+            {
+                MessageBox.Show("Введите тему");
+                return;
+            }
+            if (string.IsNullOrEmpty(cb_lessonTypeId.Text))
+            {
+                MessageBox.Show("Введите тип");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_hoursCount.Text))
+            {
+                MessageBox.Show("Введите количество часов");
+                return;
+            }
+
             DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.FirstOrDefault(x => x.id == programs.id);
 
             if (editPrograms != null)

@@ -24,6 +24,7 @@
                 <Label x:Name="lb_сonsultationHours" Content="Часы консультаций: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_courseprojectHours" Content="Часы курсового проекта: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_examHours" Content="Часы экзамена: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_totalHours" Content="Общее количество часов: " Height="30" FontSize="15"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">

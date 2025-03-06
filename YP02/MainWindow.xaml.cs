@@ -54,7 +54,7 @@ namespace YP02
             disciplineAdd, disciplineEdit,
             disciplineProgramAdd, disciplineProgramEdit,
             teacherAdd,
-            teachersLoadAdd,
+            teachersLoadAdd, teachersLoadEdit,
             markAdd,
             consultationResultAdd,
             lessonTypeAdd,
@@ -67,7 +67,8 @@ namespace YP02
             Models.StudGroups sgm = null, 
             Models.Students ms = null, 
             Models.DisciplinePrograms mdp = null,
-            Models.Disciplines md = null)
+            Models.Disciplines md = null,
+            Models.TeachersLoad mtl = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -202,6 +203,10 @@ namespace YP02
 
                 case pages.studentEdit:
                     frame.Navigate(new Pages.Edit.StudentEdit(MainStudent, ms));
+                    break;
+
+                case pages.teachersLoadEdit:
+                    frame.Navigate(new Pages.Edit.TeacherLoadEdit(MainTeachersLoad, mtl));
                     break;
             }
         }

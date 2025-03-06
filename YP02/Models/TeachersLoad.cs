@@ -19,5 +19,7 @@ namespace YP02.Models
         public int сonsultationHours { get; set; }
         public int courseprojectHours { get; set; }
         public int examHours { get; set; }
+
+        public Teachers Teacher { get; set; }
     }
 }

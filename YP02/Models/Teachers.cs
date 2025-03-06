@@ -15,5 +15,7 @@ namespace YP02.Models
         public string name { get; set; }
         public string lastname { get; set; }
         public int userId { get; set; }
+
+        public ICollection<TeachersLoad> TeachersLoads { get; set; }
     }
 }
