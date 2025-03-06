@@ -37,6 +37,12 @@ namespace YP02.Pages.Edit
 
         private void Edit_Groupe(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(tb_name.Text))
+            {
+                MessageBox.Show("Введите наименование группы");
+                return;
+            }
+
             Models.StudGroups sgc = MainGrope._studgroupsContext.StudGroups.FirstOrDefault(x => x.id == studGroups.id);
             sgc.name = tb_name.Text;
 

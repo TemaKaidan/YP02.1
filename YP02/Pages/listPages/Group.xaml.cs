@@ -43,6 +43,39 @@ namespace YP02.Pages.listPages
             }
         }
 
+        private void KeyDown_Search(object sender, KeyEventArgs e)
+        {
+            string searchText = search.Text.ToLower();
+            var result = _studgroupsContext.StudGroups.Where(x =>
+                x.name.ToLower().Contains(searchText)
+            );
+            parrent.Children.Clear();
+            foreach (var item in result)
+            {
+                parrent.Children.Add(new Pages.Item.GroupeItem(item, this));
+            }
+        }
+
+        private void SortUp(object sender, RoutedEventArgs e)
+        {
+            var sortUp = _studgroupsContext.StudGroups.OrderBy(x => x.name);
+            parrent.Children.Clear();
+            foreach (var groupeUp in sortUp)
+            {
+                parrent.Children.Add(new Pages.Item.GroupeItem(groupeUp, this));
+            }
+        }
+
+        private void SortDown(object sender, RoutedEventArgs e)
+        {
+            var sortDown = _studgroupsContext.StudGroups.OrderByDescending(x => x.name);
+            parrent.Children.Clear();
+            foreach (var groupeDown in sortDown)
+            {
+                parrent.Children.Add(new Pages.Item.GroupeItem(groupeDown, this));
+            }
+        }
+
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();

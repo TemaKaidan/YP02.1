@@ -36,6 +36,12 @@ namespace YP02.Pages.Add
 
         private void Add_Groupe(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(tb_name.Text))
+            {
+                MessageBox.Show("Введите наименование группы");
+                return;
+            }
+
             if (studGroups == null)
             {
                 studGroups = new Models.StudGroups
