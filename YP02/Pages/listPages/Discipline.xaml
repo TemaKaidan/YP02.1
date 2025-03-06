@@ -188,7 +188,12 @@
                     </Border>
                     <Label Content="Информация о дисциплинах" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="20"/>
                 </Grid>
-                <ScrollViewer Margin="10,70,10,55" Background="#cacbcc">
+
+                <Grid>
+                    <TextBox Style="{StaticResource BaseBox}" x:Name="search" Height="25" FontSize="15" Width="340" BorderBrush="#0060AC" Margin="0,70,0,0" KeyDown="KeyDown_Search" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                </Grid>
+
+                <ScrollViewer Margin="10,100,10,55" Background="#cacbcc">
                     <StackPanel x:Name="parrent"/>
                 </ScrollViewer>
                 <Button Style="{StaticResource BtnRedac}" x:Name="AddButton" Background="#FFD24B4B" Content="Добавить" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="40"

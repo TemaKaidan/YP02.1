@@ -37,6 +37,12 @@ namespace YP02.Pages.Add
 
         private void Add_Discipline(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
+            {
+                MessageBox.Show("Введите наименование дисциплины");
+                return;
+            }
+
             if (disciplines == null)
             {
                 disciplines = new Models.Disciplines

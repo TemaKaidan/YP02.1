@@ -2,41 +2,42 @@
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using YP02.Models;
 
 namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для GroupeEdit.xaml
+    /// Логика взаимодействия для DisciplineEdit.xaml
     /// </summary>
-    public partial class GroupeEdit : Page
+    public partial class DisciplineEdit : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.Group MainGrope;
-        public Models.StudGroups studGroups;
+        public Pages.listPages.Discipline MainDiscipline;
+        public Models.Disciplines disciplines;
 
-        public GroupeEdit(Pages.listPages.Group MainGrope, Models.StudGroups studGroups = null)
+        public DisciplineEdit(Pages.listPages.Discipline MainDiscipline, Models.Disciplines disciplines = null)
         {
             InitializeComponent();
-            this.MainGrope = MainGrope;
-            this.studGroups = studGroups;
+            this.MainDiscipline = MainDiscipline;
+            this.disciplines = disciplines;
 
-            tb_name.Text = studGroups.name;
+            tb_nameDiscipline.Text = disciplines.name;
         }
 
-        private void Edit_Groupe(object sender, RoutedEventArgs e)
+        private void Edit_Discipline(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(tb_name.Text))
+            if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
             {
-                MessageBox.Show("Введите наименование группы");
+                MessageBox.Show("Введите наименование дисциплины");
                 return;
             }
 
-            Models.StudGroups sgc = MainGrope._studgroupsContext.StudGroups.FirstOrDefault(x => x.id == studGroups.id);
-            sgc.name = tb_name.Text;
+            Models.Disciplines md = MainDiscipline._disciplinesContext.Disciplines.FirstOrDefault(x => x.id == disciplines.id);
+            md.name = tb_nameDiscipline.Text;
 
-            MainGrope._studgroupsContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.group);
+            MainDiscipline._disciplinesContext.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.discipline);
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

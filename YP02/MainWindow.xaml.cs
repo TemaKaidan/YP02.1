@@ -20,11 +20,7 @@ namespace YP02
         public static MainWindow init;
 
         public Pages.listPages.Student MainStudent = new Student();
-        public Models.Students students = new Models.Students();
-
         public Pages.listPages.Group MainGroup = new Pages.listPages.Group();
-        public Models.StudGroups studGroups = new Models.StudGroups();
-
         public Pages.listPages.ConsultationResult MainConsultationResult = new Pages.listPages.ConsultationResult();
         public Pages.listPages.DisciplineProgram MainDisciplineProgram = new Pages.listPages.DisciplineProgram();
         public Pages.listPages.LessonType MainLessonType = new Pages.listPages.LessonType();
@@ -55,7 +51,7 @@ namespace YP02
 
             absenceAdd,
             studentAdd,
-            disciplineAdd,
+            disciplineAdd, disciplineEdit,
             disciplineProgramAdd, disciplineProgramEdit,
             teacherAdd,
             teachersLoadAdd,
@@ -67,7 +63,11 @@ namespace YP02
             consultationAdd
         }
 
-        public void OpenPages(pages _pages, Models.StudGroups sgm = null, Models.Students ms = null, Models.DisciplinePrograms mdp = null)
+        public void OpenPages(pages _pages, 
+            Models.StudGroups sgm = null, 
+            Models.Students ms = null, 
+            Models.DisciplinePrograms mdp = null,
+            Models.Disciplines md = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -156,7 +156,6 @@ namespace YP02
                     frame.Navigate(new Pages.Edit.DisciplineProgramEdit(MainDisciplineProgram, mdp));
                     break;
 
-
                 case pages.consultationResultAdd:
                     frame.Navigate(new Pages.Add.ConsultationResultAdd(MainConsultationResult));
                     break;
@@ -195,6 +194,10 @@ namespace YP02
 
                 case pages.absenceAdd:
                     frame.Navigate(new Pages.Add.AbsenceAdd(MainAbsence));
+                    break;
+
+                case pages.disciplineEdit:
+                    frame.Navigate(new Pages.Edit.DisciplineEdit(MainDiscipline, md));
                     break;
             }
         }

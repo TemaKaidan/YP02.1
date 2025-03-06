@@ -43,6 +43,19 @@ namespace YP02.Pages.listPages
             }
         }
 
+        private void KeyDown_Search(object sender, KeyEventArgs e)
+        {
+            string searchText = search.Text.ToLower();
+            var result = _disciplinesContext.Disciplines.Where(x =>
+                x.name.ToLower().Contains(searchText)
+            );
+            parrent.Children.Clear();
+            foreach (var item in result)
+            {
+                parrent.Children.Add(new Pages.Item.DisciplineItem(item, this));
+            }
+        }
+
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();
