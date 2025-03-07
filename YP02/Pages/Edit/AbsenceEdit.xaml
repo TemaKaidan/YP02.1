@@ -1,12 +1,12 @@
-﻿<Page x:Class="YP02.Pages.Add.MarkAdd"
+﻿<Page x:Class="YP02.Pages.Edit.AbsenceEdit"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:YP02.Pages.Add"
+      xmlns:local="clr-namespace:YP02.Pages.Edit"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MarkAdd">
+      Title="AbsenceEdit">
 
     <Grid>
         <DockPanel>
@@ -49,27 +49,39 @@
                             <SolidColorBrush Color="#0060AC" Opacity="1.0"/>
                         </Border.Background>
                     </Border>
-                    <Label Content="Добавление информации об оценках" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="20"/>
+                    <Label Content="Изменение информации о пропусках занятий" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="20"/>
                 </Grid>
 
                 <Grid Margin="0,60,0,0">
-                    <Label Content="Студент" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,10,0,0" Width="90"/>
-                    <ComboBox x:Name="cb_studentId" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,50,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <Label Content="Студент" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,20,0,0" Width="85"/>
+                    <ComboBox x:Name="cb_studentId" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,60,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    <Label Content="Занятие" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,80,0,0" Width="90"/>
-                    <ComboBox x:Name="cb_disciplineProgramId" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,120,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <Label Content="Дисциплина" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,90,0,0" Width="135"/>
+                    <ComboBox x:Name="cb_disciplineId" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,130,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    <Label Content="Оценка" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,150,0,0" Width="85"/>
-                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_mark" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,190,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    <Label Content="Описание" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,220,0,0" Width="110"/>
-                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_discription" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,260,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <Label Content="Кол-во минут" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,160,0,0" Width="150"/>
+                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_delayMinutes" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,200,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    
+                    <Label Content="Объяснительная" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,230,0,0" Width="175"/>
+                    <ComboBox x:Name="cb_explanatoryNote" 
+          Background="White" 
+          BorderBrush="#0060AC" 
+          Foreground="Black"  
+          VerticalAlignment="Top" 
+          Margin="10,270,0,0" 
+          Height="30" 
+          HorizontalAlignment="Center" 
+          Width="250"
+          SelectionChanged="ExplanatoryNote_SelectionChanged">
+                        <ComboBoxItem Content="Есть"/>
+                        <ComboBoxItem Content="Нет"/>
+                    </ComboBox>
+
                 </Grid>
 
                 <Grid VerticalAlignment="Bottom" MinHeight="50">
-                    <Button Style="{StaticResource BtnRedac}" Background="#FFD24B4B" x:Name="text2" Click="Add_Marks" Content="Добавить" Width="120" Height="40" HorizontalAlignment="Right" Margin="0,10,15,15"/>
+                    <Button Style="{StaticResource BtnRedac}" Background="#FFD24B4B" x:Name="text2" Click="Edit_Absence" Content="Изменить" Width="120" Height="40" HorizontalAlignment="Right" Margin="0,10,15,15"/>
                 </Grid>
             </Grid>
         </DockPanel>

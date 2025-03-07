@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using YP02.Context;
 using YP02.Models;
 using YP02.Pages.listPages;
@@ -28,6 +16,7 @@ namespace YP02.Pages.Item
 
         private readonly DisciplinesContext _disciplinesContext = new DisciplinesContext();
         private readonly StudentsContext _studentsContext = new StudentsContext();
+        private readonly ConsultationsContext _consultationsContext = new ConsultationsContext();
         public AbsenceItem(Absences absences, Absence MainAbsence)
         {
             InitializeComponent();
@@ -38,14 +27,18 @@ namespace YP02.Pages.Item
             Students students = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);
             lb_Student.Content = $"Студент: {students.surname} {students.name} {students.lastname}";
             lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == absences.disciplineId).name;
-            lb_Date.Content = "Дата: " + absences.date;
             lb_Minutes.Content = "Кол-во минут: " + absences.delayMinutes;
             lb_Explanation.Content = "Объяснитальная: " + absences.explanatoryNote;
         }
 
-        private void Click_Edit(object sender, RoutedEventArgs e)
+        public void GeneratePdf(Consultations consultation, Students student)
         {
 
+        }
+
+        private void Click_Edit(object sender, RoutedEventArgs e)
+        {
+            MainWindow.init.OpenPages(MainWindow.pages.absenceEdit,null,null,null,null,null,null,null,null,null, absences);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)
@@ -57,6 +50,17 @@ namespace YP02.Pages.Item
                 MainAbsence._absencesContext.SaveChanges();
                 (this.Parent as Panel).Children.Remove(this);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Students student = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);
+
+            // Получаем консультацию из правильного контекста
+            Consultations consultation = _consultationsContext.Consultations.FirstOrDefault(x => x.id == absences.disciplineId);
+
+            // Генерация PDF
+            GeneratePdf(consultation, student);
         }
     }
 }

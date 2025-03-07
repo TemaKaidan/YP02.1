@@ -27,7 +27,7 @@ namespace YP02.Pages.Add
         public Models.Marks marks;
 
         Context.StudentsContext studentsContext = new Context.StudentsContext();
-        Context.DisciplinesContext disciplinesContext = new Context.DisciplinesContext();
+        Context.DisciplineProgramsContext disciplinesContext = new Context.DisciplineProgramsContext();
 
         public MarkAdd(Pages.listPages.Mark MainMark, Models.Marks marks = null)
         {
@@ -36,8 +36,8 @@ namespace YP02.Pages.Add
             this.marks = marks;
 
             cb_disciplineProgramId.Items.Clear();
-            cb_disciplineProgramId.ItemsSource = disciplinesContext.Disciplines.ToList();
-            cb_disciplineProgramId.DisplayMemberPath = "name";
+            cb_disciplineProgramId.ItemsSource = disciplinesContext.DisciplinePrograms.ToList();
+            cb_disciplineProgramId.DisplayMemberPath = "theme";
             cb_disciplineProgramId.SelectedValuePath = "id";
 
             cb_studentId.Items.Clear();
@@ -51,9 +51,8 @@ namespace YP02.Pages.Add
             {
                 marks = new Models.Marks
                 {
-                    date = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
                     mark = tb_mark.Text,
-                    disciplineProgramId = (cb_disciplineProgramId.SelectedItem as Models.Disciplines).id,
+                    disciplineProgramId = (cb_disciplineProgramId.SelectedItem as Models.DisciplinePrograms).id,
                     studentId = (cb_studentId.SelectedItem as Models.Students).id,
                     description = tb_discription.Text
                 };
@@ -61,10 +60,6 @@ namespace YP02.Pages.Add
             }
             MainMark._marksContext.SaveChanges();
             MainWindow.init.OpenPages(MainWindow.pages.marks);
-        }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
@@ -102,7 +97,10 @@ namespace YP02.Pages.Add
             isMenuCollapsed = !isMenuCollapsed;
         }
 
-        
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
     }
 }
 

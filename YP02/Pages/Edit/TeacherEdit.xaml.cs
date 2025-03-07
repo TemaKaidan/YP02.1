@@ -13,56 +13,70 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using YP02.Context;
 using YP02.Models;
 
-namespace YP02.Pages.Add
+namespace YP02.Pages.Edit
 {
     /// <summary>
-    /// Логика взаимодействия для AbsenceAdd.xaml
+    /// Логика взаимодействия для TeacherEdit.xaml
     /// </summary>
-    public partial class AbsenceAdd : Page
+    public partial class TeacherEdit : Page
     {
         private bool isMenuCollapsed = false;
 
-        public Pages.listPages.Absence MainAbsence;
-        public Models.Absences absences;
+        public Pages.listPages.Teacher MainTeacher;
+        public Models.Teachers teachers;
 
-        Context.StudentsContext studentsContext = new StudentsContext();
-        Context.DisciplinesContext disciplinesContext = new DisciplinesContext();
-
-        public AbsenceAdd(Pages.listPages.Absence MainAbsence, Models.Absences absences = null)
+        public TeacherEdit(Pages.listPages.Teacher MainTeacher, Models.Teachers teachers = null)
         {
             InitializeComponent();
-            this.MainAbsence = MainAbsence;
-            this.absences = absences;
+            this.MainTeacher = MainTeacher;
+            this.teachers = teachers;
 
-            cb_studentId.Items.Clear();
-            cb_studentId.ItemsSource = studentsContext.Students.ToList();
-            cb_studentId.DisplayMemberPath = "surname";
-            cb_studentId.SelectedValuePath = "id";
-
-            cb_disciplineId.Items.Clear();
-            cb_disciplineId.ItemsSource = disciplinesContext.Disciplines.ToList();
-            cb_disciplineId.DisplayMemberPath = "name";
-            cb_disciplineId.SelectedValuePath = "id";
+            tb_surName.Text = teachers.surname;
+            tb_name.Text = teachers.name;
+            tb_lastName.Text = teachers.lastname;
+            tb_login.Text = teachers.login;
+            tb_password.Text = teachers.password;
         }
 
-        private void Add_Absence(object sender, RoutedEventArgs e)
+        private void Edit_Teacher(object sender, RoutedEventArgs e)
         {
-            if (absences == null)
+            if (string.IsNullOrEmpty(tb_surName.Text))
             {
-                absences = new Models.Absences
-                {
-                    studentId = (cb_studentId.SelectedItem as Models.Students).id,
-                    disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id,
-                    delayMinutes = Convert.ToInt32(tb_delayMinutes.Text),
-                    explanatoryNote = cb_explanatoryNote.Text
-                };
-                MainAbsence._absencesContext.Absences.Add(absences);
+                MessageBox.Show("Введите фамилию");
+                return;
             }
-            MainAbsence._absencesContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.absence);
+            if (string.IsNullOrEmpty(tb_name.Text))
+            {
+                MessageBox.Show("Введите имя");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_lastName.Text))
+            {
+                MessageBox.Show("Введите отчество");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_login.Text))
+            {
+                MessageBox.Show("Введите логин");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_password.Text))
+            {
+                MessageBox.Show("Введите пароль");
+                return;
+            }
+
+            Models.Teachers mt = MainTeacher._teachersContext.Teachers.FirstOrDefault(x=>x.id == teachers.id);
+            mt.surname = tb_surName.Text;
+            mt.name = tb_name.Text;
+            mt.lastname = tb_lastName.Text;
+            mt.login = tb_login.Text;
+            mt.password = tb_password.Text;
+
+            MainTeacher._teachersContext.SaveChanges();
+            MainWindow.init.OpenPages(MainWindow.pages.teacher);
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

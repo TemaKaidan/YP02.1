@@ -35,11 +35,13 @@ namespace YP02.Pages.Item
             lb_LastName.Content = "Фамилия: " + teachers.surname;
             lb_FirstName.Content = "Имя: " + teachers.name;
             lb_MiddleName.Content = "Отчество: " + teachers.lastname;
+            lb_Login.Content = "Логин: " + teachers.login;
+            lb_Password.Content = "Пароль: " + teachers.password;
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.teacherEdit, null,null,null,null,null,null,null,null,null,null, teachers);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)

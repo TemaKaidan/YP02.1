@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,8 @@ namespace YP02.Pages.listPages
         private bool isMenuCollapsed = false;
         public AbsencesContext _absencesContext = new AbsencesContext();
 
+        public StudentsContext _studentsContext = new StudentsContext();
+
         public Absence()
         {
             InitializeComponent();
@@ -40,6 +43,31 @@ namespace YP02.Pages.listPages
                 parrent.Children.Add(new AbsenceItem(x, this));
             }
         }
+
+        private async void KeyDown_Search(object sender, KeyEventArgs e) /// Поиск по ФИО 
+        {
+            string searchText = search.Text.ToLower();
+
+            var foundStudents = await _studentsContext.Students
+                .Where(t => t.surname.ToLower().Contains(searchText) ||
+                             t.name.ToLower().Contains(searchText) ||
+                             t.lastname.ToLower().Contains(searchText))
+                .ToListAsync();
+
+            parrent.Children.Clear();
+            foreach (var student in foundStudents)
+            {
+                var studentAbsences = _absencesContext.Absences
+                    .Where(a => a.studentId == student.id)
+                    .ToList();
+
+                foreach (var absence in studentAbsences)
+                {
+                    parrent.Children.Add(new Pages.Item.AbsenceItem(absence, this));
+                }
+            }
+        }
+
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();

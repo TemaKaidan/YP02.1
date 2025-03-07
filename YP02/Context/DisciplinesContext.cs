@@ -11,6 +11,7 @@ namespace YP02.Context
 {
     public class DisciplinesContext : DbContext
     {
+        public DbSet<Consultations> Consultations { get; set; }
         public DbSet<Disciplines> Disciplines { get; set; }
         public DisciplinesContext()
         {

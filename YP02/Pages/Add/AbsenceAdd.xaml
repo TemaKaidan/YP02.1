@@ -59,14 +59,12 @@
                     <Label Content="Дисциплина" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,90,0,0" Width="135"/>
                     <ComboBox x:Name="cb_disciplineId" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,130,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    <Label Content="Дата" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,160,0,0" Width="60"/>
-                    <DatePicker x:Name="db_date" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,200,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    <Label Content="Кол-во минут" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,230,0,0" Width="150"/>
-                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_delayMinutes" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,270,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+                    <Label Content="Кол-во минут" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,160,0,0" Width="150"/>
+                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_delayMinutes" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,200,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
 
-                    <Label Content="Объяснительная" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,300,0,0" Width="175"/>
-                    <ComboBox x:Name="cb_explanatoryNote" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,335,0,0" Height="30" HorizontalAlignment="Center" Width="250" >
+                    <Label Content="Объяснительная" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,230,0,0" Width="175"/>
+                    <ComboBox x:Name="cb_explanatoryNote" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,270,0,0" Height="30" HorizontalAlignment="Center" Width="250" >
                         <ComboBoxItem Content="Есть"/>
                         <ComboBoxItem Content="Нет"/>
                     </ComboBox>

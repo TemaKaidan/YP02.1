@@ -61,6 +61,13 @@
 
                     <Label Content="Отчество" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,160,0,0" Width="100"/>
                     <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_lastName" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,200,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+
+                    <Label Content="Логин" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,230,0,0" Width="70"/>
+                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_login" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,270,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+
+                    <Label Content="Пароль" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,300,0,0" Width="85"/>
+                    <TextBox Style="{StaticResource BaseBox}"  x:Name="tb_password" Background="White" BorderBrush="#0060AC" Foreground="Black"  VerticalAlignment="Top" Margin="10,335,0,0" Height="30" HorizontalAlignment="Center" Width="250"/>
+
                 </Grid>
 
                 <Grid VerticalAlignment="Bottom" MinHeight="50">

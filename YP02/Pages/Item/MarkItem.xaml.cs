@@ -32,12 +32,21 @@ namespace YP02.Pages.Item
             this.marks = marks;
             this.MainMark = MainMark;
 
-            lb_date.Content = "Дата: " + marks.date;
+            int markValue;
+            if (int.TryParse(marks.mark, out markValue)) // Пробуем преобразовать строку в число
+            {
+                SetMarkColor(markValue); // Если преобразование успешно, передаем в SetMarkColor
+            }
+            else
+            {
+                lb_mark.Foreground = new SolidColorBrush(Colors.Black); // Если не удалось преобразовать, ставим чёрный цвет
+            }
+
             lb_mark.Content = "Оценка: " + marks.mark;
 
-            DisciplineProgramsContext _disciplinePrograms = new DisciplineProgramsContext();
-            var disciplinePrograms = _disciplinePrograms.DisciplinePrograms.FirstOrDefault(g => g.id == marks.disciplineProgramId);
-            lb_disciplineProgramId.Content = "Программа дисциплина: " + (disciplinePrograms != null ? disciplinePrograms.theme : "Неизвестно");
+            DisciplineProgramsContext _disciplinesContext = new DisciplineProgramsContext();
+            var disciplines = _disciplinesContext.DisciplinePrograms.FirstOrDefault(g => g.id == marks.disciplineProgramId);
+            lb_disciplineProgramId.Content = "Занятие: " + (disciplines != null ? disciplines.theme : "Неизвестно");
 
             StudentsContext _studentsContext = new StudentsContext();
             var studentsContext = _studentsContext.Students.FirstOrDefault(g => g.id == marks.studentId);
@@ -46,9 +55,34 @@ namespace YP02.Pages.Item
             lb_description.Content = "Описание: " + marks.description;
         }
 
+        private void SetMarkColor(int mark)
+        {
+            // Устанавливаем цвет в зависимости от оценки
+            if (mark == 5)
+            {
+                lb_mark.Foreground = new SolidColorBrush(Colors.Green); // Оценка 5 - зелёный
+            }
+            else if (mark == 4)
+            {
+                lb_mark.Foreground = new SolidColorBrush(Colors.DarkGoldenrod); // Оценка 4 - тёмно-жёлтый
+            }
+            else if (mark == 3)
+            {
+                lb_mark.Foreground = new SolidColorBrush(Colors.Orange); // Оценка 3 - оранжевый
+            }
+            else if (mark == 2)
+            {
+                lb_mark.Foreground = new SolidColorBrush(Colors.Red); // Оценка 2 - красный
+            }
+            else
+            {
+                lb_mark.Foreground = new SolidColorBrush(Colors.Black); // Для других значений
+            }
+        }
+
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.markEdit, null,null,null,null,null,null,null,null,null,null,null,marks);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)

@@ -16,10 +16,9 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel VerticalAlignment="Center">
-                <Label x:Name="lb_date" Content="Дата: " Height="30" FontSize="15"/>
-                <Label x:Name="lb_mark" Content="Оценки: " Height="30" FontSize="15"/>
-                <Label x:Name="lb_disciplineProgramId" Content="Программа дисциплина: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_studentId" Content="Студент: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_disciplineProgramId" Content="Программа дисциплина: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_mark" Content="Оценка: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_description" Content="Описание: " Height="30" FontSize="15"/>
             </StackPanel>
 

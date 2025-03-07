@@ -35,6 +35,32 @@ namespace YP02.Pages.Add
 
         private void Add_Teacher(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(tb_surName.Text))
+            {
+                MessageBox.Show("Введите фамилию");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_name.Text))
+            {
+                MessageBox.Show("Введите имя");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_lastName.Text))
+            {
+                MessageBox.Show("Введите отчество");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_login.Text))
+            {
+                MessageBox.Show("Введите логин");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_password.Text))
+            {
+                MessageBox.Show("Введите пароль");
+                return;
+            }
+
             if (teachers == null)
             {
                 teachers = new Models.Teachers
@@ -42,16 +68,14 @@ namespace YP02.Pages.Add
                     surname = tb_surName.Text,
                     name = tb_name.Text,
                     lastname = tb_lastName.Text,
+                    login = tb_login.Text,
+                    password = tb_password.Text,
                     userId = 2
                 };
                 MainTeacher._teachersContext.Teachers.Add(teachers);
             }
             MainTeacher._teachersContext.SaveChanges();
             MainWindow.init.OpenPages(MainWindow.pages.teacher);
-        }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
@@ -87,6 +111,11 @@ namespace YP02.Pages.Add
             widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
             MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
             isMenuCollapsed = !isMenuCollapsed;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }

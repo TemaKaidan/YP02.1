@@ -49,13 +49,13 @@ namespace YP02
             consultationResult, lessonType, role, user,
             groupeAdd, groupeEdit,
 
-            absenceAdd,
+            absenceAdd, absenceEdit,
             studentAdd, studentEdit,
             disciplineAdd, disciplineEdit,
             disciplineProgramAdd, disciplineProgramEdit,
-            teacherAdd,
+            teacherAdd, teacherEdit,
             teachersLoadAdd, teachersLoadEdit,
-            markAdd,
+            markAdd, markEdit,
             consultationResultAdd,
             lessonTypeAdd, lessonTypeEdit,
             roleAdd, roleEdit,
@@ -72,7 +72,10 @@ namespace YP02
             Models.Consultations mc = null,
             Models.Users mu = null,
             Models.Roles mr = null,
-            Models.LessonTypes mlt = null)
+            Models.LessonTypes mlt = null,
+            Models.Absences ma = null,
+            Models.Teachers mt = null,
+            Models.Marks mm = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -227,6 +230,18 @@ namespace YP02
 
                 case pages.lessonTypeEdit:
                     frame.Navigate(new Pages.Edit.LessonTypeEdit(MainLessonType, mlt));
+                    break;
+
+                case pages.absenceEdit:
+                    frame.Navigate(new Pages.Edit.AbsenceEdit(MainAbsence, ma));
+                    break;
+
+                case pages.teacherEdit:
+                    frame.Navigate(new Pages.Edit.TeacherEdit(MainTeacher, mt));
+                    break;
+
+                case pages.markEdit:
+                    frame.Navigate(new Pages.Edit.MarkEdit(MainMark, mm));
                     break;
             }
         }

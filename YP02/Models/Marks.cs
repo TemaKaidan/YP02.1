@@ -11,7 +11,6 @@ namespace YP02.Models
     {
         [Key]
         public int id { get; set; }
-        public DateTime date { get; set; }
         public string mark { get; set; }
         public int disciplineProgramId { get; set; }
         public int studentId { get; set; }

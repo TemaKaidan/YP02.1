@@ -19,6 +19,8 @@
                 <Label x:Name="lb_LastName" Content="Фамилия: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_FirstName" Content="Имя: " Height="30" FontSize="15"/>
                 <Label x:Name="lb_MiddleName" Content="Отчество: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_Login" Content="Логин: " Height="30" FontSize="15"/>
+                <Label x:Name="lb_Password" Content="Пароль: " Height="30" FontSize="15"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
