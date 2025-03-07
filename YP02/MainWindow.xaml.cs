@@ -56,7 +56,7 @@ namespace YP02
             teacherAdd, teacherEdit,
             teachersLoadAdd, teachersLoadEdit,
             markAdd, markEdit,
-            consultationResultAdd,
+            consultationResultAdd, consultationResultEdit,
             lessonTypeAdd, lessonTypeEdit,
             roleAdd, roleEdit,
             userAdd, userEdit,
@@ -75,7 +75,8 @@ namespace YP02
             Models.LessonTypes mlt = null,
             Models.Absences ma = null,
             Models.Teachers mt = null,
-            Models.Marks mm = null)
+            Models.Marks mm = null,
+            Models.ConsultationResults mcr = null)
         {
             this.MinHeight = 800;
             this.MinWidth = 950;
@@ -242,6 +243,10 @@ namespace YP02
 
                 case pages.markEdit:
                     frame.Navigate(new Pages.Edit.MarkEdit(MainMark, mm));
+                    break;
+
+                case pages.consultationResultEdit:
+                    frame.Navigate(new Pages.Edit.ConsultationResultEdit(MainConsultationResult, mcr));
                     break;
             }
         }

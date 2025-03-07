@@ -36,11 +36,6 @@ namespace YP02.Pages.Add
             this.MainConsultationResult = MainConsultationResult;
             this.consultationResults = consultationResults;
 
-            cb_consultationId.Items.Clear();
-            cb_consultationId.ItemsSource = disciplinesContext.Disciplines.ToList();
-            cb_consultationId.DisplayMemberPath = "name";
-            cb_consultationId.SelectedValuePath = "id";
-
             cb_studentId.Items.Clear();
             cb_studentId.ItemsSource = studentsContext.Students.ToList();
             cb_studentId.DisplayMemberPath = "surname";
@@ -53,10 +48,12 @@ namespace YP02.Pages.Add
             {
                 consultationResults = new Models.ConsultationResults
                 {
-                    consultationId = (cb_consultationId.SelectedItem as Models.Disciplines).id,
+                    consultationId = 1,
                     studentId = (cb_studentId.SelectedItem as Models.Students).id,
                     presence = cb_presence.Text,
-                    submittedPractice = tb_submittedPractice.Text
+                    submittedPractice = tb_submittedPractice.Text,
+                    date = db_date.SelectedDate ?? DateTime.MinValue,
+                    explanatoryNote = cb_presence.Text
                 };
                 MainConsultationResult._consultationResultsContext.ConsultationResults.Add(consultationResults);
             }

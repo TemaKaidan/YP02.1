@@ -133,7 +133,6 @@ namespace YP02.Pages.Edit
             }
         }
 
-
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();

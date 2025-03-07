@@ -32,22 +32,20 @@ namespace YP02.Pages.Item
             this.consultationResults = consultationResults;
             this.MainConsultationResult = MainConsultationResult;
 
-            DisciplinesContext _disciplinesContext = new DisciplinesContext();
-            var disciplinesContext = _disciplinesContext.Disciplines.FirstOrDefault(g => g.id == consultationResults.consultationId);
-            lb_consultationId.Content = "Дисциплина: " + (disciplinesContext != null ? disciplinesContext.name : "Неизвестно");
-
             StudentsContext _studentsContext = new StudentsContext();
             var studentsContext = _studentsContext.Students.FirstOrDefault(g => g.id == consultationResults.studentId);
             lb_studentId.Content = "Студент: " + (studentsContext != null ? studentsContext.surname : "Неизвестно") + " " + (studentsContext != null ? studentsContext.name : "Неизвестно") + " " + (studentsContext != null ? studentsContext.lastname : "Неизвестно");
             
-            lb_presence.Content="Присутсвтие (Да/Нет): " + consultationResults.presence;
+            lb_presence.Content="Присутсвтие (Да/Нет): " + consultationResults.explanatoryNote;
             lb_submittedPractice.Content= "Сданные ПР: " + consultationResults.submittedPractice;
+
+            lb_Date.Content = "Дата: " + consultationResults.date;
 
         }
 
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.OpenPages(MainWindow.pages.consultationResultEdit, null,null,null,null,null,null,null,null,null,null,null,null,consultationResults);
         }
 
         private void Click_Delete(object sender, RoutedEventArgs e)

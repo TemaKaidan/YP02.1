@@ -33,13 +33,13 @@ namespace YP02.Pages.Item
             this.MainMark = MainMark;
 
             int markValue;
-            if (int.TryParse(marks.mark, out markValue)) // Пробуем преобразовать строку в число
+            if (int.TryParse(marks.mark, out markValue))
             {
-                SetMarkColor(markValue); // Если преобразование успешно, передаем в SetMarkColor
+                SetMarkColor(markValue);
             }
             else
             {
-                lb_mark.Foreground = new SolidColorBrush(Colors.Black); // Если не удалось преобразовать, ставим чёрный цвет
+                lb_mark.Foreground = new SolidColorBrush(Colors.Black);
             }
 
             lb_mark.Content = "Оценка: " + marks.mark;
@@ -57,26 +57,25 @@ namespace YP02.Pages.Item
 
         private void SetMarkColor(int mark)
         {
-            // Устанавливаем цвет в зависимости от оценки
             if (mark == 5)
             {
-                lb_mark.Foreground = new SolidColorBrush(Colors.Green); // Оценка 5 - зелёный
+                lb_mark.Foreground = new SolidColorBrush(Colors.Green);
             }
             else if (mark == 4)
             {
-                lb_mark.Foreground = new SolidColorBrush(Colors.DarkGoldenrod); // Оценка 4 - тёмно-жёлтый
+                lb_mark.Foreground = new SolidColorBrush(Colors.DarkGoldenrod);
             }
             else if (mark == 3)
             {
-                lb_mark.Foreground = new SolidColorBrush(Colors.Orange); // Оценка 3 - оранжевый
+                lb_mark.Foreground = new SolidColorBrush(Colors.Orange);
             }
             else if (mark == 2)
             {
-                lb_mark.Foreground = new SolidColorBrush(Colors.Red); // Оценка 2 - красный
+                lb_mark.Foreground = new SolidColorBrush(Colors.Red);
             }
             else
             {
-                lb_mark.Foreground = new SolidColorBrush(Colors.Black); // Для других значений
+                lb_mark.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
 

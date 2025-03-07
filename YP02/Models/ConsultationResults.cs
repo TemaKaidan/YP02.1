@@ -16,5 +16,8 @@ namespace YP02.Models
         //ХЗ какой тип данных
         public string presence { get; set; }
         public string submittedPractice { get; set; }
+        public DateTime date { get; set; }
+
+        public string explanatoryNote { get; set; }
     }
 }

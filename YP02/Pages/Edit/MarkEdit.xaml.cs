@@ -77,8 +77,6 @@ namespace YP02.Pages.Edit
                 MainMark._marksContext.SaveChanges();
                 MainWindow.init.OpenPages(MainWindow.pages.marks);
             }
-
-            
             else
             {
                 MessageBox.Show("Произошла ошибка!");

@@ -65,19 +65,18 @@
 
                     <Label Content="Объяснительная" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Margin="0,230,0,0" Width="175"/>
                     <ComboBox x:Name="cb_explanatoryNote" 
-          Background="White" 
-          BorderBrush="#0060AC" 
-          Foreground="Black"  
-          VerticalAlignment="Top" 
-          Margin="10,270,0,0" 
-          Height="30" 
-          HorizontalAlignment="Center" 
-          Width="250"
-          SelectionChanged="ExplanatoryNote_SelectionChanged">
+                        Background="White" 
+                        BorderBrush="#0060AC" 
+                        Foreground="Black"  
+                        VerticalAlignment="Top" 
+                        Margin="10,270,0,0" 
+                        Height="30" 
+                        HorizontalAlignment="Center" 
+                        Width="250"
+                        SelectionChanged="ExplanatoryNote_SelectionChanged">
                         <ComboBoxItem Content="Есть"/>
                         <ComboBoxItem Content="Нет"/>
                     </ComboBox>
-
                 </Grid>
 
                 <Grid VerticalAlignment="Bottom" MinHeight="50">
