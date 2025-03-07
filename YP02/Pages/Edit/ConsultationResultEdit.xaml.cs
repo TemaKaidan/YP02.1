@@ -39,7 +39,6 @@ namespace YP02.Pages.Edit
             this.MainConsultationResult = MainConsultationResult;
             this.consultationResults = consultationResults;
 
-            // Добавляем студентов в комбобокс cb_studentId
             foreach (Models.Students students in studentsContext.Students)
             {
                 ComboBoxItem item = new ComboBoxItem();
@@ -52,7 +51,6 @@ namespace YP02.Pages.Edit
                 cb_studentId.Items.Add(item);
             }
 
-            // Инициализируем значение для cb_explanatoryNote
             if (consultationResults.explanatoryNote == "Да")
             {
                 cb_explanatoryNote.SelectedItem = cb_explanatoryNote.Items.Cast<ComboBoxItem>()
@@ -70,25 +68,20 @@ namespace YP02.Pages.Edit
 
         private void ExplanatoryNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Получаем выбранный элемент в cb_explanatoryNote
             var selectedItem = (ComboBoxItem)cb_explanatoryNote.SelectedItem;
             if (selectedItem != null)
             {
-                // Присваиваем значение explanatoryNote в consultationResults
                 consultationResults.explanatoryNote = selectedItem.Content.ToString();
             }
         }
 
         private void Edit_ConsultationResult(object sender, RoutedEventArgs e)
         {
-            // Получаем выбранный элемент в cb_explanatoryNote
             var selectedItem = (ComboBoxItem)cb_explanatoryNote.SelectedItem;
             if (selectedItem != null)
             {
                 consultationResults.explanatoryNote = selectedItem.Content.ToString();
             }
-
-            // Обновляем consultationResult в базе данных
             Models.ConsultationResults editConsultationResult = MainConsultationResult._consultationResultsContext.ConsultationResults.FirstOrDefault(x => x.id == consultationResults.id);
             if (editConsultationResult != null)
             {
