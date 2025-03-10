@@ -45,6 +45,7 @@ namespace YP02.Pages.Item
 
             EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
             DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            filePDF.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
             Students students = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);
             lb_Student.Content = $"Студент: {students.surname} {students.name} {students.lastname}";
