@@ -23,6 +23,8 @@ namespace YP02.Pages.Item
             this.absences = absences;
             this.MainAbsence = MainAbsence;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
             Students students = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);
             lb_Student.Content = $"Студент: {students.surname} {students.name} {students.lastname}";

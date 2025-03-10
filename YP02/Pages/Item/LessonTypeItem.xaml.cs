@@ -32,6 +32,9 @@ namespace YP02.Pages.Item
             this.lessonTypes = lessonTypes;
             this.MainLessonType = MainLessonType;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             lb_LessonType.Content = "Тип занятия: " + lessonTypes.typeName;
         }
 

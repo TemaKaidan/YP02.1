@@ -32,6 +32,9 @@ namespace YP02.Pages.Item
             this.marks = marks;
             this.MainMark = MainMark;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             int markValue;
             if (int.TryParse(marks.mark, out markValue))
             {

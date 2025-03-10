@@ -32,6 +32,9 @@ namespace YP02.Pages.Item
             this.teachers = teachers;
             this.MainTeacher = MainTeacher;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             lb_LastName.Content = "Фамилия: " + teachers.surname;
             lb_FirstName.Content = "Имя: " + teachers.name;
             lb_MiddleName.Content = "Отчество: " + teachers.lastname;

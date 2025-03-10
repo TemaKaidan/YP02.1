@@ -32,6 +32,9 @@ namespace YP02.Pages.Item
             this.disciplines = disciplines;
             this.MainDiscipline = MainDiscipline;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             lb_Name.Content = "Дисциплина: " + disciplines.name;
         }
 

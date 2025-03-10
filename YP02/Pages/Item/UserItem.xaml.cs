@@ -35,6 +35,10 @@ namespace YP02.Pages.Item
             this.users = users;
             this.MainUser = MainUser;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
+
             lb_Login.Content = "Логин: " + users.login;
             lb_Password.Content = "Пароль: " + users.password;
             lb_Role.Content = "Роль: " + _rolesContext.Roles.FirstOrDefault(x => x.id == users.role).roleName;

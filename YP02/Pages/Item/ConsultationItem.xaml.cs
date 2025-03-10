@@ -34,6 +34,9 @@ namespace YP02.Pages.Item
             this.consultations = consultations;
             this.MainConsultation = MainConsultation;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == consultations.disciplineId).name;
             lb_Date.Content = "Дата: " + consultations.date;
             lb_submittedWorks.Content = "Сданные работы: " + consultations.submittedWorks;

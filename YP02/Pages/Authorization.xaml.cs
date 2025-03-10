@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Context;
 
 namespace YP02.Pages
 {
@@ -27,26 +28,46 @@ namespace YP02.Pages
 
         private void Click_Authorization(object sender, RoutedEventArgs e)
         {
-            //string login = UserNameTextBox.Text;
-            //string password = PasswordBox.Password;
+            string username = UserNameTextBox.Text;
+            string password = PasswordBox.Password;
 
-            //if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-            //{
-            //    MessageBox.Show("Пожалуйста, заполните все поля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Пожалуйста, введите логин и пароль.");
+                return;
+            }
 
-            //Users user = Database.AuthenticateUser(login, password);
+            using (var context = new UsersContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.login == username);
 
-            //if (user != null)
-            //{
-            //    MessageBox.Show($"Добро пожаловать, {user.login}!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (user != null && user.password == password)
+                {
+                    string role = GetRole(user.role);  // Получаем роль пользователя
+                    MainWindow.UserRole = role;        // Сохраняем роль в MainWindow
+                    NavigateToPageBasedOnRole(role);  // Переходим на нужную страницу, передавая роль
+                }
+                else
+                {
+                    MessageBox.Show("Неверный логин или пароль.");
+                }
+            }
+        }
+
+        private string GetRole(int roleId)
+        {
+            // Находим роль пользователя по ID
+            using (var context = new RolesContext())
+            {
+                var role = context.Roles.FirstOrDefault(r => r.id == roleId);
+                return role?.roleName;
+            }
+        }
+
+        private void NavigateToPageBasedOnRole(string role)
+        {
+            // Переход на страницу Main с передачей роли
             MainWindow.init.OpenPages(MainWindow.pages.main);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Неверный логин или пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
         }
     }
 }

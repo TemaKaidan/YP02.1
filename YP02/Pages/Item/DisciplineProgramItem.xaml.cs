@@ -32,6 +32,9 @@ namespace YP02.Pages.Item
             this.disciplineProgram = disciplinePrograms;
             this.MainDisciplineProgram = MainDisciplineProgram;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             DisciplinesContext _disciplinesContext = new DisciplinesContext();
             var disciplinesContext = _disciplinesContext.Disciplines.FirstOrDefault(g => g.id == disciplinePrograms.disciplineId);
             lb_disciplineId.Content = "Дисциплина: " + (disciplinesContext != null ? disciplinesContext.name : "Неизвестно");

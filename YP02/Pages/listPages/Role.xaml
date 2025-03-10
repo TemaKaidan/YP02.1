@@ -33,7 +33,7 @@
                     </Button.Style>
                 </Button>
                 <Label Background="White" Height="1"/>
-                <Button Content="Студенты" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Student" FontWeight="Bold" FontSize="14">
+                <Button x:Name="StudentsButton" Content="Студенты" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Student" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -44,7 +44,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Группы" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Groups" FontWeight="Bold" FontSize="14">
+                <Button x:Name="GroupsButton" Content="Группы" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Groups" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -55,7 +55,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Дисциплины" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Disciplines" FontWeight="Bold" FontSize="14">
+                <Button x:Name="DisciplinesButton" Content="Дисциплины" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Disciplines" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -66,7 +66,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Программа дисциплин" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_DisciplinePrograms" FontWeight="Bold" FontSize="14">
+                <Button x:Name="ProgramsButton" Content="Программа дисциплин" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_DisciplinePrograms" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -77,7 +77,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Препод. нагрузка" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_TeachersLoad" FontWeight="Bold" FontSize="14">
+                <Button x:Name="TeacherWorkloadButton" Content="Препод. нагрузка" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_TeachersLoad" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -88,7 +88,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Консультации" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Consultations" FontWeight="Bold" FontSize="14">
+                <Button x:Name="ConsultationsButton" Content="Консультации" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Consultations" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -99,7 +99,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Пропуски занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Absences" FontWeight="Bold" FontSize="14">
+                <Button x:Name="AbsencesButton" Content="Пропуски занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Absences" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -110,7 +110,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Преподаватели" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Teachers" FontWeight="Bold" FontSize="14">
+                <Button x:Name="TeachersButton" Content="Преподаватели" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Teachers" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -121,30 +121,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Оценки" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Marks" FontWeight="Bold" FontSize="14">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#7F9EA1A2"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Label Background="White" Height="1"/>
-                <Button Content="Результаты консультаций" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_ConsultationResults" FontWeight="Bold" FontSize="14">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#7F9EA1A2"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Content="Тип занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_LessonTypes" FontWeight="Bold" FontSize="14">
+                <Button x:Name="MarksButton" Content="Оценки" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Marks" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -156,7 +133,7 @@
                     </Button.Style>
                 </Button>
                 <Label Background="White" Height="1"/>
-                <Button Content="Роли" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" FontWeight="Bold" FontSize="14">
+                <Button x:Name="ConsultationResultsButton" Content="Результаты консультаций" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_ConsultationResults" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -167,7 +144,30 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Пользователи" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Users" FontWeight="Bold" FontSize="14">
+                <Button x:Name="LessonTypesButton" Content="Тип занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_LessonTypes" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Label Background="White" Height="1"/>
+                <Button x:Name="RolesButton" Content="Роли" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7F9EA1A2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="UsersButton" Content="Пользователи" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Users" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>

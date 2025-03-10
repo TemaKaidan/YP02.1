@@ -30,7 +30,7 @@
             <!-- Логин -->
             <Label Content="Логин" Margin="0,220,0,0" Foreground="White" FontSize="25"
            HorizontalAlignment="Center" VerticalAlignment="Top" Height="42"/>
-            <TextBox Style="{StaticResource BaseBox}" BorderBrush="#FF3A3A3A" Background="#e1e3e1" Name="UserNameTextBox" 
+            <TextBox Style="{StaticResource BaseBox}" BorderBrush="#FF3A3A3A" Background="#e1e3e1" x:Name="UserNameTextBox" 
              Height="35" Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,270,0,0"
              BorderThickness="1"/>
 

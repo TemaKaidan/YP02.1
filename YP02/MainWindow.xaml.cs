@@ -19,19 +19,21 @@ namespace YP02
     {
         public static MainWindow init;
 
-        public Pages.listPages.Student MainStudent = new Student();
-        public Pages.listPages.Group MainGroup = new Pages.listPages.Group();
-        public Pages.listPages.ConsultationResult MainConsultationResult = new Pages.listPages.ConsultationResult();
-        public Pages.listPages.DisciplineProgram MainDisciplineProgram = new Pages.listPages.DisciplineProgram();
-        public Pages.listPages.LessonType MainLessonType = new Pages.listPages.LessonType();
-        public Pages.listPages.Role MainRole = new Pages.listPages.Role();
-        public Pages.listPages.User MainUser = new Pages.listPages.User();
-        public Pages.listPages.Mark MainMark = new Pages.listPages.Mark();
-        public Pages.listPages.Teacher MainTeacher = new Pages.listPages.Teacher();
-        public Pages.listPages.Consultation MainConsultation = new Pages.listPages.Consultation();
-        public Pages.listPages.Discipline MainDiscipline = new Pages.listPages.Discipline();
-        public Pages.listPages.TeachersLoad MainTeachersLoad = new Pages.listPages.TeachersLoad();
-        public Pages.listPages.Absence MainAbsence = new Pages.listPages.Absence();
+        public static string UserRole { get; set; }
+
+        public Pages.listPages.Student MainStudent = new Student(UserRole);
+        public Pages.listPages.Group MainGroup = new Pages.listPages.Group(UserRole);
+        public Pages.listPages.ConsultationResult MainConsultationResult = new Pages.listPages.ConsultationResult(UserRole);
+        public Pages.listPages.DisciplineProgram MainDisciplineProgram = new Pages.listPages.DisciplineProgram(UserRole);
+        public Pages.listPages.LessonType MainLessonType = new Pages.listPages.LessonType(UserRole);
+        public Pages.listPages.Role MainRole = new Pages.listPages.Role(UserRole);
+        public Pages.listPages.User MainUser = new Pages.listPages.User(UserRole);
+        public Pages.listPages.Mark MainMark = new Pages.listPages.Mark(UserRole);
+        public Pages.listPages.Teacher MainTeacher = new Pages.listPages.Teacher(UserRole);
+        public Pages.listPages.Consultation MainConsultation = new Pages.listPages.Consultation(UserRole);
+        public Pages.listPages.Discipline MainDiscipline = new Pages.listPages.Discipline(UserRole);
+        public Pages.listPages.TeachersLoad MainTeachersLoad = new Pages.listPages.TeachersLoad(UserRole);
+        public Pages.listPages.Absence MainAbsence = new Pages.listPages.Absence(UserRole);
 
 
         public MainWindow()
@@ -82,7 +84,7 @@ namespace YP02
             this.MinWidth = 950;
             this.Height = 850;
             this.Width = 1000;
-
+            string role = MainWindow.UserRole;
             switch (_pages)
             {
                 case pages.authorization:
@@ -90,59 +92,59 @@ namespace YP02
                     break;
 
                 case pages.main:
-                   frame.Navigate(new Pages.Main());
+                    frame.Navigate(new Pages.Main(role));
                     break;
 
                 case pages.student:
-                    frame.Navigate(new Pages.listPages.Student());
+                    frame.Navigate(new Pages.listPages.Student(role));
                     break;
 
                 case pages.group:
-                    frame.Navigate(new Pages.listPages.Group());
+                    frame.Navigate(new Pages.listPages.Group(role));
                     break;
 
                 case pages.discipline:
-                    frame.Navigate(new Pages.listPages.Discipline());
+                    frame.Navigate(new Pages.listPages.Discipline(role));
                     break;
 
                 case pages.disciplineProgram:
-                    frame.Navigate(new Pages.listPages.DisciplineProgram());
+                    frame.Navigate(new Pages.listPages.DisciplineProgram(role));
                     break;
 
                 case pages.teachersLoad:
-                    frame.Navigate(new Pages.listPages.TeachersLoad());
+                    frame.Navigate(new Pages.listPages.TeachersLoad(role));
                     break;
 
                 case pages.consultation:
-                    frame.Navigate(new Pages.listPages.Consultation());
+                    frame.Navigate(new Pages.listPages.Consultation(role));
                     break;
 
                 case pages.absence:
-                    frame.Navigate(new Pages.listPages.Absence());
+                    frame.Navigate(new Pages.listPages.Absence(role));
                     break;
 
                 case pages.teacher:
-                    frame.Navigate(new Pages.listPages.Teacher());
+                    frame.Navigate(new Pages.listPages.Teacher(role));
                     break;
 
                 case pages.marks:
-                    frame.Navigate(new Pages.listPages.Mark());
+                    frame.Navigate(new Pages.listPages.Mark(role));
                     break;
 
                 case pages.consultationResult:
-                    frame.Navigate(new Pages.listPages.ConsultationResult());
+                    frame.Navigate(new Pages.listPages.ConsultationResult(role));
                     break;
 
                 case pages.lessonType:
-                    frame.Navigate(new Pages.listPages.LessonType());
+                    frame.Navigate(new Pages.listPages.LessonType(role));
                     break;
 
                 case pages.role:
-                    frame.Navigate(new Pages.listPages.Role());
+                    frame.Navigate(new Pages.listPages.Role(role));
                     break;
 
                 case pages.user:
-                    frame.Navigate(new Pages.listPages.User());
+                    frame.Navigate(new Pages.listPages.User(role));
                     break;
 
                 case pages.groupeAdd:

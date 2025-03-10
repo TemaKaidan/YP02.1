@@ -26,10 +26,15 @@ namespace YP02.Pages.listPages
         private bool isMenuCollapsed = false;
         public UsersContext _usersContext = new UsersContext();
 
-        public User()
+        private string userRole;
+
+        public User(string role)
         {
             InitializeComponent();
             CreateUI();
+
+            userRole = role;
+            ConfigureMenuBasedOnRole();
         }
         private void CreateUI()
         {
@@ -40,6 +45,64 @@ namespace YP02.Pages.listPages
             }
         }
 
+        private void ConfigureMenuBasedOnRole()
+        {
+            if (userRole == "Студент")
+            {
+                // Видит
+                StudentsButton.Visibility = Visibility.Visible;
+                DisciplinesButton.Visibility = Visibility.Visible;
+                ConsultationsButton.Visibility = Visibility.Visible;
+                AbsencesButton.Visibility = Visibility.Visible;
+                MarksButton.Visibility = Visibility.Visible;
+                ConsultationResultsButton.Visibility = Visibility.Visible;
+
+                // Не видит
+                GroupsButton.Visibility = Visibility.Collapsed;
+                ProgramsButton.Visibility = Visibility.Collapsed;
+                TeacherWorkloadButton.Visibility = Visibility.Collapsed;
+                TeachersButton.Visibility = Visibility.Collapsed;
+                LessonTypesButton.Visibility = Visibility.Collapsed;
+                RolesButton.Visibility = Visibility.Collapsed;
+                UsersButton.Visibility = Visibility.Collapsed;
+
+                AddButton.Visibility = Visibility.Collapsed;
+            }
+            else if (userRole == "Преподаватель")
+            {
+                StudentsButton.Visibility = Visibility.Visible;
+                GroupsButton.Visibility = Visibility.Visible;
+                DisciplinesButton.Visibility = Visibility.Visible;
+                ProgramsButton.Visibility = Visibility.Visible;
+                TeacherWorkloadButton.Visibility = Visibility.Visible;
+                ConsultationsButton.Visibility = Visibility.Visible;
+                AbsencesButton.Visibility = Visibility.Visible;
+                TeachersButton.Visibility = Visibility.Visible;
+                MarksButton.Visibility = Visibility.Visible;
+                ConsultationResultsButton.Visibility = Visibility.Visible;
+
+                LessonTypesButton.Visibility = Visibility.Collapsed;
+                RolesButton.Visibility = Visibility.Collapsed;
+                UsersButton.Visibility = Visibility.Collapsed;
+            }
+            else if (userRole == "Администратор")
+            {
+                // Администратор видит все кнопки
+                StudentsButton.Visibility = Visibility.Visible;
+                MarksButton.Visibility = Visibility.Visible;
+                GroupsButton.Visibility = Visibility.Visible;
+                DisciplinesButton.Visibility = Visibility.Visible;
+                ProgramsButton.Visibility = Visibility.Visible;
+                TeacherWorkloadButton.Visibility = Visibility.Visible;
+                ConsultationsButton.Visibility = Visibility.Visible;
+                AbsencesButton.Visibility = Visibility.Visible;
+                TeachersButton.Visibility = Visibility.Visible;
+                ConsultationResultsButton.Visibility = Visibility.Visible;
+                LessonTypesButton.Visibility = Visibility.Visible;
+                RolesButton.Visibility = Visibility.Visible;
+                UsersButton.Visibility = Visibility.Visible;
+            }
+        }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {

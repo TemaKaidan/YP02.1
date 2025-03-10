@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class StudentItem : UserControl
     {
+
         Pages.listPages.Student MainStudent;
         Models.Students students;
 
@@ -31,6 +33,9 @@ namespace YP02.Pages.Item
             InitializeComponent();
             this.students = students;
             this.MainStudent = MainStudent;
+
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
             lb_surname.Content = "Фамилия: " + students.surname;
             lb_name.Content = "Имя: " + students.name;

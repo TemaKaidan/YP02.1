@@ -35,6 +35,9 @@ namespace YP02.Pages.Item
             this.teachersLoad = teachersLoad;
             this.MainTeachersLoad = MainTeachersLoad;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             TeachersContext _teachersContext = new TeachersContext();
             var teacher = _teachersContext.Teachers.FirstOrDefault(g => g.id == teachersLoad.teacherId);
             lb_teacherId.Content = "Преподователь: " + (teacher != null ? teacher.surname : "Неизвестно ") + " " + (teacher != null ? teacher.name : "Неизвестно ") + " " + (teacher != null ? teacher.lastname : "Неизвестно ");

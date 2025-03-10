@@ -32,6 +32,9 @@ namespace YP02.Pages.Item
             this.consultationResults = consultationResults;
             this.MainConsultationResult = MainConsultationResult;
 
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+
             StudentsContext _studentsContext = new StudentsContext();
             var studentsContext = _studentsContext.Students.FirstOrDefault(g => g.id == consultationResults.studentId);
             lb_studentId.Content = "Студент: " + (studentsContext != null ? studentsContext.surname : "Неизвестно") + " " + (studentsContext != null ? studentsContext.name : "Неизвестно") + " " + (studentsContext != null ? studentsContext.lastname : "Неизвестно");

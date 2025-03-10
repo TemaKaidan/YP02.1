@@ -31,6 +31,8 @@ namespace YP02.Pages.Item
             InitializeComponent();
             this.studGroups = studGroups;
             this.MainGrope = MainGrope;
+            EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
+            DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
             lb_Name.Content = "Наименование группы: " + studGroups.name;
         }
