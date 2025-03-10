@@ -9,8 +9,12 @@ namespace YP02.Models
 {
     public class StudGroups
     {
+        // Основной ключ для сущности "Учебная группа" (идентификатор записи)
         [Key]
         public int id { get; set; }
+
+        // Наименование учебной группы
         public string name { get; set; }
     }
+
 }

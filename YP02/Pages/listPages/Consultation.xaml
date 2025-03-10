@@ -86,7 +86,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="ConsultationsButton" Content="Консультации" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" FontWeight="Bold" FontSize="14">
+                <!--<Button x:Name="ConsultationsButton" Content="Консультации" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -96,7 +96,7 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                </Button>
+                </Button>-->
                 <Button x:Name="AbsencesButton" Content="Пропуски занятий" Tag="Table1" Foreground="White" Background="Transparent" BorderBrush="Transparent" Margin="5" Height="25" Click="Click_Absences" FontWeight="Bold" FontSize="14">
                     <Button.Style>
                         <Style TargetType="Button">

@@ -11,15 +11,26 @@ namespace YP02.Context
 {
     public class LessonTypesContext : DbContext
     {
+        // Представление таблицы LessonTypes в базе данных
         public DbSet<LessonTypes> LessonTypes { get; set; }
+
+        // Конструктор контекста, который создает базу данных, если она не существует,
+        // и загружает данные из таблицы LessonTypes
         public LessonTypesContext()
         {
+            // Обеспечивает создание базы данных, если она еще не была создана
             Database.EnsureCreated();
+
+            // Загружает все записи из таблицы LessonTypes
             LessonTypes.Load();
         }
+
+        // Метод настройки контекста с использованием строки подключения и версии MySQL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Настройка подключения к базе данных MySQL с использованием строки из Config
             optionsBuilder.UseMySql(Config.connection, Config.version);
         }
     }
+
 }

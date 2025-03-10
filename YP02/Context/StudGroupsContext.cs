@@ -11,15 +11,26 @@ namespace YP02.Context
 {
     public class StudGroupsContext : DbContext
     {
+        // Представление таблицы StudGroups в базе данных
         public DbSet<StudGroups> StudGroups { get; set; }
+
+        // Конструктор контекста, который создает базу данных, если она не существует,
+        // и загружает данные из таблицы StudGroups
         public StudGroupsContext()
         {
+            // Обеспечивает создание базы данных, если она еще не была создана
             Database.EnsureCreated();
+
+            // Загружает все записи из таблицы StudGroups
             StudGroups.Load();
         }
+
+        // Метод настройки контекста с использованием строки подключения и версии MySQL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Настройка подключения к базе данных MySQL с использованием строки из Config
             optionsBuilder.UseMySql(Config.connection, Config.version);
         }
     }
+
 }

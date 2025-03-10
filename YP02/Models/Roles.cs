@@ -9,8 +9,12 @@ namespace YP02.Models
 {
     public class Roles
     {
+        // Основной ключ для сущности "Роль" (идентификатор записи)
         [Key]
         public int id { get; set; }
+
+        // Название роли (например, "Преподаватель", "Студент", "Администратор")
         public string roleName { get; set; }
     }
+
 }

@@ -11,15 +11,26 @@ namespace YP02.Context
 {
     public class TeachersContext : DbContext
     {
+        // Представление таблицы Teachers в базе данных
         public DbSet<Teachers> Teachers { get; set; }
+
+        // Конструктор контекста, который создает базу данных, если она не существует,
+        // и загружает данные из таблицы Teachers
         public TeachersContext()
         {
+            // Обеспечивает создание базы данных, если она еще не была создана
             Database.EnsureCreated();
+
+            // Загружает все записи из таблицы Teachers
             Teachers.Load();
         }
+
+        // Метод настройки контекста с использованием строки подключения и версии MySQL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Настройка подключения к базе данных MySQL с использованием строки из Config
             optionsBuilder.UseMySql(Config.connection, Config.version);
         }
     }
+
 }

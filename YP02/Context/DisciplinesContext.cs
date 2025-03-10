@@ -11,16 +11,29 @@ namespace YP02.Context
 {
     public class DisciplinesContext : DbContext
     {
+        // Представление таблицы Consultations в базе данных
         public DbSet<Consultations> Consultations { get; set; }
+
+        // Представление таблицы Disciplines в базе данных
         public DbSet<Disciplines> Disciplines { get; set; }
+
+        // Конструктор контекста, который создает базу данных, если она не существует,
+        // и загружает данные из таблицы Disciplines
         public DisciplinesContext()
         {
+            // Обеспечивает создание базы данных, если она еще не была создана
             Database.EnsureCreated();
+
+            // Загружает все записи из таблицы Disciplines
             Disciplines.Load();
         }
+
+        // Метод настройки контекста с использованием строки подключения и версии MySQL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Настройка подключения к базе данных MySQL с использованием строки из Config
             optionsBuilder.UseMySql(Config.connection, Config.version);
         }
     }
+
 }
