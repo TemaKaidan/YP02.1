@@ -21,6 +21,7 @@ using iText.IO.Font;
 using iText.Layout;
 using System.IO;
 using iText.Kernel.Font;
+using YP02.Log;
 
 namespace YP02.Pages.Item
 {
@@ -141,12 +142,23 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            try
             {
-                MainAbsence._absencesContext.Absences.Remove(absences);
-                MainAbsence._absencesContext.SaveChanges();
-                (this.Parent as Panel).Children.Remove(this);
+                MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    MainAbsence._absencesContext.Absences.Remove(absences);
+                    MainAbsence._absencesContext.SaveChanges();
+                    (this.Parent as Panel).Children.Remove(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error deleting Absence", ex.Message, "Failed to save Absence.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

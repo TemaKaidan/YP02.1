@@ -44,7 +44,6 @@ namespace YP02.Pages.listPages
                 // Видит
                 StudentsButton.Visibility = Visibility.Visible;
                 DisciplinesButton.Visibility = Visibility.Visible;
-                ConsultationsButton.Visibility = Visibility.Visible;
                 AbsencesButton.Visibility = Visibility.Visible;
                 MarksButton.Visibility = Visibility.Visible;
                 ConsultationResultsButton.Visibility = Visibility.Visible;
@@ -67,7 +66,6 @@ namespace YP02.Pages.listPages
                 DisciplinesButton.Visibility = Visibility.Visible;
                 ProgramsButton.Visibility = Visibility.Visible;
                 TeacherWorkloadButton.Visibility = Visibility.Visible;
-                ConsultationsButton.Visibility = Visibility.Visible;
                 AbsencesButton.Visibility = Visibility.Visible;
                 TeachersButton.Visibility = Visibility.Visible;
                 MarksButton.Visibility = Visibility.Visible;
@@ -86,7 +84,6 @@ namespace YP02.Pages.listPages
                 DisciplinesButton.Visibility = Visibility.Visible;
                 ProgramsButton.Visibility = Visibility.Visible;
                 TeacherWorkloadButton.Visibility = Visibility.Visible;
-                ConsultationsButton.Visibility = Visibility.Visible;
                 AbsencesButton.Visibility = Visibility.Visible;
                 TeachersButton.Visibility = Visibility.Visible;
                 ConsultationResultsButton.Visibility = Visibility.Visible;

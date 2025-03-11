@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -89,12 +90,23 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            try
             {
-                MainMark._marksContext.Marks.Remove(marks);
-                MainMark._marksContext.SaveChanges();
-                (this.Parent as Panel).Children.Remove(this);
+                MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    MainMark._marksContext.Marks.Remove(marks);
+                    MainMark._marksContext.SaveChanges();
+                    (this.Parent as Panel).Children.Remove(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error deleting Marks", ex.Message, "Failed to save Marks.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

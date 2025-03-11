@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Edit
@@ -42,41 +43,52 @@ namespace YP02.Pages.Edit
 
         private void Edit_Teacher(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(tb_surName.Text))
+            try
             {
-                MessageBox.Show("Введите фамилию");
-                return;
-            }
-            if (string.IsNullOrEmpty(tb_name.Text))
-            {
-                MessageBox.Show("Введите имя");
-                return;
-            }
-            if (string.IsNullOrEmpty(tb_lastName.Text))
-            {
-                MessageBox.Show("Введите отчество");
-                return;
-            }
-            if (string.IsNullOrEmpty(tb_login.Text))
-            {
-                MessageBox.Show("Введите логин");
-                return;
-            }
-            if (string.IsNullOrEmpty(tb_password.Text))
-            {
-                MessageBox.Show("Введите пароль");
-                return;
-            }
+                if (string.IsNullOrEmpty(tb_surName.Text))
+                {
+                    MessageBox.Show("Введите фамилию");
+                    return;
+                }
+                if (string.IsNullOrEmpty(tb_name.Text))
+                {
+                    MessageBox.Show("Введите имя");
+                    return;
+                }
+                if (string.IsNullOrEmpty(tb_lastName.Text))
+                {
+                    MessageBox.Show("Введите отчество");
+                    return;
+                }
+                if (string.IsNullOrEmpty(tb_login.Text))
+                {
+                    MessageBox.Show("Введите логин");
+                    return;
+                }
+                if (string.IsNullOrEmpty(tb_password.Text))
+                {
+                    MessageBox.Show("Введите пароль");
+                    return;
+                }
 
-            Models.Teachers mt = MainTeacher._teachersContext.Teachers.FirstOrDefault(x=>x.id == teachers.id);
-            mt.surname = tb_surName.Text;
-            mt.name = tb_name.Text;
-            mt.lastname = tb_lastName.Text;
-            mt.login = tb_login.Text;
-            mt.password = tb_password.Text;
+                Models.Teachers mt = MainTeacher._teachersContext.Teachers.FirstOrDefault(x => x.id == teachers.id);
+                mt.surname = tb_surName.Text;
+                mt.name = tb_name.Text;
+                mt.lastname = tb_lastName.Text;
+                mt.login = tb_login.Text;
+                mt.password = tb_password.Text;
 
-            MainTeacher._teachersContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.teacher);
+                MainTeacher._teachersContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.teacher);
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Teacher", ex.Message, "Failed to save Teacher.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using YP02.Log;
 
 namespace YP02.Pages.Edit
 {
@@ -26,17 +27,28 @@ namespace YP02.Pages.Edit
 
         private void Edit_Groupe(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(tb_name.Text))
+            try
             {
-                MessageBox.Show("Введите наименование группы");
-                return;
+                if (string.IsNullOrEmpty(tb_name.Text))
+                {
+                    MessageBox.Show("Введите наименование группы");
+                    return;
+                }
+
+                Models.StudGroups sgc = MainGrope._studgroupsContext.StudGroups.FirstOrDefault(x => x.id == studGroups.id);
+                sgc.name = tb_name.Text;
+
+                MainGrope._studgroupsContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.group);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Groupe", ex.Message, "Failed to save Groupe.");
 
-            Models.StudGroups sgc = MainGrope._studgroupsContext.StudGroups.FirstOrDefault(x => x.id == studGroups.id);
-            sgc.name = tb_name.Text;
-
-            MainGrope._studgroupsContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.group);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

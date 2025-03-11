@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -58,23 +59,34 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_LessonType(object sender, RoutedEventArgs e)
         {
-            // Если тип занятия не передан (например, при добавлении нового), создаем новый объект типа занятия
-            if (lessonTypes == null)
+            try
             {
-                lessonTypes = new Models.LessonTypes
+                // Если тип занятия не передан (например, при добавлении нового), создаем новый объект типа занятия
+                if (lessonTypes == null)
                 {
-                    typeName = tb_typeName.Text // Название типа занятия
-                };
+                    lessonTypes = new Models.LessonTypes
+                    {
+                        typeName = tb_typeName.Text // Название типа занятия
+                    };
 
-                // Добавляем новый тип занятия в контекст базы данных
-                MainLessonType._lessonTypesContext.LessonTypes.Add(lessonTypes);
+                    // Добавляем новый тип занятия в контекст базы данных
+                    MainLessonType._lessonTypesContext.LessonTypes.Add(lessonTypes);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainLessonType._lessonTypesContext.SaveChanges();
+
+                // Переходим на страницу типов занятий
+                MainWindow.init.OpenPages(MainWindow.pages.lessonType);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding LessonType", ex.Message, "Failed to save LessonType.");
 
-            // Сохраняем изменения в базе данных
-            MainLessonType._lessonTypesContext.SaveChanges();
-
-            // Переходим на страницу типов занятий
-            MainWindow.init.OpenPages(MainWindow.pages.lessonType);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Add
@@ -82,26 +83,37 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Absence(object sender, RoutedEventArgs e)
         {
-            // Если отсутствие не передано (при добавлении нового)
-            if (absences == null)
+            try
             {
-                absences = new Models.Absences
+                // Если отсутствие не передано (при добавлении нового)
+                if (absences == null)
                 {
-                    studentId = (cb_studentId.SelectedItem as Models.Students).id, // ID выбранного студента
-                    disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id, // ID выбранной дисциплины
-                    delayMinutes = Convert.ToInt32(tb_delayMinutes.Text), // Задержка в минутах
-                    explanatoryNote = cb_explanatoryNote.Text // Объяснительная записка
-                };
+                    absences = new Models.Absences
+                    {
+                        studentId = (cb_studentId.SelectedItem as Models.Students).id, // ID выбранного студента
+                        disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id, // ID выбранной дисциплины
+                        delayMinutes = Convert.ToInt32(tb_delayMinutes.Text), // Задержка в минутах
+                        explanatoryNote = cb_explanatoryNote.Text // Объяснительная записка
+                    };
 
-                // Добавление нового отсутствия в контекст базы данных
-                MainAbsence._absencesContext.Absences.Add(absences);
+                    // Добавление нового отсутствия в контекст базы данных
+                    MainAbsence._absencesContext.Absences.Add(absences);
+                }
+
+                // Сохранение изменений в базе данных
+                MainAbsence._absencesContext.SaveChanges();
+
+                // Переход на страницу с отсутствиями
+                MainWindow.init.OpenPages(MainWindow.pages.absence);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Absence", ex.Message, "Failed to save Absence.");
 
-            // Сохранение изменений в базе данных
-            MainAbsence._absencesContext.SaveChanges();
-
-            // Переход на страницу с отсутствиями
-            MainWindow.init.OpenPages(MainWindow.pages.absence);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

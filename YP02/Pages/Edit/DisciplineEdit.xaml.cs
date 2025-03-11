@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Edit
@@ -27,17 +28,28 @@ namespace YP02.Pages.Edit
 
         private void Edit_Discipline(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
+            try
             {
-                MessageBox.Show("Введите наименование дисциплины");
-                return;
+                if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
+                {
+                    MessageBox.Show("Введите наименование дисциплины");
+                    return;
+                }
+
+                Models.Disciplines md = MainDiscipline._disciplinesContext.Disciplines.FirstOrDefault(x => x.id == disciplines.id);
+                md.name = tb_nameDiscipline.Text;
+
+                MainDiscipline._disciplinesContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.discipline);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Discipline", ex.Message, "Failed to save Discipline.");
 
-            Models.Disciplines md = MainDiscipline._disciplinesContext.Disciplines.FirstOrDefault(x => x.id == disciplines.id);
-            md.name = tb_nameDiscipline.Text;
-
-            MainDiscipline._disciplinesContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.discipline);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

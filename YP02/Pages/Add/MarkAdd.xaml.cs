@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -80,27 +81,38 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Marks(object sender, RoutedEventArgs e)
         {
-            // Если оценка не передана, то добавляем новую
-            if (marks == null)
+            try
             {
-                // Создаем новый объект оценки
-                marks = new Models.Marks
+                // Если оценка не передана, то добавляем новую
+                if (marks == null)
                 {
-                    mark = tb_mark.Text, // Оценка студента
-                    disciplineProgramId = (cb_disciplineProgramId.SelectedItem as Models.DisciplinePrograms).id, // Выбранная дисциплина
-                    studentId = (cb_studentId.SelectedItem as Models.Students).id, // Выбранный студент
-                    description = tb_discription.Text // Описание оценки
-                };
+                    // Создаем новый объект оценки
+                    marks = new Models.Marks
+                    {
+                        mark = tb_mark.Text, // Оценка студента
+                        disciplineProgramId = (cb_disciplineProgramId.SelectedItem as Models.DisciplinePrograms).id, // Выбранная дисциплина
+                        studentId = (cb_studentId.SelectedItem as Models.Students).id, // Выбранный студент
+                        description = tb_discription.Text // Описание оценки
+                    };
 
-                // Добавляем новую оценку в контекст базы данных
-                MainMark._marksContext.Marks.Add(marks);
+                    // Добавляем новую оценку в контекст базы данных
+                    MainMark._marksContext.Marks.Add(marks);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainMark._marksContext.SaveChanges();
+
+                // Переходим на страницу с оценками
+                MainWindow.init.OpenPages(MainWindow.pages.marks);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Marks", ex.Message, "Failed to save Marks.");
 
-            // Сохраняем изменения в базе данных
-            MainMark._marksContext.SaveChanges();
-
-            // Переходим на страницу с оценками
-            MainWindow.init.OpenPages(MainWindow.pages.marks);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

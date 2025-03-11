@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Edit
@@ -38,11 +39,22 @@ namespace YP02.Pages.Edit
 
         private void Edit_Role(object sender, RoutedEventArgs e)
         {
-            Models.Roles mr = MainRole._rolesContext.Roles.FirstOrDefault(x => x.id == roles.id);
-            mr.roleName = tb_roleName.Text;
+            try
+            {
+                Models.Roles mr = MainRole._rolesContext.Roles.FirstOrDefault(x => x.id == roles.id);
+                mr.roleName = tb_roleName.Text;
 
-            MainRole._rolesContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.role);
+                MainRole._rolesContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.role);
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Role", ex.Message, "Failed to save Role.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

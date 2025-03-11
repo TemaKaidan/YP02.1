@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Add
@@ -73,63 +74,74 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события</param>
         private void Add_Student(object sender, RoutedEventArgs e)
         {
-            // Проверка фамилии на корректность
-            if (string.IsNullOrEmpty(tb_surname.Text) || !Regex.IsMatch(tb_surname.Text, "[а-яА-Я]"))
+            try
             {
-                MessageBox.Show("Введите фамилию студента\n(буквенные значения русского алфавита)");
-                return;
-            }
-
-            // Проверка имени на корректность
-            if (string.IsNullOrEmpty(tb_name.Text) || !Regex.IsMatch(tb_name.Text, "[а-яА-Я]"))
-            {
-                MessageBox.Show("Введите имя студента\n(буквенные значения русского алфавита)");
-                return;
-            }
-
-            // Проверка отчества на корректность
-            if (string.IsNullOrEmpty(tb_lastname.Text) || !Regex.IsMatch(tb_lastname.Text, "[а-яА-Я]"))
-            {
-                MessageBox.Show("Введите отчество студента\n(буквенные значения русского алфавита)");
-                return;
-            }
-
-            // Проверка выбора группы
-            if (string.IsNullOrEmpty(cb_groupe.Text))
-            {
-                MessageBox.Show("Введите группу студента");
-                return;
-            }
-
-            // Проверка даты отчисления
-            if (string.IsNullOrEmpty(db_dateOfRemand.Text))
-            {
-                MessageBox.Show("Введите дату отчисления\n(dd.mm.yyyy)");
-                return;
-            }
-
-            // Если студент не передан, создаем нового
-            if (students == null)
-            {
-                students = new Models.Students
+                // Проверка фамилии на корректность
+                if (string.IsNullOrEmpty(tb_surname.Text) || !Regex.IsMatch(tb_surname.Text, "[а-яА-Я]"))
                 {
-                    surname = tb_surname.Text,
-                    name = tb_name.Text,
-                    lastname = tb_lastname.Text,
-                    studGroupId = (cb_groupe.SelectedItem as StudGroups).id,
-                    dateOfRemand = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
-                    userId = 1
-                };
+                    MessageBox.Show("Введите фамилию студента\n(буквенные значения русского алфавита)");
+                    return;
+                }
 
-                // Добавление нового студента в базу данных
-                MainStudent._studentsContext.Students.Add(students);
+                // Проверка имени на корректность
+                if (string.IsNullOrEmpty(tb_name.Text) || !Regex.IsMatch(tb_name.Text, "[а-яА-Я]"))
+                {
+                    MessageBox.Show("Введите имя студента\n(буквенные значения русского алфавита)");
+                    return;
+                }
+
+                // Проверка отчества на корректность
+                if (string.IsNullOrEmpty(tb_lastname.Text) || !Regex.IsMatch(tb_lastname.Text, "[а-яА-Я]"))
+                {
+                    MessageBox.Show("Введите отчество студента\n(буквенные значения русского алфавита)");
+                    return;
+                }
+
+                // Проверка выбора группы
+                if (string.IsNullOrEmpty(cb_groupe.Text))
+                {
+                    MessageBox.Show("Введите группу студента");
+                    return;
+                }
+
+                // Проверка даты отчисления
+                if (string.IsNullOrEmpty(db_dateOfRemand.Text))
+                {
+                    MessageBox.Show("Введите дату отчисления\n(dd.mm.yyyy)");
+                    return;
+                }
+
+                // Если студент не передан, создаем нового
+                if (students == null)
+                {
+                    students = new Models.Students
+                    {
+                        surname = tb_surname.Text,
+                        name = tb_name.Text,
+                        lastname = tb_lastname.Text,
+                        studGroupId = (cb_groupe.SelectedItem as StudGroups).id,
+                        dateOfRemand = db_dateOfRemand.SelectedDate ?? DateTime.MinValue,
+                        userId = 1
+                    };
+
+                    // Добавление нового студента в базу данных
+                    MainStudent._studentsContext.Students.Add(students);
+                }
+
+                // Сохранение изменений в базе данных
+                MainStudent._studentsContext.SaveChanges();
+
+                // Переход на страницу студентов
+                MainWindow.init.OpenPages(MainWindow.pages.student);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Student", ex.Message, "Failed to save Student.");
 
-            // Сохранение изменений в базе данных
-            MainStudent._studentsContext.SaveChanges();
-
-            // Переход на страницу студентов
-            MainWindow.init.OpenPages(MainWindow.pages.student);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

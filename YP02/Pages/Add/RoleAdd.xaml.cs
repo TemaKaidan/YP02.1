@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -58,24 +59,35 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Groupe(object sender, RoutedEventArgs e)
         {
-            // Если роль не передана (т.е. добавляем новую роль)
-            if (roles == null)
+            try
             {
-                // Создаем новую роль
-                roles = new Models.Roles
+                // Если роль не передана (т.е. добавляем новую роль)
+                if (roles == null)
                 {
-                    roleName = tb_roleName.Text // Название роли
-                };
+                    // Создаем новую роль
+                    roles = new Models.Roles
+                    {
+                        roleName = tb_roleName.Text // Название роли
+                    };
 
-                // Добавляем новую роль в базу данных
-                MainRole._rolesContext.Roles.Add(roles);
+                    // Добавляем новую роль в базу данных
+                    MainRole._rolesContext.Roles.Add(roles);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainRole._rolesContext.SaveChanges();
+
+                // Переходим на страницу с ролями
+                MainWindow.init.OpenPages(MainWindow.pages.role);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Role", ex.Message, "Failed to save Role.");
 
-            // Сохраняем изменения в базе данных
-            MainRole._rolesContext.SaveChanges();
-
-            // Переходим на страницу с ролями
-            MainWindow.init.OpenPages(MainWindow.pages.role);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

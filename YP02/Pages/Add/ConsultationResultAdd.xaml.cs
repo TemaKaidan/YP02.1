@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -75,28 +76,39 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_ConsultationResult(object sender, RoutedEventArgs e)
         {
-            // Если результат консультации не передан (например, при добавлении нового)
-            if (consultationResults == null)
+            try
             {
-                consultationResults = new Models.ConsultationResults
+                // Если результат консультации не передан (например, при добавлении нового)
+                if (consultationResults == null)
                 {
-                    consultationId = 1, // Пример ID консультации (следует заменить на реальный, если необходимо)
-                    studentId = (cb_studentId.SelectedItem as Models.Students).id, // ID выбранного студента
-                    presence = cb_presence.Text, // Присутствие
-                    submittedPractice = tb_submittedPractice.Text, // Сданная практика
-                    date = db_date.SelectedDate ?? DateTime.MinValue, // Дата консультации (если дата не выбрана, ставится минимальная дата)
-                    explanatoryNote = cb_presence.Text // Примечание (пока устанавливаем по значению присутствия)
-                };
+                    consultationResults = new Models.ConsultationResults
+                    {
+                        consultationId = 1, // Пример ID консультации (следует заменить на реальный, если необходимо)
+                        studentId = (cb_studentId.SelectedItem as Models.Students).id, // ID выбранного студента
+                        presence = cb_presence.Text, // Присутствие
+                        submittedPractice = tb_submittedPractice.Text, // Сданная практика
+                        date = db_date.SelectedDate ?? DateTime.MinValue, // Дата консультации (если дата не выбрана, ставится минимальная дата)
+                        explanatoryNote = cb_presence.Text // Примечание (пока устанавливаем по значению присутствия)
+                    };
 
-                // Добавление нового результата в контекст базы данных
-                MainConsultationResult._consultationResultsContext.ConsultationResults.Add(consultationResults);
+                    // Добавление нового результата в контекст базы данных
+                    MainConsultationResult._consultationResultsContext.ConsultationResults.Add(consultationResults);
+                }
+
+                // Сохранение изменений в базе данных
+                MainConsultationResult._consultationResultsContext.SaveChanges();
+
+                // Переход на страницу с результатами консультаций
+                MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding ConsultationResult", ex.Message, "Failed to save ConsultationResult.");
 
-            // Сохранение изменений в базе данных
-            MainConsultationResult._consultationResultsContext.SaveChanges();
-
-            // Переход на страницу с результатами консультаций
-            MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

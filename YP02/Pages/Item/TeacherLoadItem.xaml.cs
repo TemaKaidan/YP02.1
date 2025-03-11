@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -76,12 +77,23 @@ namespace YP02.Pages.Item
 
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            try
             {
-                MainTeachersLoad._teachersLoadContext.TeachersLoad.Remove(teachersLoad);
-                MainTeachersLoad._teachersLoadContext.SaveChanges();
-                (this.Parent as Panel).Children.Remove(this);
+                MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    MainTeachersLoad._teachersLoadContext.TeachersLoad.Remove(teachersLoad);
+                    MainTeachersLoad._teachersLoadContext.SaveChanges();
+                    (this.Parent as Panel).Children.Remove(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error deleting TeachersLoad", ex.Message, "Failed to save TeachersLoad.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

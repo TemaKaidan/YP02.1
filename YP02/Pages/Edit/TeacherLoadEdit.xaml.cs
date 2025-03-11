@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Edit
@@ -80,26 +81,37 @@ namespace YP02.Pages.Edit
 
         private void Edit_TeacherLoad(object sender, RoutedEventArgs e)
         {
-            Models.TeachersLoad editTeachersLoad = MainTeachersLoad._teachersLoadContext.TeachersLoad.FirstOrDefault(x => x.id == teachersLoad.id);
-            if (editTeachersLoad != null) 
+            try
             {
-                editTeachersLoad.teacherId = (int)(cb_teacherId.SelectedItem as ComboBoxItem).Tag;
-                editTeachersLoad.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
-                editTeachersLoad.studGroupId = (int)(cb_groupe.SelectedItem as ComboBoxItem).Tag;
-                editTeachersLoad.lectureHours = Convert.ToInt32(tb_lectureHours.Text);
-                editTeachersLoad.practiceHours = Convert.ToInt32(tb_practiceHours.Text);
+                Models.TeachersLoad editTeachersLoad = MainTeachersLoad._teachersLoadContext.TeachersLoad.FirstOrDefault(x => x.id == teachersLoad.id);
+                if (editTeachersLoad != null)
+                {
+                    editTeachersLoad.teacherId = (int)(cb_teacherId.SelectedItem as ComboBoxItem).Tag;
+                    editTeachersLoad.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
+                    editTeachersLoad.studGroupId = (int)(cb_groupe.SelectedItem as ComboBoxItem).Tag;
+                    editTeachersLoad.lectureHours = Convert.ToInt32(tb_lectureHours.Text);
+                    editTeachersLoad.practiceHours = Convert.ToInt32(tb_practiceHours.Text);
 
-                editTeachersLoad.сonsultationHours = Convert.ToInt32(tb_сonsultationHours.Text);
-                editTeachersLoad.courseprojectHours = Convert.ToInt32(tb_courseprojectHours.Text);
-                editTeachersLoad.examHours = Convert.ToInt32(tb_examHours.Text);
+                    editTeachersLoad.сonsultationHours = Convert.ToInt32(tb_сonsultationHours.Text);
+                    editTeachersLoad.courseprojectHours = Convert.ToInt32(tb_courseprojectHours.Text);
+                    editTeachersLoad.examHours = Convert.ToInt32(tb_examHours.Text);
 
-                MainTeachersLoad._teachersLoadContext.SaveChanges();
-                MainWindow.init.OpenPages(MainWindow.pages.teachersLoad);
+                    MainTeachersLoad._teachersLoadContext.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.teachersLoad);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!");
-                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating TeacherLoad", ex.Message, "Failed to save TeacherLoad.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

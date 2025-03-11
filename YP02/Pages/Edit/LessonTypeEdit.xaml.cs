@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 using YP02.Models;
 
 namespace YP02.Pages.Edit
@@ -38,17 +39,28 @@ namespace YP02.Pages.Edit
 
         private void Edit_LessonType(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(tb_typeName.Text))
+            try
             {
-                MessageBox.Show("Введите наименование тип занятия");
-                return;
+                if (string.IsNullOrEmpty(tb_typeName.Text))
+                {
+                    MessageBox.Show("Введите наименование тип занятия");
+                    return;
+                }
+
+                Models.LessonTypes mlt = MainLessonType._lessonTypesContext.LessonTypes.FirstOrDefault(x => x.id == lessonTypes.id);
+                mlt.typeName = tb_typeName.Text;
+
+                MainLessonType._lessonTypesContext.SaveChanges();
+                MainWindow.init.OpenPages(MainWindow.pages.lessonType);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating LessonType", ex.Message, "Failed to save LessonType.");
 
-            Models.LessonTypes mlt = MainLessonType._lessonTypesContext.LessonTypes.FirstOrDefault(x => x.id == lessonTypes.id);
-            mlt.typeName = tb_typeName.Text;
-
-            MainLessonType._lessonTypesContext.SaveChanges();
-            MainWindow.init.OpenPages(MainWindow.pages.lessonType);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

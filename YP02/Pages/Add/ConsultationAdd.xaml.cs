@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -70,25 +71,36 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Consultation(object sender, RoutedEventArgs e)
         {
-            // Если консультация не передана (при добавлении новой)
-            if (consultations == null)
+            try
             {
-                consultations = new Models.Consultations
+                // Если консультация не передана (при добавлении новой)
+                if (consultations == null)
                 {
-                    disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id, // ID выбранной дисциплины
-                    date = db_date.SelectedDate ?? DateTime.MinValue, // Дата консультации (если дата не выбрана, ставится минимальная дата)
-                    submittedWorks = tb_submittedWorks.Text // Сданные работы
-                };
+                    consultations = new Models.Consultations
+                    {
+                        disciplineId = (cb_disciplineId.SelectedItem as Models.Disciplines).id, // ID выбранной дисциплины
+                        date = db_date.SelectedDate ?? DateTime.MinValue, // Дата консультации (если дата не выбрана, ставится минимальная дата)
+                        submittedWorks = tb_submittedWorks.Text // Сданные работы
+                    };
 
-                // Добавление новой консультации в контекст базы данных
-                MainConsultation._consultationsContext.Consultations.Add(consultations);
+                    // Добавление новой консультации в контекст базы данных
+                    MainConsultation._consultationsContext.Consultations.Add(consultations);
+                }
+
+                // Сохранение изменений в базе данных
+                MainConsultation._consultationsContext.SaveChanges();
+
+                // Переход на страницу с консультациями
+                MainWindow.init.OpenPages(MainWindow.pages.consultation);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Consultation", ex.Message, "Failed to save Consultation.");
 
-            // Сохранение изменений в базе данных
-            MainConsultation._consultationsContext.SaveChanges();
-
-            // Переход на страницу с консультациями
-            MainWindow.init.OpenPages(MainWindow.pages.consultation);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -94,31 +95,42 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события</param>
         private void Add_TeacherLoad(object sender, RoutedEventArgs e)
         {
-            // Если нагрузка преподавателя не передана (добавляем новую запись)
-            if (teachersLoad == null)
+            try
             {
-                // Создаем новый объект нагрузки преподавателя
-                teachersLoad = new Models.TeachersLoad
+                // Если нагрузка преподавателя не передана (добавляем новую запись)
+                if (teachersLoad == null)
                 {
-                    teacherId = (cb_teacherId.SelectedItem as Models.Teachers).id, // Получаем ID преподавателя
-                    disciplineId = (cb_disciplineId.SelectedItem as Disciplines).id, // Получаем ID дисциплины
-                    studGroupId = (cb_groupe.SelectedItem as StudGroups).id, // Получаем ID группы студентов
-                    lectureHours = Convert.ToInt32(tb_lectureHours.Text), // Часы лекций
-                    practiceHours = Convert.ToInt32(tb_practiceHours.Text), // Часы практики
-                    сonsultationHours = Convert.ToInt32(tb_сonsultationHours.Text), // Часы консультаций
-                    courseprojectHours = Convert.ToInt32(tb_courseprojectHours.Text), // Часы курсовой работы
-                    examHours = Convert.ToInt32(tb_examHours.Text) // Часы экзамена
-                };
+                    // Создаем новый объект нагрузки преподавателя
+                    teachersLoad = new Models.TeachersLoad
+                    {
+                        teacherId = (cb_teacherId.SelectedItem as Models.Teachers).id, // Получаем ID преподавателя
+                        disciplineId = (cb_disciplineId.SelectedItem as Disciplines).id, // Получаем ID дисциплины
+                        studGroupId = (cb_groupe.SelectedItem as StudGroups).id, // Получаем ID группы студентов
+                        lectureHours = Convert.ToInt32(tb_lectureHours.Text), // Часы лекций
+                        practiceHours = Convert.ToInt32(tb_practiceHours.Text), // Часы практики
+                        сonsultationHours = Convert.ToInt32(tb_сonsultationHours.Text), // Часы консультаций
+                        courseprojectHours = Convert.ToInt32(tb_courseprojectHours.Text), // Часы курсовой работы
+                        examHours = Convert.ToInt32(tb_examHours.Text) // Часы экзамена
+                    };
 
-                // Добавляем новую нагрузку в базу данных
-                MainTeachersLoad._teachersLoadContext.TeachersLoad.Add(teachersLoad);
+                    // Добавляем новую нагрузку в базу данных
+                    MainTeachersLoad._teachersLoadContext.TeachersLoad.Add(teachersLoad);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainTeachersLoad._teachersLoadContext.SaveChanges();
+
+                // Переходим на страницу нагрузки преподавателей
+                MainWindow.init.OpenPages(MainWindow.pages.teachersLoad);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding TeacherLoad", ex.Message, "Failed to save TeacherLoad.");
 
-            // Сохраняем изменения в базе данных
-            MainTeachersLoad._teachersLoadContext.SaveChanges();
-
-            // Переходим на страницу нагрузки преподавателей
-            MainWindow.init.OpenPages(MainWindow.pages.teachersLoad);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

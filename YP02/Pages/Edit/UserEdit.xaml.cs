@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -55,19 +56,30 @@ namespace YP02.Pages.Edit
 
         private void Edit_User(object sender, RoutedEventArgs e)
         {
-            Models.Users editUsers = MainUser._usersContext.Users.FirstOrDefault(x => x.id == users.id);
-            if (editUsers != null)
+            try
             {
-                editUsers.login = tb_login.Text;
-                editUsers.password = tb_password.Text;
-                editUsers.role = (int)(cb_role.SelectedItem as ComboBoxItem).Tag;
-                MainUser._usersContext.SaveChanges();
-                MainWindow.init.OpenPages(MainWindow.pages.user);
+                Models.Users editUsers = MainUser._usersContext.Users.FirstOrDefault(x => x.id == users.id);
+                if (editUsers != null)
+                {
+                    editUsers.login = tb_login.Text;
+                    editUsers.password = tb_password.Text;
+                    editUsers.role = (int)(cb_role.SelectedItem as ComboBoxItem).Tag;
+                    MainUser._usersContext.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.user);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.user);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!");
-                MainWindow.init.OpenPages(MainWindow.pages.user);
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating User", ex.Message, "Failed to save User.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

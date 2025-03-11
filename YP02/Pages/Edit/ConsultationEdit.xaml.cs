@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -55,21 +56,32 @@ namespace YP02.Pages.Edit
 
         private void Edit_Consultation(object sender, RoutedEventArgs e)
         {
-            Models.Consultations editConsultations = MainConsultation._consultationsContext.Consultations.
-                FirstOrDefault(x => x.id == consultations.id);
-            if (editConsultations != null)
+            try
             {
-                editConsultations.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
-                editConsultations.date = DateTime.Parse(db_date.Text);
-                editConsultations.submittedWorks = tb_submittedWorks.Text;
+                Models.Consultations editConsultations = MainConsultation._consultationsContext.Consultations.
+                    FirstOrDefault(x => x.id == consultations.id);
+                if (editConsultations != null)
+                {
+                    editConsultations.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
+                    editConsultations.date = DateTime.Parse(db_date.Text);
+                    editConsultations.submittedWorks = tb_submittedWorks.Text;
 
-                MainConsultation._consultationsContext.SaveChanges();
-                MainWindow.init.OpenPages(MainWindow.pages.consultation);
+                    MainConsultation._consultationsContext.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.consultation);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.consultation);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!");
-                MainWindow.init.OpenPages(MainWindow.pages.consultation);
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Consultation", ex.Message, "Failed to save Consultation.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

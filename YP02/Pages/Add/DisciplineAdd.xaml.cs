@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -60,31 +61,42 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Discipline(object sender, RoutedEventArgs e)
         {
-            // Проверка на наличие наименования дисциплины
-            if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
+            try
             {
-                MessageBox.Show("Введите наименование дисциплины");
-                return;
-            }
-
-            // Если дисциплина не передана (например, при добавлении новой), создаем новый объект дисциплины
-            if (disciplines == null)
-            {
-                disciplines = new Models.Disciplines
+                // Проверка на наличие наименования дисциплины
+                if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
                 {
-                    name = tb_nameDiscipline.Text, // Наименование дисциплины
-                    teacherId = 1 // Установим временное значение для teacherId (например, по умолчанию 1)
-                };
+                    MessageBox.Show("Введите наименование дисциплины");
+                    return;
+                }
 
-                // Добавляем новую дисциплину в контекст базы данных
-                MainDiscipline._disciplinesContext.Disciplines.Add(disciplines);
+                // Если дисциплина не передана (например, при добавлении новой), создаем новый объект дисциплины
+                if (disciplines == null)
+                {
+                    disciplines = new Models.Disciplines
+                    {
+                        name = tb_nameDiscipline.Text, // Наименование дисциплины
+                        teacherId = 1 // Установим временное значение для teacherId (например, по умолчанию 1)
+                    };
+
+                    // Добавляем новую дисциплину в контекст базы данных
+                    MainDiscipline._disciplinesContext.Disciplines.Add(disciplines);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainDiscipline._disciplinesContext.SaveChanges();
+
+                // Переходим на страницу с дисциплинами
+                MainWindow.init.OpenPages(MainWindow.pages.discipline);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Discipline", ex.Message, "Failed to save Discipline.");
 
-            // Сохраняем изменения в базе данных
-            MainDiscipline._disciplinesContext.SaveChanges();
-
-            // Переходим на страницу с дисциплинами
-            MainWindow.init.OpenPages(MainWindow.pages.discipline);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибкa.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

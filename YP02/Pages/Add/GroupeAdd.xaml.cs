@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -59,30 +60,41 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Groupe(object sender, RoutedEventArgs e)
         {
-            // Проверка на наличие имени группы
-            if (string.IsNullOrEmpty(tb_name.Text))
+            try
             {
-                MessageBox.Show("Введите наименование группы");
-                return; // Если наименование не введено, останавливаем выполнение
-            }
-
-            // Если группа не передана (например, при добавлении новой группы), создаем новый объект группы
-            if (studGroups == null)
-            {
-                studGroups = new Models.StudGroups
+                // Проверка на наличие имени группы
+                if (string.IsNullOrEmpty(tb_name.Text))
                 {
-                    name = tb_name.Text // Название группы
-                };
+                    MessageBox.Show("Введите наименование группы");
+                    return; // Если наименование не введено, останавливаем выполнение
+                }
 
-                // Добавляем новую группу в контекст базы данных
-                MainGrope._studgroupsContext.StudGroups.Add(studGroups);
+                // Если группа не передана (например, при добавлении новой группы), создаем новый объект группы
+                if (studGroups == null)
+                {
+                    studGroups = new Models.StudGroups
+                    {
+                        name = tb_name.Text // Название группы
+                    };
+
+                    // Добавляем новую группу в контекст базы данных
+                    MainGrope._studgroupsContext.StudGroups.Add(studGroups);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainGrope._studgroupsContext.SaveChanges();
+
+                // Переходим на страницу с группами
+                MainWindow.init.OpenPages(MainWindow.pages.group);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Groupe", ex.Message, "Failed to save Groupe.");
 
-            // Сохраняем изменения в базе данных
-            MainGrope._studgroupsContext.SaveChanges();
-
-            // Переходим на страницу с группами
-            MainWindow.init.OpenPages(MainWindow.pages.group);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

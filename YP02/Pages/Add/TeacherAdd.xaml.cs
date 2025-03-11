@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -59,63 +60,74 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события</param>
         private void Add_Teacher(object sender, RoutedEventArgs e)
         {
-            // Проверка фамилии на корректность
-            if (string.IsNullOrEmpty(tb_surName.Text))
+            try
             {
-                MessageBox.Show("Введите фамилию");
-                return;
-            }
-
-            // Проверка имени на корректность
-            if (string.IsNullOrEmpty(tb_name.Text))
-            {
-                MessageBox.Show("Введите имя");
-                return;
-            }
-
-            // Проверка отчества на корректность
-            if (string.IsNullOrEmpty(tb_lastName.Text))
-            {
-                MessageBox.Show("Введите отчество");
-                return;
-            }
-
-            // Проверка логина на корректность
-            if (string.IsNullOrEmpty(tb_login.Text))
-            {
-                MessageBox.Show("Введите логин");
-                return;
-            }
-
-            // Проверка пароля на корректность
-            if (string.IsNullOrEmpty(tb_password.Text))
-            {
-                MessageBox.Show("Введите пароль");
-                return;
-            }
-
-            // Если преподаватель не передан, создаем нового
-            if (teachers == null)
-            {
-                teachers = new Models.Teachers
+                // Проверка фамилии на корректность
+                if (string.IsNullOrEmpty(tb_surName.Text))
                 {
-                    surname = tb_surName.Text,
-                    name = tb_name.Text,
-                    lastname = tb_lastName.Text,
-                    login = tb_login.Text,
-                    password = tb_password.Text,
-                    userId = 2  // Здесь предполагается, что для преподавателя userId = 2
-                };
+                    MessageBox.Show("Введите фамилию");
+                    return;
+                }
 
-                // Добавление нового преподавателя в базу данных
-                MainTeacher._teachersContext.Teachers.Add(teachers);
+                // Проверка имени на корректность
+                if (string.IsNullOrEmpty(tb_name.Text))
+                {
+                    MessageBox.Show("Введите имя");
+                    return;
+                }
+
+                // Проверка отчества на корректность
+                if (string.IsNullOrEmpty(tb_lastName.Text))
+                {
+                    MessageBox.Show("Введите отчество");
+                    return;
+                }
+
+                // Проверка логина на корректность
+                if (string.IsNullOrEmpty(tb_login.Text))
+                {
+                    MessageBox.Show("Введите логин");
+                    return;
+                }
+
+                // Проверка пароля на корректность
+                if (string.IsNullOrEmpty(tb_password.Text))
+                {
+                    MessageBox.Show("Введите пароль");
+                    return;
+                }
+
+                // Если преподаватель не передан, создаем нового
+                if (teachers == null)
+                {
+                    teachers = new Models.Teachers
+                    {
+                        surname = tb_surName.Text,
+                        name = tb_name.Text,
+                        lastname = tb_lastName.Text,
+                        login = tb_login.Text,
+                        password = tb_password.Text,
+                        userId = 2  // Здесь предполагается, что для преподавателя userId = 2
+                    };
+
+                    // Добавление нового преподавателя в базу данных
+                    MainTeacher._teachersContext.Teachers.Add(teachers);
+                }
+
+                // Сохранение изменений в базе данных
+                MainTeacher._teachersContext.SaveChanges();
+
+                // Переход на страницу преподавателей
+                MainWindow.init.OpenPages(MainWindow.pages.teacher);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding Teacher", ex.Message, "Failed to save Teacher.");
 
-            // Сохранение изменений в базе данных
-            MainTeacher._teachersContext.SaveChanges();
-
-            // Переход на страницу преподавателей
-            MainWindow.init.OpenPages(MainWindow.pages.teacher);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

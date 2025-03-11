@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -83,53 +84,64 @@ namespace YP02.Pages.Edit
 
         private void Edit_Absence(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(tb_delayMinutes.Text, out int delayMinutes))
-            {
-                absences.delayMinutes = delayMinutes;
-            }
-            else
-            {
-                MessageBox.Show("Пожалуйста, введите корректное количество минут.");
-            }
-
-            var selectedItem = (ComboBoxItem)cb_explanatoryNote.SelectedItem;
-            if (selectedItem != null)
-            {
-                absences.explanatoryNote = selectedItem.Content.ToString();
-            }
-
-            var selectedStudentItem = (ComboBoxItem)cb_studentId.SelectedItem;
-            if (selectedStudentItem != null)
-            {
-                absences.studentId = (int)selectedStudentItem.Tag;
-            }
-
-            var selectedDisciplineItem = (ComboBoxItem)cb_disciplineId.SelectedItem;
-            if (selectedDisciplineItem != null)
-            {
-                absences.disciplineId = (int)selectedDisciplineItem.Tag;
-            }
-
             try
             {
-                Context.AbsencesContext absencesContext = new Context.AbsencesContext();
-
-                var existingAbsence = absencesContext.Absences.FirstOrDefault(a => a.id == absences.id);
-
-                if (existingAbsence != null)
+                if (int.TryParse(tb_delayMinutes.Text, out int delayMinutes))
                 {
-                    existingAbsence.studentId = absences.studentId;
-                    existingAbsence.disciplineId = absences.disciplineId;
-                    existingAbsence.delayMinutes = absences.delayMinutes;
-                    existingAbsence.explanatoryNote = absences.explanatoryNote;
+                    absences.delayMinutes = delayMinutes;
+                }
+                else
+                {
+                    MessageBox.Show("Пожалуйста, введите корректное количество минут.");
+                }
 
-                    absencesContext.SaveChanges();
-                    MainWindow.init.OpenPages(MainWindow.pages.absence);
+                var selectedItem = (ComboBoxItem)cb_explanatoryNote.SelectedItem;
+                if (selectedItem != null)
+                {
+                    absences.explanatoryNote = selectedItem.Content.ToString();
+                }
+
+                var selectedStudentItem = (ComboBoxItem)cb_studentId.SelectedItem;
+                if (selectedStudentItem != null)
+                {
+                    absences.studentId = (int)selectedStudentItem.Tag;
+                }
+
+                var selectedDisciplineItem = (ComboBoxItem)cb_disciplineId.SelectedItem;
+                if (selectedDisciplineItem != null)
+                {
+                    absences.disciplineId = (int)selectedDisciplineItem.Tag;
+                }
+
+                try
+                {
+                    Context.AbsencesContext absencesContext = new Context.AbsencesContext();
+
+                    var existingAbsence = absencesContext.Absences.FirstOrDefault(a => a.id == absences.id);
+
+                    if (existingAbsence != null)
+                    {
+                        existingAbsence.studentId = absences.studentId;
+                        existingAbsence.disciplineId = absences.disciplineId;
+                        existingAbsence.delayMinutes = absences.delayMinutes;
+                        existingAbsence.explanatoryNote = absences.explanatoryNote;
+
+                        absencesContext.SaveChanges();
+                        MainWindow.init.OpenPages(MainWindow.pages.absence);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Absence", ex.Message, "Failed to save Absence.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

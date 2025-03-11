@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP02.Log;
 
 namespace YP02.Pages.Add
 {
@@ -69,26 +70,37 @@ namespace YP02.Pages.Add
         /// <param name="e">Аргументы события.</param>
         private void Add_Groupe(object sender, RoutedEventArgs e)
         {
-            // Если пользователь не передан (т.е. добавляем нового пользователя)
-            if (users == null)
+            try
             {
-                // Создаем нового пользователя
-                users = new Models.Users
+                // Если пользователь не передан (т.е. добавляем нового пользователя)
+                if (users == null)
                 {
-                    login = tb_login.Text, // Логин пользователя
-                    password = tb_password.Text, // Пароль пользователя
-                    role = (cb_role.SelectedItem as Models.Roles).id // ID роли пользователя
-                };
+                    // Создаем нового пользователя
+                    users = new Models.Users
+                    {
+                        login = tb_login.Text, // Логин пользователя
+                        password = tb_password.Text, // Пароль пользователя
+                        role = (cb_role.SelectedItem as Models.Roles).id // ID роли пользователя
+                    };
 
-                // Добавляем нового пользователя в базу данных
-                MainUser._usersContext.Users.Add(users);
+                    // Добавляем нового пользователя в базу данных
+                    MainUser._usersContext.Users.Add(users);
+                }
+
+                // Сохраняем изменения в базе данных
+                MainUser._usersContext.SaveChanges();
+
+                // Переходим на страницу с пользователями
+                MainWindow.init.OpenPages(MainWindow.pages.user);
             }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                ErrorLogger.LogError("Error adding User", ex.Message, "Failed to save User.");
 
-            // Сохраняем изменения в базе данных
-            MainUser._usersContext.SaveChanges();
-
-            // Переходим на страницу с пользователями
-            MainWindow.init.OpenPages(MainWindow.pages.user);
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -66,21 +67,32 @@ namespace YP02.Pages.Edit
 
         private void Edit_Marks(object sender, RoutedEventArgs e)
         {
-            Marks editMarks = MainMark._marksContext.Marks.FirstOrDefault(x=>x.id == marks.id);
-            if (editMarks != null) 
+            try
             {
-                editMarks.studentId = (int)(cb_studentId.SelectedItem as ComboBoxItem).Tag;
-                editMarks.disciplineProgramId = (int)(cb_disciplineProgramId.SelectedItem as ComboBoxItem).Tag;
-                editMarks.mark = tb_mark.Text;
-                editMarks.description = tb_discription.Text;
+                Marks editMarks = MainMark._marksContext.Marks.FirstOrDefault(x => x.id == marks.id);
+                if (editMarks != null)
+                {
+                    editMarks.studentId = (int)(cb_studentId.SelectedItem as ComboBoxItem).Tag;
+                    editMarks.disciplineProgramId = (int)(cb_disciplineProgramId.SelectedItem as ComboBoxItem).Tag;
+                    editMarks.mark = tb_mark.Text;
+                    editMarks.description = tb_discription.Text;
 
-                MainMark._marksContext.SaveChanges();
-                MainWindow.init.OpenPages(MainWindow.pages.marks);
+                    MainMark._marksContext.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.marks);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!");
-                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating Marks", ex.Message, "Failed to save Marks.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

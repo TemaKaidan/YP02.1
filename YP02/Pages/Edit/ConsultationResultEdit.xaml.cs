@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -77,28 +78,38 @@ namespace YP02.Pages.Edit
 
         private void Edit_ConsultationResult(object sender, RoutedEventArgs e)
         {
-            var selectedItem = (ComboBoxItem)cb_explanatoryNote.SelectedItem;
-            if (selectedItem != null)
+            try
             {
-                consultationResults.explanatoryNote = selectedItem.Content.ToString();
-            }
-            Models.ConsultationResults editConsultationResult = MainConsultationResult._consultationResultsContext.ConsultationResults.FirstOrDefault(x => x.id == consultationResults.id);
-            if (editConsultationResult != null)
-            {
-                editConsultationResult.studentId = (int)(cb_studentId.SelectedItem as ComboBoxItem).Tag;
-                editConsultationResult.submittedPractice = tb_submittedPractice.Text;
-                editConsultationResult.explanatoryNote = consultationResults.explanatoryNote;
-                editConsultationResult.date = DateTime.Parse(db_date.Text);
+                var selectedItem = (ComboBoxItem)cb_explanatoryNote.SelectedItem;
+                if (selectedItem != null)
+                {
+                    consultationResults.explanatoryNote = selectedItem.Content.ToString();
+                }
+                Models.ConsultationResults editConsultationResult = MainConsultationResult._consultationResultsContext.ConsultationResults.FirstOrDefault(x => x.id == consultationResults.id);
+                if (editConsultationResult != null)
+                {
+                    editConsultationResult.studentId = (int)(cb_studentId.SelectedItem as ComboBoxItem).Tag;
+                    editConsultationResult.submittedPractice = tb_submittedPractice.Text;
+                    editConsultationResult.explanatoryNote = consultationResults.explanatoryNote;
+                    editConsultationResult.date = DateTime.Parse(db_date.Text);
 
-                MainConsultationResult._consultationResultsContext.SaveChanges();
-                MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
+                    MainConsultationResult._consultationResultsContext.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!");
-                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating ConsultationResult", ex.Message, "Failed to save ConsultationResult.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        
         }
 
         private void ToggleMenu(object sender, RoutedEventArgs e)

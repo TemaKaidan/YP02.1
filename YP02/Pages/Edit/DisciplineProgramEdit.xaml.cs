@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using YP02.Context;
+using YP02.Log;
 using YP02.Models;
 using YP02.Pages.listPages;
 
@@ -71,42 +72,53 @@ namespace YP02.Pages.Edit
 
         private void Edit_DisciplineProgram(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(cb_disciplineId.Text))
+            try
             {
-                MessageBox.Show("Введите дисциплину");
-                return;
-            }
-            if (string.IsNullOrEmpty(tb_theme.Text))
-            {
-                MessageBox.Show("Введите тему");
-                return;
-            }
-            if (string.IsNullOrEmpty(cb_lessonTypeId.Text))
-            {
-                MessageBox.Show("Введите тип");
-                return;
-            }
-            if (string.IsNullOrEmpty(tb_hoursCount.Text))
-            {
-                MessageBox.Show("Введите количество часов");
-                return;
-            }
+                if (string.IsNullOrEmpty(cb_disciplineId.Text))
+                {
+                    MessageBox.Show("Введите дисциплину");
+                    return;
+                }
+                if (string.IsNullOrEmpty(tb_theme.Text))
+                {
+                    MessageBox.Show("Введите тему");
+                    return;
+                }
+                if (string.IsNullOrEmpty(cb_lessonTypeId.Text))
+                {
+                    MessageBox.Show("Введите тип");
+                    return;
+                }
+                if (string.IsNullOrEmpty(tb_hoursCount.Text))
+                {
+                    MessageBox.Show("Введите количество часов");
+                    return;
+                }
 
-            DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.FirstOrDefault(x => x.id == programs.id);
+                DisciplinePrograms editPrograms = MainDisciplineProgram._disciplinePrograms.DisciplinePrograms.FirstOrDefault(x => x.id == programs.id);
 
-            if (editPrograms != null)
-            {
-                editPrograms.theme = tb_theme.Text;
-                editPrograms.hoursCount = Convert.ToInt32(tb_hoursCount.Text);
-                editPrograms.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
-                editPrograms.lessonTypeId = (int)(cb_lessonTypeId.SelectedItem as ComboBoxItem).Tag;
-                MainDisciplineProgram._disciplinePrograms.SaveChanges();
-                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                if (editPrograms != null)
+                {
+                    editPrograms.theme = tb_theme.Text;
+                    editPrograms.hoursCount = Convert.ToInt32(tb_hoursCount.Text);
+                    editPrograms.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
+                    editPrograms.lessonTypeId = (int)(cb_lessonTypeId.SelectedItem as ComboBoxItem).Tag;
+                    MainDisciplineProgram._disciplinePrograms.SaveChanges();
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
+                else
+                {
+                    MessageBox.Show("Произошла ошибка!");
+                    MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Произошла ошибка!");
-                MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+                // Логирование ошибки
+                ErrorLogger.LogError("Error updating DisciplineProgram", ex.Message, "Failed to save DisciplineProgram.");
+
+                // Показываем сообщение об ошибке
+                MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
