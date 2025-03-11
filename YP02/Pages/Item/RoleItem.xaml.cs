@@ -24,35 +24,46 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class RoleItem : UserControl
     {
+        // Основные объекты для работы с ролями
         Pages.listPages.Role MainRole;
         Models.Roles roles;
 
+        /// <summary>
+        /// Конструктор для инициализации компонента RoleItem с заданными данными
+        /// </summary>
         public RoleItem(Roles roles, Role MainRole)
         {
-            InitializeComponent();
-            this.roles = roles;
-            this.MainRole = MainRole;
+            InitializeComponent(); // Инициализация компонентов интерфейса
+            this.roles = roles; // Присваиваем данные роли
+            this.MainRole = MainRole; // Присваиваем основной объект для работы с ролями
 
+            // Настройка видимости кнопок в зависимости от роли пользователя
             EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
             DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
+            // Отображаем название роли
             lb_RoleName.Content = "Роль: " + roles.roleName;
         }
 
+        // Обработчик для кнопки редактирования роли
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.roleEdit, null,null,null,null,null,null,null, roles);
+            MainWindow.init.OpenPages(MainWindow.pages.roleEdit, null, null, null, null, null, null, null, roles); // Открытие страницы редактирования роли
         }
 
+        // Обработчик для кнопки удаления роли
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Подтверждение удаления роли
                 MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+                    // Удаление роли из базы данных
                     MainRole._rolesContext.Roles.Remove(roles);
                     MainRole._rolesContext.SaveChanges();
+                    // Удаление элемента из пользовательского интерфейса
                     (this.Parent as Panel).Children.Remove(this);
                 }
             }

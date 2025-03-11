@@ -23,23 +23,23 @@ namespace YP02.Pages.listPages
     /// </summary>
     public partial class Discipline : Page
     {
-        private string userRole;
-        private bool isMenuCollapsed = false;
-        public DisciplinesContext _disciplinesContext = new DisciplinesContext();
-
-        public TeachersContext _teachersContext = new TeachersContext();
+        private string userRole; // Роль пользователя
+        private bool isMenuCollapsed = false; // Состояние сворачивания меню
+        public DisciplinesContext _disciplinesContext = new DisciplinesContext(); // Контекст дисциплин
+        public TeachersContext _teachersContext = new TeachersContext(); // Контекст преподавателей
 
         public Discipline(string role)
         {
             InitializeComponent();
-            CreateUI();
+            CreateUI(); // Инициализация интерфейса
 
-            userRole = role;
-            ConfigureMenuBasedOnRole();
+            userRole = role; // Присваивание роли пользователя
+            ConfigureMenuBasedOnRole(); // Настройка меню в зависимости от роли
         }
 
         private void ConfigureMenuBasedOnRole()
         {
+            // Настройка видимости кнопок в зависимости от роли пользователя
             if (userRole == "Студент")
             {
                 // Видит
@@ -96,21 +96,23 @@ namespace YP02.Pages.listPages
 
         private void CreateUI()
         {
-            parrent.Children.Clear();
-            var teachers = _teachersContext.Teachers.ToList();
+            parrent.Children.Clear(); // Очистка текущего интерфейса
+            var teachers = _teachersContext.Teachers.ToList(); // Получение списка преподавателей
+                                                               // Создание элементов для каждой дисциплины
             foreach (var x in _disciplinesContext.Disciplines.ToList())
             {
-                parrent.Children.Add(new Pages.Item.DisciplineItem(x, this));
+                parrent.Children.Add(new Pages.Item.DisciplineItem(x, this)); // Добавление элемента дисциплины
             }
         }
 
         private void KeyDown_Search(object sender, KeyEventArgs e)
         {
-            string searchText = search.Text.ToLower();
+            string searchText = search.Text.ToLower(); // Получение текста поиска
             var result = _disciplinesContext.Disciplines.Where(x =>
-                x.name.ToLower().Contains(searchText)
+                x.name.ToLower().Contains(searchText) // Фильтрация дисциплин по имени
             );
-            parrent.Children.Clear();
+            parrent.Children.Clear(); // Очистка элементов
+                                      // Добавление найденных дисциплин на страницу
             foreach (var item in result)
             {
                 parrent.Children.Add(new Pages.Item.DisciplineItem(item, this));
@@ -119,13 +121,14 @@ namespace YP02.Pages.listPages
 
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation widthAnimation = new DoubleAnimation();
+            DoubleAnimation widthAnimation = new DoubleAnimation(); // Анимация для меню
 
             if (isMenuCollapsed)
             {
                 widthAnimation.From = 50;
                 widthAnimation.To = 200;
-                MenuPanel.Width = 200;
+                MenuPanel.Width = 200; // Изменение ширины панели меню
+                                       // Видимость кнопок в меню
                 foreach (UIElement element in MenuPanel.Children)
                 {
                     if (element is Button btn && btn.Content.ToString() != "☰")
@@ -138,6 +141,7 @@ namespace YP02.Pages.listPages
             {
                 widthAnimation.From = 200;
                 widthAnimation.To = 50;
+                // Скрытие кнопок в меню
                 foreach (UIElement element in MenuPanel.Children)
                 {
                     if (element is Button btn && btn.Content.ToString() != "☰")
@@ -147,74 +151,74 @@ namespace YP02.Pages.listPages
                 }
             }
 
-            widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
-            MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
-            isMenuCollapsed = !isMenuCollapsed;
+            widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3)); // Длительность анимации
+            MenuPanel.BeginAnimation(WidthProperty, widthAnimation); // Запуск анимации
+            isMenuCollapsed = !isMenuCollapsed; // Переключение состояния меню
         }
 
         private void Click_Student(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.student);
+            MainWindow.init.OpenPages(MainWindow.pages.student); // Переход на страницу студентов
         }
 
         private void Click_Groups(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.group);
+            MainWindow.init.OpenPages(MainWindow.pages.group); // Переход на страницу групп
         }
 
         private void Click_DisciplinePrograms(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram);
+            MainWindow.init.OpenPages(MainWindow.pages.disciplineProgram); // Переход на страницу программ дисциплин
         }
 
         private void Click_TeachersLoad(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.teachersLoad);
+            MainWindow.init.OpenPages(MainWindow.pages.teachersLoad); // Переход на страницу нагрузки преподавателей
         }
 
         private void Click_Consultations(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.consultation);
+            MainWindow.init.OpenPages(MainWindow.pages.consultation); // Переход на страницу консультаций
         }
 
         private void Click_Absences(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.absence);
+            MainWindow.init.OpenPages(MainWindow.pages.absence); // Переход на страницу отсутствий
         }
 
         private void Click_Teachers(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.teacher);
+            MainWindow.init.OpenPages(MainWindow.pages.teacher); // Переход на страницу преподавателей
         }
 
         private void Click_Marks(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.marks);
+            MainWindow.init.OpenPages(MainWindow.pages.marks); // Переход на страницу оценок
         }
 
         private void Click_ConsultationResults(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.consultationResult);
+            MainWindow.init.OpenPages(MainWindow.pages.consultationResult); // Переход на страницу результатов консультаций
         }
 
         private void Click_LessonTypes(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.lessonType);
+            MainWindow.init.OpenPages(MainWindow.pages.lessonType); // Переход на страницу типов занятий
         }
 
         private void Click_Roles(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.role);
+            MainWindow.init.OpenPages(MainWindow.pages.role); // Переход на страницу ролей
         }
 
         private void Click_Users(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.user);
+            MainWindow.init.OpenPages(MainWindow.pages.user); // Переход на страницу пользователей
         }
 
         private void Click_Add(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.disciplineAdd);
+            MainWindow.init.OpenPages(MainWindow.pages.disciplineAdd); // Переход на страницу добавления дисциплины
         }
     }
 }

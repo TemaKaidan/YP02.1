@@ -30,49 +30,68 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class AbsenceItem : UserControl
     {
+        // Основные объекты для работы с отсутствиями
         Pages.listPages.Absence MainAbsence;
         Models.Absences absences;
 
+        // Контексты для работы с данными о дисциплинах, студентах, консультациях и учебных группах
         private readonly DisciplinesContext _disciplinesContext = new DisciplinesContext();
         private readonly StudentsContext _studentsContext = new StudentsContext();
         private readonly ConsultationsContext _consultationsContext = new ConsultationsContext();
         private readonly StudGroupsContext _studGroupsContext = new StudGroupsContext();
 
+        /// <summary>
+        /// Конструктор для инициализации компонента AbsenceItem с заданными данными
+        /// </summary>
         public AbsenceItem(Absences absences, Absence MainAbsence)
         {
             InitializeComponent();
             this.absences = absences;
             this.MainAbsence = MainAbsence;
 
+            // Настройка видимости кнопок в зависимости от роли пользователя
             EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
             DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
             filePDF.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
+            // Получение данных студента по его ID
             Students students = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);
             lb_Student.Content = $"Студент: {students.surname} {students.name} {students.lastname}";
+
+            // Получение названия дисциплины по ID
             lb_Discipline.Content = "Дисцилина: " + _disciplinesContext.Disciplines.FirstOrDefault(x => x.id == absences.disciplineId).name;
+
+            // Отображение информации об опоздании и объяснительной
             lb_Minutes.Content = "Кол-во минут: " + absences.delayMinutes;
             lb_Explanation.Content = "Объяснитальная: " + absences.explanatoryNote;
         }
 
+        /// <summary>
+        /// Генерация PDF документа с объяснительной
+        /// </summary>
         public void GeneratePdf(Consultations consultation, Students student)
         {
+            // Проверка наличия объяснительной
             if (string.IsNullOrEmpty(absences.explanatoryNote) || absences.explanatoryNote.Trim().ToLower() == "нет")
             {
                 MessageBox.Show("Невозможно создать файл, так как объяснительная отсутствует.");
                 return;
             }
 
+            // Определение пути для сохранения файла PDF
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"Объяснительная_{student.surname}_{student.name}.pdf");
 
+            // Создание и запись в файл PDF
             using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 PdfWriter writer = new PdfWriter(fs);
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf);
 
+                // Установка шрифта для документа
                 PdfFont font = PdfFontFactory.CreateFont("c:/windows/fonts/arial.ttf", PdfEncodings.IDENTITY_H);
 
+                // Добавление текста в PDF
                 document.Add(new Paragraph("Зав. Отделением")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
                     .SetFont(font)
@@ -99,17 +118,20 @@ namespace YP02.Pages.Item
                     .SetFont(font)
                     .SetFontSize(14));
 
+                // Заголовок "Объяснительная"
                 var boldText = new Text("Объяснительная");
                 document.Add(new Paragraph(boldText)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
                     .SetFont(font)
                     .SetFontSize(16));
 
+                // Основной текст объяснительной
                 document.Add(new Paragraph($"Я отсутствовал(а) на занятиях ____________ в течение ____________ пар, в связи с ____________. Обязуюсь восстановить конспект и сдать задолженности по пропущенным темам.")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.JUSTIFIED)
                     .SetFont(font)
                     .SetFontSize(14));
 
+                // Дата, подпись, классный руководитель и зав. отделением
                 document.Add(new Paragraph($"Дата: ____________")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(font)
@@ -132,23 +154,35 @@ namespace YP02.Pages.Item
 
                 document.Close();
             }
+
+            // Сообщение о успешном создании PDF
             MessageBox.Show($"PDF файл был успешно создан: {filePath}");
         }
 
+        /// <summary>
+        /// Обработчик для кнопки редактирования
+        /// </summary>
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.absenceEdit,null,null,null,null,null,null,null,null,null, absences);
+            MainWindow.init.OpenPages(MainWindow.pages.absenceEdit, null, null, null, null, null, null, null, null, null,absences);
         }
 
+        /// <summary>
+        /// Обработчик для кнопки удаления
+        /// </summary>
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Подтверждение удаления
                 MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+                    // Удаление отсутствия из базы
                     MainAbsence._absencesContext.Absences.Remove(absences);
                     MainAbsence._absencesContext.SaveChanges();
+
+                    // Удаление элемента из UI
                     (this.Parent as Panel).Children.Remove(this);
                 }
             }
@@ -162,6 +196,9 @@ namespace YP02.Pages.Item
             }
         }
 
+        /// <summary>
+        /// Обработчик для кнопки создания PDF
+        /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Students student = _studentsContext.Students.FirstOrDefault(x => x.id == absences.studentId);

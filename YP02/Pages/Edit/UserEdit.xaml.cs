@@ -25,22 +25,30 @@ namespace YP02.Pages.Edit
     /// </summary>
     public partial class UserEdit : Page
     {
+        // Переменная для отслеживания состояния меню (свёрнуто/развернуто)
         private bool isMenuCollapsed = false;
 
+        // Объекты для работы с пользователями
         public Pages.listPages.User MainUser;
         public Models.Users users;
 
+        // Контекст для работы с ролями
         Context.RolesContext rolesContext = new Context.RolesContext();
-        
+
+        /// <summary>
+        /// Конструктор, инициализирующий компоненты и заполняющий поля формы для редактирования пользователя
+        /// </summary>
         public UserEdit(Pages.listPages.User MainUser, Models.Users users = null)
         {
             InitializeComponent();
             this.MainUser = MainUser;
             this.users = users;
 
+            // Заполнение полей формы данными пользователя
             tb_login.Text = users.login;
             tb_password.Text = users.password;
 
+            // Заполнение ComboBox с ролями
             foreach (Models.Roles roles in rolesContext.Roles)
             {
                 ComboBoxItem item = new ComboBoxItem();
@@ -54,17 +62,26 @@ namespace YP02.Pages.Edit
             }
         }
 
+        /// <summary>
+        /// Обработчик для редактирования пользователя
+        /// </summary>
         private void Edit_User(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Поиск пользователя по id
                 Models.Users editUsers = MainUser._usersContext.Users.FirstOrDefault(x => x.id == users.id);
                 if (editUsers != null)
                 {
+                    // Обновление данных пользователя
                     editUsers.login = tb_login.Text;
                     editUsers.password = tb_password.Text;
                     editUsers.role = (int)(cb_role.SelectedItem as ComboBoxItem).Tag;
+
+                    // Сохранение изменений в базе данных
                     MainUser._usersContext.SaveChanges();
+
+                    // Переход на страницу списка пользователей
                     MainWindow.init.OpenPages(MainWindow.pages.user);
                 }
                 else
@@ -83,15 +100,20 @@ namespace YP02.Pages.Edit
             }
         }
 
+        /// <summary>
+        /// Обработчик для сворачивания и разворачивания меню
+        /// </summary>
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();
 
+            // Проверка текущего состояния меню (свёрнуто или развернуто)
             if (isMenuCollapsed)
             {
                 widthAnimation.From = 50;
                 widthAnimation.To = 200;
                 MenuPanel.Width = 200;
+                // Делаем видимыми все кнопки в меню, кроме кнопки "☰"
                 foreach (UIElement element in MenuPanel.Children)
                 {
                     if (element is Button btn && btn.Content.ToString() != "☰")
@@ -104,6 +126,7 @@ namespace YP02.Pages.Edit
             {
                 widthAnimation.From = 200;
                 widthAnimation.To = 50;
+                // Прячем все кнопки в меню, кроме кнопки "☰"
                 foreach (UIElement element in MenuPanel.Children)
                 {
                     if (element is Button btn && btn.Content.ToString() != "☰")
@@ -113,11 +136,17 @@ namespace YP02.Pages.Edit
                 }
             }
 
+            // Настроим продолжительность анимации и применим её к ширине меню
             widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
             MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
+
+            // Переключаем состояние меню
             isMenuCollapsed = !isMenuCollapsed;
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Отмена", возвращает пользователя на предыдущую страницу
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();

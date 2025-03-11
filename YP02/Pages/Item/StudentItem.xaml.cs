@@ -25,44 +25,56 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class StudentItem : UserControl
     {
-
+        // Основные объекты для работы со студентами
         Pages.listPages.Student MainStudent;
         Models.Students students;
 
+        /// <summary>
+        /// Конструктор для инициализации компонента StudentItem с заданными данными
+        /// </summary>
         public StudentItem(Students students, Student MainStudent)
         {
-            InitializeComponent();
-            this.students = students;
-            this.MainStudent = MainStudent;
+            InitializeComponent(); // Инициализация компонентов интерфейса
+            this.students = students; // Присваиваем данные студента
+            this.MainStudent = MainStudent; // Присваиваем основной объект для работы со студентами
 
+            // Настройка видимости кнопок в зависимости от роли пользователя
             EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
             DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
+            // Отображение фамилии, имени и отчества студента
             lb_surname.Content = "Фамилия: " + students.surname;
             lb_name.Content = "Имя: " + students.name;
             lb_lastname.Content = "Отчество: " + students.lastname;
 
+            // Получение группы студента
             StudGroupsContext _groupe = new StudGroupsContext();
             var group = _groupe.StudGroups.FirstOrDefault(g => g.id == students.studGroupId);
             lb_studGroupId.Content = "Группа: " + (group != null ? group.name : "Неизвестно");
 
+            // Отображение даты отчисления
             lb_dateOfRemand.Content = "Дата отчисления: " + students.dateOfRemand;
         }
 
+        // Обработчик для кнопки редактирования студента
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.studentEdit, null, students);
+            MainWindow.init.OpenPages(MainWindow.pages.studentEdit, null, students); // Открытие страницы редактирования студента
         }
 
+        // Обработчик для кнопки удаления студента
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Подтверждение удаления студента
                 MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+                    // Удаление студента из базы данных
                     MainStudent._studentsContext.Students.Remove(students);
                     MainStudent._studentsContext.SaveChanges();
+                    // Удаление элемента из пользовательского интерфейса
                     (this.Parent as Panel).Children.Remove(this);
                 }
             }

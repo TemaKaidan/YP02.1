@@ -24,21 +24,28 @@ namespace YP02.Pages.Edit
     /// </summary>
     public partial class TeacherLoadEdit : Page
     {
+        // Переменная для отслеживания состояния меню (свёрнуто/развернуто)
         private bool isMenuCollapsed = false;
 
+        // Объекты для работы с нагрузкой преподавателей
         public Pages.listPages.TeachersLoad MainTeachersLoad;
         public Models.TeachersLoad teachersLoad;
 
+        // Контексты для работы с преподавателями, дисциплинами и группами студентов
         Context.TeachersContext teachersContext = new TeachersContext();
         Context.DisciplinesContext disciplinesContext = new DisciplinesContext();
         Context.StudGroupsContext studGroupsContext = new StudGroupsContext();
 
+        /// <summary>
+        /// Конструктор, инициализирующий компоненты и заполняющий поля формы для редактирования нагрузки преподавателя
+        /// </summary>
         public TeacherLoadEdit(Pages.listPages.TeachersLoad MainTeachersLoad, Models.TeachersLoad teachersLoad = null)
         {
             InitializeComponent();
             this.MainTeachersLoad = MainTeachersLoad;
             this.teachersLoad = teachersLoad;
 
+            // Заполнение ComboBox с преподавателями
             foreach (Teachers teachers in teachersContext.Teachers)
             {
                 ComboBoxItem item = new ComboBoxItem();
@@ -50,6 +57,8 @@ namespace YP02.Pages.Edit
                 }
                 cb_teacherId.Items.Add(item);
             }
+
+            // Заполнение ComboBox с дисциплинами
             foreach (Disciplines discipline in disciplinesContext.Disciplines)
             {
                 ComboBoxItem item = new ComboBoxItem();
@@ -61,6 +70,8 @@ namespace YP02.Pages.Edit
                 }
                 cb_disciplineId.Items.Add(item);
             }
+
+            // Заполнение ComboBox с группами студентов
             foreach (Models.StudGroups studGroups in studGroupsContext.StudGroups)
             {
                 ComboBoxItem item = new ComboBoxItem();
@@ -72,6 +83,8 @@ namespace YP02.Pages.Edit
                 }
                 cb_groupe.Items.Add(item);
             }
+
+            // Заполнение полей формы с данными о часах
             tb_lectureHours.Text = teachersLoad.lectureHours.ToString();
             tb_practiceHours.Text = teachersLoad.practiceHours.ToString();
             tb_сonsultationHours.Text = teachersLoad.сonsultationHours.ToString();
@@ -79,24 +92,31 @@ namespace YP02.Pages.Edit
             tb_examHours.Text = teachersLoad.examHours.ToString();
         }
 
+        /// <summary>
+        /// Обработчик для редактирования нагрузки преподавателя
+        /// </summary>
         private void Edit_TeacherLoad(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Поиск нагрузки преподавателя по id
                 Models.TeachersLoad editTeachersLoad = MainTeachersLoad._teachersLoadContext.TeachersLoad.FirstOrDefault(x => x.id == teachersLoad.id);
                 if (editTeachersLoad != null)
                 {
+                    // Обновление данных нагрузки преподавателя
                     editTeachersLoad.teacherId = (int)(cb_teacherId.SelectedItem as ComboBoxItem).Tag;
                     editTeachersLoad.disciplineId = (int)(cb_disciplineId.SelectedItem as ComboBoxItem).Tag;
                     editTeachersLoad.studGroupId = (int)(cb_groupe.SelectedItem as ComboBoxItem).Tag;
                     editTeachersLoad.lectureHours = Convert.ToInt32(tb_lectureHours.Text);
                     editTeachersLoad.practiceHours = Convert.ToInt32(tb_practiceHours.Text);
-
                     editTeachersLoad.сonsultationHours = Convert.ToInt32(tb_сonsultationHours.Text);
                     editTeachersLoad.courseprojectHours = Convert.ToInt32(tb_courseprojectHours.Text);
                     editTeachersLoad.examHours = Convert.ToInt32(tb_examHours.Text);
 
+                    // Сохранение изменений в базе данных
                     MainTeachersLoad._teachersLoadContext.SaveChanges();
+
+                    // Переход на страницу списка нагрузки преподавателей
                     MainWindow.init.OpenPages(MainWindow.pages.teachersLoad);
                 }
                 else
@@ -115,15 +135,20 @@ namespace YP02.Pages.Edit
             }
         }
 
+        /// <summary>
+        /// Обработчик для сворачивания и разворачивания меню
+        /// </summary>
         private void ToggleMenu(object sender, RoutedEventArgs e)
         {
             DoubleAnimation widthAnimation = new DoubleAnimation();
 
+            // Проверка текущего состояния меню (свёрнуто или развернуто)
             if (isMenuCollapsed)
             {
                 widthAnimation.From = 50;
                 widthAnimation.To = 200;
                 MenuPanel.Width = 200;
+                // Делаем видимыми все кнопки в меню, кроме кнопки "☰"
                 foreach (UIElement element in MenuPanel.Children)
                 {
                     if (element is Button btn && btn.Content.ToString() != "☰")
@@ -136,6 +161,7 @@ namespace YP02.Pages.Edit
             {
                 widthAnimation.From = 200;
                 widthAnimation.To = 50;
+                // Прячем все кнопки в меню, кроме кнопки "☰"
                 foreach (UIElement element in MenuPanel.Children)
                 {
                     if (element is Button btn && btn.Content.ToString() != "☰")
@@ -145,11 +171,17 @@ namespace YP02.Pages.Edit
                 }
             }
 
+            // Настроим продолжительность анимации и применим её к ширине меню
             widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
             MenuPanel.BeginAnimation(WidthProperty, widthAnimation);
+
+            // Переключаем состояние меню
             isMenuCollapsed = !isMenuCollapsed;
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Отмена", возвращает пользователя на предыдущую страницу
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();

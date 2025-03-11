@@ -24,34 +24,46 @@ namespace YP02.Pages.Item
     /// </summary>
     public partial class GroupeItem : UserControl
     {
+        // Основные объекты для работы с группой студентов
         Pages.listPages.Group MainGrope;
         Models.StudGroups studGroups;
 
+        /// <summary>
+        /// Конструктор для инициализации компонента GroupeItem с заданными данными
+        /// </summary>
         public GroupeItem(StudGroups studGroups, Group MainGrope)
         {
-            InitializeComponent();
-            this.studGroups = studGroups;
-            this.MainGrope = MainGrope;
+            InitializeComponent(); // Инициализация компонентов интерфейса
+            this.studGroups = studGroups; // Присваиваем данные группы студентов
+            this.MainGrope = MainGrope; // Присваиваем основной объект для группы студентов
+
+            // Настройка видимости кнопок в зависимости от роли пользователя
             EditButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
             DeleteButton.Visibility = (MainWindow.UserRole == "Администратор" || MainWindow.UserRole == "Преподаватель") ? Visibility.Visible : Visibility.Collapsed;
 
+            // Отображение информации о наименовании группы
             lb_Name.Content = "Наименование группы: " + studGroups.name;
         }
 
+        // Обработчик для кнопки редактирования группы студентов
         private void Click_Edit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.OpenPages(MainWindow.pages.groupeEdit, studGroups);
+            MainWindow.init.OpenPages(MainWindow.pages.groupeEdit, studGroups); // Открытие страницы редактирования группы студентов
         }
 
+        // Обработчик для кнопки удаления группы студентов
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Подтверждение удаления группы студентов
                 MessageBoxResult result = MessageBox.Show("При удалении все связанные данные также будут удалены!", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+                    // Удаление группы студентов из базы данных
                     MainGrope._studgroupsContext.StudGroups.Remove(studGroups);
                     MainGrope._studgroupsContext.SaveChanges();
+                    // Удаление элемента из пользовательского интерфейса
                     (this.Parent as Panel).Children.Remove(this);
                 }
             }
