@@ -37,6 +37,17 @@ namespace YP02.Pages.listPages
             ConfigureMenuBasedOnRole(); // Настроить меню в зависимости от роли пользователя
         }
 
+        // Метод для создания UI (элементов интерфейса)
+        private void CreateUI()
+        {
+            parrent.Children.Clear(); // Очищаем текущие элементы
+                                      // Для каждого типа занятия в базе данных создаем элемент интерфейса
+            foreach (var x in _lessonTypesContext.LessonTypes.ToList())
+            {
+                parrent.Children.Add(new LessonTypeItem(x, this)); // Добавляем новый элемент в контейнер
+            }
+        }
+
         // Метод для настройки видимости элементов меню в зависимости от роли пользователя
         private void ConfigureMenuBasedOnRole()
         {
@@ -94,16 +105,7 @@ namespace YP02.Pages.listPages
             }
         }
 
-        // Метод для создания UI (элементов интерфейса)
-        private void CreateUI()
-        {
-            parrent.Children.Clear(); // Очищаем текущие элементы
-                                      // Для каждого типа занятия в базе данных создаем элемент интерфейса
-            foreach (var x in _lessonTypesContext.LessonTypes.ToList())
-            {
-                parrent.Children.Add(new LessonTypeItem(x, this)); // Добавляем новый элемент в контейнер
-            }
-        }
+        
 
         // Метод для сворачивания/разворачивания меню
         private void ToggleMenu(object sender, RoutedEventArgs e)

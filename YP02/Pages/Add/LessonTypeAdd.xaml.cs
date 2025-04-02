@@ -25,26 +25,9 @@ namespace YP02.Pages.Add
     /// </summary>
     public partial class LessonTypeAdd : Page
     {
-        /// <summary>
-        /// Флаг для определения, свернуто ли меню.
-        /// </summary>
         private bool isMenuCollapsed = false;
-
-        /// <summary>
-        /// Главная страница для работы с типами занятий.
-        /// </summary>
         public Pages.listPages.LessonType MainLessonType;
-
-        /// <summary>
-        /// Модель типа занятия, которая может быть передана для редактирования.
-        /// </summary>
         public Models.LessonTypes lessonTypes;
-
-        /// <summary>
-        /// Конструктор для инициализации страницы добавления или редактирования типа занятия.
-        /// </summary>
-        /// <param name="MainLessonType">Главная страница типов занятий.</param>
-        /// <param name="lessonTypes">Модель типа занятия (если редактируется существующий тип, иначе null).</param>
         public LessonTypeAdd(Pages.listPages.LessonType MainLessonType, Models.LessonTypes lessonTypes = null)
         {
             InitializeComponent();
@@ -52,11 +35,6 @@ namespace YP02.Pages.Add
             this.lessonTypes = lessonTypes;
         }
 
-        /// <summary>
-        /// Метод для добавления нового типа занятия или редактирования существующего.
-        /// </summary>
-        /// <param name="sender">Объект, вызвавший событие.</param>
-        /// <param name="e">Аргументы события.</param>
         private void Add_LessonType(object sender, RoutedEventArgs e)
         {
             try

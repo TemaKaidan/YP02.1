@@ -25,57 +25,28 @@ namespace YP02.Pages.Add
     /// </summary>
     public partial class UserAdd : Page
     {
-        /// <summary>
-        /// Флаг для определения, свернуто ли меню.
-        /// </summary>
         private bool isMenuCollapsed = false;
-
-        /// <summary>
-        /// Главная страница пользователей.
-        /// </summary>
         public Pages.listPages.User MainUser;
-
-        /// <summary>
-        /// Модель пользователя, которая может быть передана для редактирования.
-        /// </summary>
         public Models.Users users;
-
-        /// <summary>
-        /// Контекст базы данных для ролей пользователей.
-        /// </summary>
         Context.RolesContext rolesContext = new Context.RolesContext();
-
-        /// <summary>
-        /// Конструктор для инициализации страницы добавления пользователя.
-        /// </summary>
-        /// <param name="MainUser">Главная страница пользователей.</param>
-        /// <param name="users">Модель пользователя (если редактируется существующий пользователь, иначе null).</param>
         public UserAdd(Pages.listPages.User MainUser, Models.Users users = null)
         {
             InitializeComponent();
             this.MainUser = MainUser;
             this.users = users;
 
-            // Заполнение комбинированного списка ролей
             cb_role.Items.Clear();
             cb_role.ItemsSource = rolesContext.Roles.ToList(); // Получаем все роли из базы данных
             cb_role.DisplayMemberPath = "roleName"; // Отображаем имя роли
             cb_role.SelectedValuePath = "id"; // Значение будет ID роли
         }
 
-        /// <summary>
-        /// Метод для добавления нового пользователя.
-        /// </summary>
-        /// <param name="sender">Объект, вызвавший событие.</param>
-        /// <param name="e">Аргументы события.</param>
         private void Add_Groupe(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Если пользователь не передан (т.е. добавляем нового пользователя)
                 if (users == null)
                 {
-                    // Создаем нового пользователя
                     users = new Models.Users
                     {
                         login = tb_login.Text, // Логин пользователя
@@ -83,22 +54,17 @@ namespace YP02.Pages.Add
                         role = (cb_role.SelectedItem as Models.Roles).id // ID роли пользователя
                     };
 
-                    // Добавляем нового пользователя в базу данных
                     MainUser._usersContext.Users.Add(users);
                 }
 
-                // Сохраняем изменения в базе данных
                 MainUser._usersContext.SaveChanges();
 
-                // Переходим на страницу с пользователями
                 MainWindow.init.OpenPages(MainWindow.pages.user);
             }
             catch (Exception ex)
             {
-                // Логирование ошибки
                 ErrorLogger.LogError("Error adding User", ex.Message, "Failed to save User.");
 
-                // Показываем сообщение об ошибке
                 MessageBox.Show("Произошла ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

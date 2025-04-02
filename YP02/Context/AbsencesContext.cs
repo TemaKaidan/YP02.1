@@ -32,5 +32,4 @@ namespace YP02.Context
             optionsBuilder.UseMySql(Config.connection, Config.version);
         }
     }
-
 }

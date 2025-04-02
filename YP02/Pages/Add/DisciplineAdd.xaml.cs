@@ -27,26 +27,11 @@ namespace YP02.Pages.Add
     /// </summary>
     public partial class DisciplineAdd : Page
     {
-        /// <summary>
-        /// Флаг для определения, свернуто ли меню.
-        /// </summary>
         private bool isMenuCollapsed = false;
 
-        /// <summary>
-        /// Главная страница для работы с дисциплинами.
-        /// </summary>
         public Pages.listPages.Discipline MainDiscipline;
-
-        /// <summary>
-        /// Модель дисциплины, передаваемая для редактирования или добавления новой.
-        /// </summary>
         public Models.Disciplines disciplines;
 
-        /// <summary>
-        /// Конструктор для инициализации страницы добавления или редактирования дисциплины.
-        /// </summary>
-        /// <param name="MainDiscipline">Главная страница для работы с дисциплинами.</param>
-        /// <param name="disciplines">Модель дисциплины (если редактируется существующая, иначе null).</param>
         public DisciplineAdd(Pages.listPages.Discipline MainDiscipline, Models.Disciplines disciplines = null)
         {
             InitializeComponent();
@@ -54,47 +39,27 @@ namespace YP02.Pages.Add
             this.disciplines = disciplines;
         }
 
-        /// <summary>
-        /// Метод для добавления новой дисциплины или редактирования существующей.
-        /// </summary>
-        /// <param name="sender">Объект, вызвавший событие.</param>
-        /// <param name="e">Аргументы события.</param>
         private void Add_Discipline(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Проверка на наличие наименования дисциплины
-                if (string.IsNullOrEmpty(tb_nameDiscipline.Text))
-                {
-                    MessageBox.Show("Введите наименование дисциплины");
-                    return;
-                }
-
-                // Если дисциплина не передана (например, при добавлении новой), создаем новый объект дисциплины
                 if (disciplines == null)
                 {
                     disciplines = new Models.Disciplines
                     {
-                        name = tb_nameDiscipline.Text, // Наименование дисциплины
-                        teacherId = 1 // Установим временное значение для teacherId (например, по умолчанию 1)
+                        name = tb_nameDiscipline.Text, 
+                        teacherId = 1
                     };
 
-                    // Добавляем новую дисциплину в контекст базы данных
                     MainDiscipline._disciplinesContext.Disciplines.Add(disciplines);
                 }
 
-                // Сохраняем изменения в базе данных
                 MainDiscipline._disciplinesContext.SaveChanges();
 
-                // Переходим на страницу с дисциплинами
                 MainWindow.init.OpenPages(MainWindow.pages.discipline);
             }
             catch (Exception ex)
             {
-                // Логирование ошибки
-                ErrorLogger.LogError("Error adding Discipline", ex.Message, "Failed to save Discipline.");
-
-                // Показываем сообщение об ошибке
                 MessageBox.Show("Произошла ошибкa.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
